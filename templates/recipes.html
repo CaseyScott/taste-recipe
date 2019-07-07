@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    {%for item in recipe %}
+      {{item.name}}
+      {{item.cuisine}}
+      {{item.allergen}}
+      {{item.descripiton}}
+      {{item.ingredients}}
+      {{item.prep_time}}
+      {{item.cook_time}}
+      {{item.recipe_yeild}}
+      {{item.author}}
+      {{item.image}}
+      {{item.user}}
+    {% endfor %}
+    
+{% endblock %}    
+  </body>
+</html>
