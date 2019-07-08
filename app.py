@@ -19,9 +19,10 @@ def get_recipes():
 if __name__ == '__main__':
   
   #app.run(debug=True)
-  app.run(host=os.environ.get("IP"),
-          port=int(os.environ.get("PORT")),
-          debug=True)
-  """app.run(host=os.getenv("IP"),
-          port=int(os.getenv("PORT")),
+  """app.run(host=os.environ.get("0.0.0.0"),
+          port=os.environ.get("5000"),
           debug=True)"""
+  
+  app.run(host=os.getenv("IP"),
+          port=os.getenv("PORT"),
+          debug=True)

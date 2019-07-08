@@ -3,7 +3,8 @@
   "python.terminal.activateEnvironment": true,
   "python.linting.enabled": true,
     "terminal.integrated.env.windows" : {
-        
+        "FLASK_DEBUG": "1",
         "IP": "0.0.0.0",
         "PORT": "5000"
-}}
+}
+}
