@@ -1,0 +1,117 @@
+{% extends 'base.html' %} {% block content %}
+<h3>Add recipe</h3>
+<main class="container main-container margin-top-20">
+    <div class="row">
+        <div class="col-xs-12">
+            <p class="my-recipe-heading">Add a Recipe</p>
+        </div>
+    <div class=" center col-xs-12">
+        <form name="add_form" onSubmit="return valid_image()" class="" action="{{url_for('insert_recipe')}}" method="POST">
+            
+<!--recipe name-->
+<fieldset>
+  <legend>Recipe Name</legend>
+    <input required type="text" name="name" id="name" placeholder="Name" class="" />
+</fieldset>
+            
+<!--cuisine-->
+<fieldset id="cuisine_fieldset">
+  <legend>Cuisine</legend>
+    <div class="cuisine_container">
+      <select required name="cuisine" class="cuisine" id="cuisine">
+        <option disabled selected value="">Choose your option</option>
+          {% for item in cuisines_json.cuisine|sort %}
+        <option value="{{ item }}">{{ item| title }}</option>
+          {% endfor %}
+      </select>
+          <i id="add_cuisine" class="material-icons duplicate_select pointer">add</i>
+    </div>
+</fieldset>
+            
+<!--Allergens-->
+<fieldset id="allergen_fieldset">
+  <legend>Allergens</legend>
+    <div class="allergens_container">
+      {% for item in allergens_json.allergen %}
+      <div class='allergen_checkbox'>
+        <input class="{{ item }}"  name="allergens" type="checkbox" value="{{ item }}">
+        <p class="{{ item }}1">{{ item }}</p>
+      </div>
+      {% endfor%}
+    </div>
+</fieldset>
+            
+<!--Description-->
+<fieldset>
+  <legend>Recipe Description</legend>
+    <textarea required name="description"  id="description" placeholder="Recipe Description" class=""></textarea>
+</fieldset>
+            
+!--Image-->
+<fieldset>
+  <legend>Image</legend>
+    <input required oninput="return checkImageExists()" type="url" name="image" id="image" placeholder="http://url" />
+</fieldset>
+            
+<!--Ingredients-->
+<fieldset id="ingredients_fieldset">
+  <legend>Ingredients</legend>
+      <input required type="text" name="ingredient" class="ingredients" id="ingredients" placeholder="Ingredient" /><br>
+        <div class="spacer inline"></div>
+          <i id="firsta" class="material-icons first-add duplicate pointer">add</i>
+</fieldset>
+            
+<!--Instructions-->
+<fieldset id="instructions_fieldset">
+  <legend>Instructions</legend>
+    <input required type="text" name="instruction" class="instructions" id="instructions" placeholder="Instruction" /><br>
+      <div class="spacer inline"></div>
+        <i id="firstb" class="material-icons first-add duplicate pointer">add</i>
+</fieldset>
+            
+<!--Prep time-->       
+<fieldset>
+  <legend>Prep Time</legend>
+    <input required type="text" name="prep_time" id="prep_time" placeholder="Prep Time" />
+</fieldset>
+            
+<!--Cook time--> 
+<fieldset>
+  <legend>Cook Time</legend>
+    <input required type="text" name="cook_time" id="cook_time" placeholder="Cook Time" />
+</fieldset>
+            
+<!--recipe yield-->
+<fieldset>
+  <legend>Recipe Yield</legend>
+    <input required type="number" name="recipe_yield" id="recipe_yield" placeholder="Servings" />
+</fieldset>
+            
+<!--Author-->
+<fieldset>
+  <legend>Author</legend>
+    <input required type="text" value="" name="author" id="author" placeholder="Author" />
+</fieldset>
+            
+            
+<!--Submit-->
+<div class="center margin-bottom-20">
+  <p id="image-validation"></p>
+    <input class="inline" type="submit" value="Save" />
+</div>
+</form>
+</div>
+</div>
+</main>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
