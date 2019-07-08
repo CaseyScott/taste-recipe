@@ -45,18 +45,25 @@ hsl(210, 36%, 96%) lightest
 
 
 /*--------------------------------------- nav bar */
-nav .brand-logo {
+nav .brand-logo{
   position: absolute;
   color: #fff;
   display: inline-block;
   font-size: 2.1rem;
   padding: 0;
   background-color: hsl(209, 61%, 16%);
-}
-
-nav .brand-logo {
   margin-left: 20px;
 }
+
+nav  {
+  color: #fff;
+  background-color: hsl(209, 61%, 16%);
+  width: 100%;
+  height: 56px;
+  line-height: 56px;
+}
+
+
 
 /*---------------------------------------- footer */
 footer, container-fluid centering {

@@ -17,12 +17,5 @@ def get_recipes():
   return render_template('recipes.html', recipe= mongo.db.recipe.find())
 
 if __name__ == '__main__':
-  
-  #app.run(debug=True)
-  """app.run(host=os.environ.get("0.0.0.0"),
-          port=os.environ.get("5000"),
-          debug=True)"""
-  
-  app.run(host=os.getenv("IP"),
-          port=os.getenv("PORT"),
+  app.run(port=5000,
           debug=True)
