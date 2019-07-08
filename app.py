@@ -42,6 +42,17 @@ def recipe_database():
     return data
 
 
+def registration_form():
+    data = {
+        "first_name": request.form.get('register_first_name'),
+        "last_name": request.form.get('register_last_name'),
+        "username": request.form.get('register_username'),
+        "email": request.form.get('register_email'),
+        "password": request.form.get('register_password'),
+        "liked_recipes": []
+    }
+    return data
+
 @app.route('/')
   
 @app.route('/get_recipes')
