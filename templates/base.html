@@ -16,40 +16,73 @@
 </head>
 
 <body>
+  <header>
 
-<div class="wrapper">
-  <header class="container-fluid">
-
-
-<!-- Dropdown Structure -->
-<ul id="dropdown1" class="dropdown-content">
-    <li><a href="#!">breakfast</a></li>
-    <li><a href="#!">lunch</a></li>
-    <li><a href="#!">dinner</a></li>
-    <li><a href="#!">treats</a></li>
-  </ul>
-  <nav>
-    <div class="nav-wrapper">
+    <!--- Navigation -->
+<nav>
+  <div class="nav-wrapper">
+    <div class="row">
       <a href="#!" class="brand-logo">Taste</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse">
+      </a>
       <ul class="right hide-on-med-and-down">
         <li><a href="sass.html">Home</a></li>
+        <li><a href="badges.html">Recipes</a></li>
+        <li><a href="badges.html">Login</a></li>
         <li><a href="badges.html">Register</a></li>
-        <li><a href="badges.html">Sign in</a></li>
-        <!-- Dropdown Trigger -->
-        <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Recipes<i class="material-icons right">arrow_drop_down</i></a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo" style="transform: translateX(-100);">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Home</a></li>
       </ul>
     </div>
-  </nav>
+  </div>
+</nav>
 
-  <!--TITLE-->
-  <div class="col-xs-12">
-      <a href="#">
-        <h1 class="hidden-sm hidden-md hidden-lg mobile-heading">Taste</h1>
-      </a> 
+<!-- Search bar -->
+<div id="index-banner" class="parallax-container">
+  <div class="section no-pad-bot">
+    <div class="container">
+      <br>
+      <br>
+      <div class="intro-headings">
+        <h1 class="header center">Welcome to Taste</h1>
+        <div class="search-bar">
+          <form action="/search" method="GET">
+          <div class="input-field">
+            <div class="row">
+              <div class="col s10">
+                <input id="search" name="search" type="text" class="validate">
+              </div>
+              <div class="col s2">
+                <button>
+                  <i class="material-icons">search</i>
+                </button>
+              </div>
+            </div>
+          </div>
+         </form>
+        </div>
+      </div>
+      <br>
+      <br>
     </div>
+  </div>
+  <div class="parallax">
+    <img src="#" alt="image of cooking">
+  </div>
+</div>
+ 
+  </header>
 
-
-
+  <div class="carousel">
+      <a class="carousel-item" href="#one!"><img src="https://lorempixel.com/350/350/nature/1"></a>
+      <a class="carousel-item" href="#two!"><img src="https://lorempixel.com/350/350/nature/2"></a>
+      <a class="carousel-item" href="#three!"><img src="https://lorempixel.com/350/350/nature/3"></a>
+      <a class="carousel-item" href="#four!"><img src="https://lorempixel.com/350/350/nature/4"></a>
+      <a class="carousel-item" href="#five!"><img src="https://lorempixel.com/350/350/nature/5"></a>
+    </div>
 
 
 
@@ -66,13 +99,6 @@
   
 
   
-  <div class="carousel">
-    <a class="carousel-item" href="#one!"><img src="https://lorempixel.com/350/350/nature/1"></a>
-    <a class="carousel-item" href="#two!"><img src="https://lorempixel.com/350/350/nature/2"></a>
-    <a class="carousel-item" href="#three!"><img src="https://lorempixel.com/350/350/nature/3"></a>
-    <a class="carousel-item" href="#four!"><img src="https://lorempixel.com/350/350/nature/4"></a>
-    <a class="carousel-item" href="#five!"><img src="https://lorempixel.com/350/350/nature/5"></a>
-  </div>
 
 
 

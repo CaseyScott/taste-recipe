@@ -1,4 +1,5 @@
 import os
+import json
 from flask import Flask, render_template, redirect, request,url_for
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
@@ -12,14 +13,16 @@ mongo=PyMongo(app)
 
 # List of the cuisine categories
 cuisines_json = []
-with open("data/cuisine.json", "r") as file:
+with open("data/cuisine_category.json", "r") as file:
     cuisines_json = json.load(file)
+
 
 
 # List of the allergen categories
 allergens_json = []
-with open("data/allergen.json", "r") as file:
+with open("data/allergen_category.json", "r") as file:
     allergens_json = json.load(file)
+
 
 
 @app.route('/')
