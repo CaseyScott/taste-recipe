@@ -24,6 +24,23 @@ with open("data/allergen_category.json", "r") as file:
     allergens_json = json.load(file)
 
 
+def recipe_database():
+    data = {
+        "name": request.form.get('name'),
+        "cuisine": request.form.getlist('cuisine'),
+        "allergens": request.form.getlist('allergens'),
+        "description": request.form.get('description'),
+        "ingredients": request.form.getlist('ingredient'),
+        "instructions": request.form.getlist('instruction'),
+        "prep_time": request.form.get('prep_time'),
+        "cook_time": request.form.get('cook_time'),
+        "recipe_yield": request.form.get('recipe_yield'),
+        "author": request.form.get('author'),
+        "image": request.form.get('image'),
+        "username": session['user']
+    }
+    return data
+
 
 @app.route('/')
   
@@ -50,6 +67,7 @@ def recipes():
         cuisines_json=cuisines_json,
         allergens_json=allergens_json,
         usernames=usernames)
+
 
 @app.route("/insert_recipe", methods=['POST'])
 def insert_recipe():
