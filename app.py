@@ -51,6 +51,11 @@ def recipes():
         allergens_json=allergens_json,
         usernames=usernames)
 
+@app.route("/insert_recipe", methods=['POST'])
+def insert_recipe():
+  recipe=mongo.db.recipe
+  recipe.insert_one(request.form.to_dict())
+  return redirect(url_for("get_recipe"))
 
 
 
