@@ -1,0 +1,114 @@
+{% extends 'base.html' %} {% block content %}
+
+<main class="container main-container margin-top-20">
+<div class="row">
+    <div class="col-xs-12">
+      <h3>Add Recipe</h3>
+    <form action="{{url_for('insert_task')}}" method='POST' class="col m6">
+
+      <!-- Recipe Name -->
+      <div class="row">
+          <div class="input-field col s12">
+              <input id="task_name" name='task_name' type="text" class="validate">
+              <label for="icon_prefix">Recipe Name</label>
+          </div>
+      </div>
+      
+      <!-- Select Cuisine -->
+      <div class="row">
+          <div class="input-field cuisine_field col s12">
+              <select id="cuisine" name="cuisine">
+                  <option value="" disabled selected>Choose your option</option>
+                  {% for item in cuisine %}
+                      <option value="{{ item.cuisine }}">{{ item.cuisine }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+      </div>
+      
+      <!-- Select Allergen -->
+      <div class="row">
+          <div class="input-field allergen_field col s12">
+              <select id="cuisine" name="cuisine">
+                  <option value="" disabled selected>Choose your option</option>
+                  {% for item in allergen %}
+                    <div class='allergen_checkbox'>
+                      <input class="{{ item }}"  name="allergens" type="checkbox" value="{{ item }}">
+                      <p class="{{ item }}1">{{ item }}</p>
+                    </div>
+                  {% endfor%}
+              </select>
+          </div>
+      </div>
+
+      <!-- Recipe Description -->
+      <div class="row">
+          <div class="input-field col s12">
+              <textarea name='task_description' id='task_description' class='materialize-textarea'></textarea>
+              <label for="icon_telephone">Task Description</label>
+          </div>
+      </div>
+
+      <!-- Image -->
+      <div class="row">
+          <div class="input-field col s12">
+              <input required oninput="return checkImageExists()" type="url" name="image" id="image" placeholder="http://url">
+              <label for="icon_telephone">Image URL</label>
+          </div>
+      </div>
+
+      <!-- Ingredients -->
+      <div class="row">
+          <div class="input-field col s12">
+              <input required type="text" name="ingredient" class="ingredients" id="ingredients" placeholder="Ingredient" /><br>
+              <div class="spacer inline"></div>
+          </div>
+      </div>
+
+      <!-- Instructions -->
+      <div class="row">
+          <div class="input-field col s12">
+              <input required type="text" name="instruction" class="instructions" id="instructions" placeholder="Instruction" /><br>
+              <div class="spacer inline"></div>
+          </div>
+      </div>
+
+      <!-- Prep Time -->
+      <div class="row">
+          <div class="input-field col s12">
+              <input required type="text" name="prep_time" id="prep_time" placeholder="Prep Time" />
+          </div>
+      </div>
+
+      <!-- Cook Time -->
+      <div class="row">
+          <div class="input-field col s12">
+              <input required type="text" name="cook_time" id="cook_time" placeholder="Cook Time" />
+          </div>
+      </div>
+
+      <!-- Recipe Yield -->
+      <div class="row">
+          <div class="input-field col s12">
+              <input required type="number" name="recipe_yield" id="recipe_yield" placeholder="Servings" />
+          </div>
+      </div>
+
+      <!-- Author -->
+      <div class="row">
+          <div class="input-field col s12">
+              <input required type="text" value="" name="author" id="author" placeholder="Author" />
+          </div>
+      </div>
+
+      <!-- Add Recipe Button -->
+      <div class="row">
+          <button class="btn waves-effect waves-light" type="submit" name="action">Add Recipe
+              <i class="material-icons right">playlist</i>
+          </button>
+      </div>
+    </div>
+    </form>
+</div>
+</main>
+{% endblock %}

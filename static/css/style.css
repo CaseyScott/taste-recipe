@@ -109,4 +109,13 @@ body {
   background-attachment: fixed;
 }
 
+.main-container {
+background-color: hsl(212, 33%, 89%);
+padding: 20px;
+margin-top: 20px;
+margin-bottom: 50px;
+border-radius: 10px;
+box-shadow: 0 5px 15px hsla(0,0%, 0% .2);
+
+}
 
