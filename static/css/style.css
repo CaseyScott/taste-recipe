@@ -44,6 +44,7 @@ hsl(210, 36%, 96%) lightest
 /* border radius */
 
 
+
 h1,
 h2,
 h3,
@@ -75,6 +76,34 @@ nav  {
 
 
 /*---------------------------------------- footer */
+/* ------sticky footer---- */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+#container {
+  min-height: 100%
+}
+
+#main {
+  overflow:auto;
+  padding-bottom: 80px;
+}
+
+#footer {
+  position: relative;
+  background-color: hsl(209, 61%, 16%); /*darkest*/
+  height: 80px;
+  margin-top: -80px
+  clear;
+}
+/* ------sticky footer---- */
+
 footer, container-fluid centering {
   position: absolute;
   background-color: hsl(209, 61%, 16%); /*darkest*/
@@ -143,3 +172,7 @@ box-shadow: 0 5px 15px hsla(0,0%, 0% .2); /*middle size*/
   background-color: hsl(185, 62%, 45%); /*6*/
   margin-left: 20px;
 }
+
+
+
+/*------------------------------------ALL recipes page*/
