@@ -17,13 +17,13 @@ hsl(186, 100%, 94%) lightest
 /* Blue Grey 
 hsl(209, 61%, 16%) darkest
 hsl(211, 39%, 23%)
-hsl(209, 34%, 30%)
+hsl(209, 34%, 30%) /8/
 hsl(209, 28%, 39%)
 hsl(210, 22%, 49%)
 hsl(209, 23%, 60%)
 hsl(211, 27%, 70%)
 hsl(210, 31%, 80%)
-hsl(212, 33%, 89%)
+hsl(212, 33%, 89%) /2/
 hsl(210, 36%, 96%) lightest
 */
 
@@ -44,6 +44,14 @@ hsl(210, 36%, 96%) lightest
 /* border radius */
 
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Roboto', sans-serif;
+}
 
 /*--------------------------------------- nav bar */
 nav .brand-logo{
@@ -52,13 +60,13 @@ nav .brand-logo{
   display: inline-block;
   font-size: 2.1rem;
   padding: 0;
-  background-color: hsl(209, 61%, 16%);
+  background-color: hsl(209, 61%, 16%); /*darkest*/
   margin-left: 20px;
 }
 
 nav  {
   color: #fff;
-  background-color: hsl(209, 61%, 16%);
+  background-color: hsl(209, 61%, 16%); /*darkest*/
   width: 100%;
   height: 56px;
   line-height: 56px;
@@ -69,8 +77,8 @@ nav  {
 /*---------------------------------------- footer */
 footer, container-fluid centering {
   position: absolute;
-  background-color: hsl(209, 61%, 16%);
-  height: 130px;
+  background-color: hsl(209, 61%, 16%); /*darkest*/
+  height: 80px;
   width: 100%;
   margin-top: 20px;
   bottom: 0;
@@ -97,7 +105,7 @@ html {
 
 body {
   margin: 0 0 150px;
-  background-color: hsl(210, 36%, 96%);
+  background-color: hsl(210, 36%, 96%); /*lightest*/
   position: relative;
   height: 100%;
   margin: 0;
@@ -110,12 +118,28 @@ body {
 }
 
 .main-container {
-background-color: hsl(212, 33%, 89%);
+background-color: hsl(212, 33%, 89%); /*2*/
 padding: 20px;
 margin-top: 20px;
 margin-bottom: 50px;
 border-radius: 10px;
-box-shadow: 0 5px 15px hsla(0,0%, 0% .2);
+box-shadow: 0 5px 15px hsla(0,0%, 0% .2); /*middle size*/
 
 }
 
+/*------------------------------------Add recipe page*/
+
+ .main-container {
+  color: hsl(209, 34%, 30%); /*8*/
+ }
+
+.input-field label {
+  color: hsl(209, 34%, 30%); /*8*/
+} 
+
+.btn {            /*.btn may need to be renamed for other buttons */
+  text-decoration: none;
+  color: #fff;
+  background-color: hsl(185, 62%, 45%); /*6*/
+  margin-left: 20px;
+}

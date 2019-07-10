@@ -12,6 +12,50 @@ app.config['MONGO_URI'] = ('mongodb+srv://casey:rOOtUser@cluster0-uoefk.mongodb.
 
 mongo = PyMongo(app)
 
+
+# List of the cuisine categories
+cuisines_json = []
+with open("data/cuisine_category.json", "r") as file:
+    cuisines_json = json.load(file)
+
+
+
+# List of the allergen categories
+allergens_json = []
+with open("data/allergen_category.json", "r") as file:
+    allergens_json = json.load(file)
+
+
+def recipe_database():
+    data = {
+        "name": request.form.get('name'),
+        "cuisine": request.form.getlist('cuisine'),
+        "allergens": request.form.getlist('allergens'),
+        "description": request.form.get('description'),
+        "ingredients": request.form.getlist('ingredient'),
+        "instructions": request.form.getlist('instruction'),
+        "prep_time": request.form.get('prep_time'),
+        "cook_time": request.form.get('cook_time'),
+        "recipe_yield": request.form.get('recipe_yield'),
+        "author": request.form.get('author'),
+        "image": request.form.get('image'),
+        "username": session['user']
+    }
+    return data
+
+
+def registration_form():
+    data = {
+        "first_name": request.form.get('register_first_name'),
+        "last_name": request.form.get('register_last_name'),
+        "username": request.form.get('register_username'),
+        "email": request.form.get('register_email'),
+        "password": request.form.get('register_password'),
+        "liked_recipes": []
+    }
+    return data
+
+
 #---- Tasks ---------
 
 @app.route('/')
@@ -20,11 +64,18 @@ def get_tasks():
     return render_template('tasks.html', tasks=mongo.db.tasks.find())
    
 #-------------------------------edited for recipe
-@app.route('/add_task')
-def add_task():
-    return render_template('addtask.html', cuisines=mongo.db.cuisines.find())
+@app.route("/add_recipe")
+def add_recipe():
+    return render_template(
+        "add_recipe.html",
+        cuisines_json=cuisines_json,
+        allergens_json=allergens_json)
    
    
+##@app.route("/insert_recipe", methods=['POST'])
+##def insert_recipe():
+   
+    
 @app.route('/insert_task', methods=['POST'])
 def insert_task():
     tasks=mongo.db.tasks

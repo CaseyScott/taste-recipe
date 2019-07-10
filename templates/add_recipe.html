@@ -1,103 +1,111 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% block nav %} {% include 'navbar.html' %} {% endblock %} {% block content %} 
 
-<main class="container main-container margin-top-20">
+<main class="container main-container">
 <div class="row">
     <div class="col-xs-12">
       <h3>Add Recipe</h3>
-    <form action="{{url_for('insert_task')}}" method='POST' class="col m6">
+    <form action="{{url_for('insert_task')}}" method='POST' class="col s12">
 
       <!-- Recipe Name -->
       <div class="row">
           <div class="input-field col s12">
               <input id="task_name" name='task_name' type="text" class="validate">
-              <label for="icon_prefix">Recipe Name</label>
+              <label>Recipe Name</label>
           </div>
       </div>
       
       <!-- Select Cuisine -->
       <div class="row">
           <div class="input-field cuisine_field col s12">
+              <legend>Cuisine</legend>
               <select id="cuisine" name="cuisine">
                   <option value="" disabled selected>Choose your option</option>
-                  {% for item in cuisine %}
-                      <option value="{{ item.cuisine }}">{{ item.cuisine }}</option>
+                  {% for item in cuisines_json.cuisine|sort %}
+                      <option value="{{ item }}">{{ item| title }}</option>
                   {% endfor %}
+                  <label>cuisine</label>
               </select>
           </div>
       </div>
-      
+
       <!-- Select Allergen -->
       <div class="row">
           <div class="input-field allergen_field col s12">
+              <legend>Allergen</legend>
               <select id="cuisine" name="cuisine">
                   <option value="" disabled selected>Choose your option</option>
-                  {% for item in allergen %}
+                  {% for item in allergens_json %}
                     <div class='allergen_checkbox'>
                       <input class="{{ item }}"  name="allergens" type="checkbox" value="{{ item }}">
-                      <p class="{{ item }}1">{{ item }}</p>
                     </div>
                   {% endfor%}
               </select>
           </div>
       </div>
 
-      <!-- Recipe Description -->
+      <!--  Description -->
       <div class="row">
           <div class="input-field col s12">
               <textarea name='task_description' id='task_description' class='materialize-textarea'></textarea>
-              <label for="icon_telephone">Task Description</label>
+              <label>Description</label>
           </div>
       </div>
 
       <!-- Image -->
       <div class="row">
           <div class="input-field col s12">
-              <input required oninput="return checkImageExists()" type="url" name="image" id="image" placeholder="http://url">
-              <label for="icon_telephone">Image URL</label>
+              <input required oninput="return checkImageExists()" type="url" name="image" id="image">
+              <label>Image http://</label>
           </div>
       </div>
 
       <!-- Ingredients -->
       <div class="row">
           <div class="input-field col s12">
-              <input required type="text" name="ingredient" class="ingredients" id="ingredients" placeholder="Ingredient" /><br>
+              <input required type="text" name="ingredient" class="ingredients" id="ingredients"/><br>
               <div class="spacer inline"></div>
+              <label>Ingredients</label>
           </div>
       </div>
 
       <!-- Instructions -->
       <div class="row">
           <div class="input-field col s12">
-              <input required type="text" name="instruction" class="instructions" id="instructions" placeholder="Instruction" /><br>
+              <input required type="text" name="instruction" class="instructions" id="instructions"/><br>
               <div class="spacer inline"></div>
+              <label>Instructions</label>
           </div>
       </div>
 
       <!-- Prep Time -->
       <div class="row">
           <div class="input-field col s12">
-              <input required type="text" name="prep_time" id="prep_time" placeholder="Prep Time" />
+              <input required type="text" name="prep_time" id="prep_time"/>
+              <label>Preperation Time</label>
           </div>
       </div>
 
       <!-- Cook Time -->
       <div class="row">
           <div class="input-field col s12">
-              <input required type="text" name="cook_time" id="cook_time" placeholder="Cook Time" />
+              <input required type="text" name="cook_time" id="cook_time"/>
+              <label>Cook Time</label>
           </div>
       </div>
 
-      <!-- Recipe Yield -->
+      <!-- Recipe Serving Size -->
       <div class="row">
           <div class="input-field col s12">
-              <input required type="number" name="recipe_yield" id="recipe_yield" placeholder="Servings" />
+              <input required type="number" name="recipe_yield" id="recipe_yield"/>
+              <label>Serving Size</label>
           </div>
       </div>
 
       <!-- Author -->
       <div class="row">
           <div class="input-field col s12">
-              <input required type="text" value="" name="author" id="author" placeholder="Author" />
+              <input required type="text" value="" name="author" id="author"/>
+              <label>Author</label>
           </div>
       </div>
 
@@ -111,4 +119,4 @@
     </form>
 </div>
 </main>
-{% endblock %}
+{% endblock %} {% block footer %} {% include 'footer.html' %} {% endblock %} 
