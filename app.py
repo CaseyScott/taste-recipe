@@ -112,6 +112,77 @@ def delete_task(task_id):
 
 
 
+
+
+# ---------------------------------------Registration form
+@app.route('/register', methods=['POST'])
+def register():
+
+    requested_username = request.form.get("register_username")
+    new_password = request.form.get("register_password")
+    comfirm_password = request.form.get("comfirm_password")
+
+    if comfirm_password == new_password:
+        try:
+            existing_user = mongo.db.user_details.find_one(
+                {'username': requested_username}, {"username"})
+
+            if existing_user is None:
+
+                mongo.db.user_details.insert_one(registration_form())
+                session['user'] = requested_username
+                return redirect(
+                    url_for(
+                        'my_recipes',
+                        username=requested_username))
+
+            else:
+                return redirect(request.referrer)
+
+        except BaseException:
+            return redirect(request.referrer)
+
+    else:
+        return redirect(request.referrer)
+
+# --------------------------------------- Sign in
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if __name__ == '__main__':
     app.run(
             debug=True)
