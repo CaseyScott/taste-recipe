@@ -261,9 +261,7 @@ def single_recipe(recipe_id):
         {'_id': ObjectId(recipe_id)}, {"name"})
         
     the_recipe = mongo.db.recipe.find_one({"_id": ObjectId(recipe_id)})
-    username = if_user_in_session()   2
-
-
+    username = if_user_in_session()   
     recipe = find_value(recipe_name) 
 
    

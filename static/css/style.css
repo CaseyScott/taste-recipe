@@ -192,3 +192,57 @@ box-shadow: 0 5px 15px hsla(0,0%, 0% .2); /*middle size*/
   .center {
     text-align: center;
 }
+
+/* ---------------------REGISTER MODAL*/
+
+.register-signin-page {
+  position: absolute;
+  display: none;
+  left: 0;
+  right: 0;
+  top: 150px;
+  padding: 15px;
+  margin: 0 auto;
+  z-index: 1;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .register-signin-page {
+      top: 60px;
+  }
+}
+
+.inner-register-page,
+.inner-signin-page {
+  display: inline-block;
+  padding: 5px 15px 15PX;
+  background-color: rgba(255, 255, 255, .95);
+  margin: 0 auto;
+  border-radius: 10px;
+  border: 2px solid rgba(255, 165, 0, 1)
+}
+
+.inner-register-page h2,
+.inner-signin-page h2 {
+
+  border-bottom: 1px solid #000;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+}
+
+.inner-register-page div,
+.inner-signin-page div {
+  float: none;
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.register-signin-page div label {
+  flex: 1;
+}
+
+.register-signin-page div input:not([type=submit]) {
+  flex: 2;
+  height: 25px;
+}
