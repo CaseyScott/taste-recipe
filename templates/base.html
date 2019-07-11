@@ -5,22 +5,58 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}" type="text/css" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+        integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 </head>
 
 <body>
     {% block nav %} {% endblock %} {% block content %} {% endblock %} {% block footer %} {% endblock %}
-   
-<div class="wrapper">
-  <header class="container-fluid">
-    
-    <!--TITLE-->
-      <div class="col-xs-12">
-        <a href="{{url_for('index')}}">
-          <h3 class="hidden-xs logo">Taste</h3>
-        </a>
-        <h1 class="hidden-sm hidden-md hidden-lg mobile-heading">Taste</h1>
-      </div>
+
+    <div class="wrapper">
+        <header class="container-fluid">
+
+            <!--TITLE-->
+            <div class="col-xs-12">
+                <a href="{{url_for('index')}}">
+                    <h3 class="hidden-xs logo">Taste</h3>
+                </a>
+                <h1 class="hidden-sm hidden-md hidden-lg mobile-heading">Taste</h1>
+            </div>
+
+            <!-- Registration Modal -->
+            <div class="register-signin-page register-page">
+                <div id="inner-register-page" class="inner-register-page">
+                    <h2>Registration</h2>
+
+                    <form name="registrationform" action="{{url_for('register')}}" onSubmit="return validateusername()"
+                        method='POST'>
+                        <p id="validation-message"></p>
+                        <div class="col-xs-12">
+                            <label class="inline hidden-xs" for="register_first_name">First Name:</label>
+                            <input class="inline" type="text" id="register_first_name" name="register_first_name"
+                                placeholder="First Name" required />
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="inline hidden-xs" for="register_username">User Name:</label>
+                            <input class="inline" type="text" id="register_username" name="register_username"
+                                placeholder="User Name" required />
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="inline hidden-xs" for="register_password">Password:</label>
+                            <input class="inline" type="password" id="register_password" name="register_password"
+                                placeholder="password" required />
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="inline hidden-xs" for="comfirm_password">Re-enter Password:</label>
+                            <input class="inline" type="password" id="comfirm_password" name="comfirm_password"
+                                placeholder="Confirm password" required />
+                        </div>
+
+                        <input class="inline" type="submit" value="Submit" />
+                        <p class="register-close-btn close-btn inline">Close</p>
+                    </form>
+                </div>
+            </div>
 
 
 
@@ -38,21 +74,17 @@
 
 
 
+            <!-- jQuery -->
 
-
-
-    <!-- jQuery -->    
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.collapsible').collapsible();
-            $('select').material_select();
-            $(".button-collapse").sideNav();
-        });
-        
-    </script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('.collapsible').collapsible();
+                    $('select').material_select();
+                    $(".button-collapse").sideNav();
+                });
+            </script>
 
 </body>
 
