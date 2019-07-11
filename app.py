@@ -107,6 +107,21 @@ def index():
     return render_template('index.html', recipes=recipes, usernames=usernames)
 
 
+
+#------------------------------------------****RECIPES 
+@app.route("/recipes")
+def recipes():
+    all_recipes = mongo.db.recipe.find(
+        {"$query": {}, "$orderby": {"name": 1}}).limit(4)
+    
+    return render_template(
+        'recipes.html',
+        all_recipes=all_recipes,
+        cuisines_json=cuisines_json,
+        allergens_json=allergens_json,
+        usernames=usernames)      
+   
+   
    
 #----------------------------------------**** ADD RECIPE TO DATABASE
 @app.route("/add_recipe")
@@ -211,7 +226,29 @@ def delete_recipe(recipe_id):
 
 
 
+#--------------------------------------------------**** USER RECIPES
+@app.route('/user_recipes/<username>')
+def user_recipes(username):
+    pop_flask_message() # FUNCTION 3
+    if session['user'] == username:
+        user = mongo.db.user_details.find_one({"username": username})
+        user_recipes = mongo.db.recipe.find({"username": session['user']})
+        recipe_count = user_recipes.count()
 
+        return render_template(
+            'user_recipes.html',
+            user=user,
+            user_recipes=user_recipes,
+            cuisines_json=cuisines_json,
+            allergens_json=allergens_json,
+            recipe_count=recipe_count)
+
+    else:
+        session['flash-message-not-allowed'] = True
+        flash("There was an error in the last action. Please sign in again.")
+        if 'user' in session:
+            session.pop('user')
+        return redirect(url_for('index'))
 
 
 
@@ -250,6 +287,8 @@ def register():
     else:
         return redirect(request.referrer)
 
+
+
 # --------------------------------------- Sign in
 @app.route('/signin', methods=['POST'])
 def signin():
@@ -280,6 +319,8 @@ def signin():
         session['flash-message1'] = 1
         flash("Incorrect username or password")
         return redirect(url_for('index'))
+
+
 
 #--------------------------------------------Log out
 @app.route('/logout')
