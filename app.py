@@ -111,8 +111,10 @@ def index():
 #------------------------------------------****RECIPES 
 @app.route("/recipes")
 def recipes():
+    usernames = current_usernames()
     all_recipes = mongo.db.recipe.find(
         {"$query": {}, "$orderby": {"name": 1}}).limit(4)
+    pop_flask_message()
     
     return render_template(
         'recipes.html',
@@ -122,6 +124,24 @@ def recipes():
         usernames=usernames)      
    
    
+#----------------------------------------All RECIPES
+@app.route("/all_recipes")
+def all_recipes():
+    pop_flask_message() # FUNCTION 3
+    usernames = current_usernames()# FUNCTION 4
+    session["search_title"] = 3
+    recipe_category = mongo.db.recipe.find(
+        {"$query": {}, "$orderby": {"name": 1}})
+
+    recipe_count = None
+    return render_template(
+        'search_results.html',
+        search_title=session["search_title"],
+        recipe_category=recipe_category,
+        cuisines_json=cuisines_json,
+        allergens_json=allergens_json,
+        recipe_count=recipe_count,
+        usernames=usernames)
    
 #----------------------------------------**** ADD RECIPE TO DATABASE
 @app.route("/add_recipe")
@@ -291,7 +311,7 @@ def register():
                 session['user'] = requested_username
                 return redirect(
                     url_for(
-                        'my_recipes',
+                        'user_recipes',
                         username=requested_username))
 
             else:

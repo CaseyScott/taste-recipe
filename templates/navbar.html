@@ -18,7 +18,7 @@
               <!-- If the user is only a guest the session['user'] variable will be inactive -->
               {% else %}
               <li>
-                  <p class=" register-trigger">Sign up </p>
+                  <p class=" register-trigger">Sign Up </p>
               </li>
               <li>
                   <p class=" signin-trigger"> Sign In</p>
@@ -28,30 +28,18 @@
 
 
         <!-- Mobile Navigation -->
-          <ul class=" mobile-ul">
-              <li class="mobile-li">
-                  <a href="{{url_for('index')}}">Home</a>
-                    </li>
-                    <li class="mobile-li">
-                  <a href="{{url_for('recipes')}}">Recipes</a>
-                    </li>
+          <ul class=" side-nav" id="mobile-demo">
+              <li><a href="{{url_for('index')}}">Home</a></li>
+              <li><a href="{{url_for('recipes')}}">Recipes</a></li>
                     <!-- If the user is only a guest the session['user'] variable will be inactive -->
                     {% if 'user' not in session %}
-                    <li class="mobile-li">
-                        <p class="mobile-form-btn register-trigger">Register</p>
-                    </li>
-                    <li class="mobile-li">
-                        <p class=" mobile-form-btn signin-trigger">Sign In</p>
-                    </li>
+              <li><p class="mobile-form-btn register-trigger">Sign Up</p></li>
+              <li><p class=" mobile-form-btn signin-trigger">Sign In</p></li>
                     <!-- If a user has signed in or just registered the session['user'] variable will be active -->
                     {% else %}
-                    <li class="mobile-li">
-                  <a href="{{url_for('user_recipes', username = session['user'])}}">User Recipes</a>
-                    </li>
-                    <li class="mobile-li">
-                  <a href="{{url_for('logout')}}">Log Out</a>
-                    </li>
-                    {% endif %}
+              <li><a href="{{url_for('user_recipes', username = session['user'])}}">User Recipes</a></li>
+              <li><a href="{{url_for('logout')}}">Log Out</a></li>
+              {% endif %}
           </ul>
       </div>
   </nav>
