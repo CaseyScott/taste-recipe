@@ -346,6 +346,7 @@ def logout():
     session.pop('user')
     return redirect(url_for('index'))
 
+#----END OF------- Registration Section - signin into user session
 
 
 
