@@ -58,8 +58,24 @@
                 </div>
             </div>
 
-
-
+            <!-- Sign in Modal -->
+            <div class="register-signin-page signin-page" {% if 'flash-message1' in session %}style="display:block;" {% endif %}>
+                    <div class="inner-signin-page">
+                        <h2>Sign In</h2>
+                        <form action="{{url_for('signin')}}"flask
+                        method='POST'>
+                            <div class="col-xs-12">
+                                <input class="inline" type="text" id="signin_username" name="signin_username" placeholder="User Name" required/>
+                            </div>
+                            <div class="col-xs-12">
+                                <input class="inline" type="password" id="signin-password" name="signin_password" placeholder="Password" required/>
+                            </div>
+    
+                            <input class="inline" type="submit" value="Submit" />
+                            <p class="register-close-btn close-btn inline">Close</p>
+                        </form>
+                    </div>
+            </div>
 
 
 
