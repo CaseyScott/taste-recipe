@@ -112,7 +112,7 @@ def delete_task(task_id):
 
 
 
-
+#-------------- Registration Section - signin into user session
 
 # ---------------------------------------Registration form
 @app.route('/register', methods=['POST'])
