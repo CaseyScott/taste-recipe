@@ -146,7 +146,35 @@ def register():
         return redirect(request.referrer)
 
 # --------------------------------------- Sign in
+@app.route('/signin', methods=['POST'])
+def signin():
 
+    username = request.form.get('signin_username')
+    password = request.form.get('signin_password')
+
+    try:
+        user_doc_username = mongo.db.user_details.find_one(
+            {'username': username}, {'username'})
+        user_doc_password = mongo.db.user_details.find_one(
+            {'username': username}, {'password'})
+
+        stored_username = find_value(user_doc_username)  # FUNCTION 1
+        stored_password = find_value(user_doc_password)  # FUNCTION 1
+        if password == stored_password and username == stored_username:
+            if 'flash-message1' in session:
+                session.pop('flash-message1')
+            session['user'] = username
+            return redirect(url_for('my_recipes', username=username))
+
+        else:
+            session['flash-message1'] = 1
+            flash("Incorrect username or password")
+            return redirect(url_for('index'))
+
+    except BaseException:
+        session['flash-message1'] = 1
+        flash("Incorrect username or password")
+        return redirect(url_for('index'))
 
 
 
