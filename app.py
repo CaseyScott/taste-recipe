@@ -252,6 +252,24 @@ def user_recipes(username):
 
 
 
+#------------------------------------------------**** SINGLE RECIPE
+@app.route('/single_recipe/<recipe_id>')
+def single_recipe(recipe_id):
+    pop_flask_message()
+    usernames = current_usernames() 
+    recipe_name = mongo.db.recipe.find_one(
+        {'_id': ObjectId(recipe_id)}, {"name"})
+        
+    the_recipe = mongo.db.recipe.find_one({"_id": ObjectId(recipe_id)})
+    username = if_user_in_session()   2
+
+
+    recipe = find_value(recipe_name) 
+
+   
+
+
+
 
 
 #-------------- Registration Section - signin into user session
@@ -331,8 +349,22 @@ def logout():
 
 
 
-
-
+#----------------------------------**** FIND INGREDIENTS
+@app.route("/find_ingredient", methods=['POST'])
+def find_ingredient():
+    pop_flask_message() # FUNCTION 3
+    usernames = current_usernames()# FUNCTION 4
+    session["search_title"] = 0
+    recipe_category = mongo.db.recipe.find(
+        {"ingredients": {"$regex": request.form.get("ingredient_category"), "$options": 'i'}}).sort("likes",pymongo.DESCENDING)
+    recipe_count = recipe_category.count()
+    return render_template(
+        'search_results.html',
+        recipe_category=recipe_category,
+        cuisines_json=cuisines_json,
+        allergens_json=allergens_json,
+        recipe_count=recipe_count,
+        usernames=usernames)
 
 
 
