@@ -176,6 +176,12 @@ def signin():
         flash("Incorrect username or password")
         return redirect(url_for('index'))
 
+#--------------------------------------------Log out
+@app.route('/logout')
+def logout():
+    session.pop('user')
+    return redirect(url_for('index'))
+
 
 
 
