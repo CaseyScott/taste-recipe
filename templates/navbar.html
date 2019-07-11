@@ -18,27 +18,22 @@
               <!-- If the user is only a guest the session['user'] variable will be inactive -->
               {% else %}
               <li>
-                  <p class=" register-trigger">Sign up</p>
+                  <p class=" register-trigger">Sign up </p>
               </li>
               <li>
-                  <p class=" signin-trigger">Sign In</p>
+                  <p class=" signin-trigger"> Sign In</p>
               </li>
               {% endif %}
           </ul>
 
 
         <!-- Mobile Navigation -->
-        <nav class="mobile-nav hidden-sm hidden-md hidden-lg">
-                <div class="mobile-bars">
-                    <i id="fa-bars" class="fas fa-bars"></i>
-                </div>
-
-                <ul class=" mobile-ul">
-                    <li class="mobile-li">
-                        <a href="{{url_for('index')}}">Home</a>
+          <ul class=" mobile-ul">
+              <li class="mobile-li">
+                  <a href="{{url_for('index')}}">Home</a>
                     </li>
                     <li class="mobile-li">
-                        <a href="{{url_for('recipes')}}">Recipes</a>
+                  <a href="{{url_for('recipes')}}">Recipes</a>
                     </li>
                     <!-- If the user is only a guest the session['user'] variable will be inactive -->
                     {% if 'user' not in session %}
@@ -51,14 +46,13 @@
                     <!-- If a user has signed in or just registered the session['user'] variable will be active -->
                     {% else %}
                     <li class="mobile-li">
-                        <a href="{{url_for('user_recipes', username = session['user'])}}">User Recipes</a>
+                  <a href="{{url_for('user_recipes', username = session['user'])}}">User Recipes</a>
                     </li>
                     <li class="mobile-li">
-                        <a href="{{url_for('logout')}}">Log Out</a>
+                  <a href="{{url_for('logout')}}">Log Out</a>
                     </li>
                     {% endif %}
-                </ul>
-        </nav>
+          </ul>
       </div>
   </nav>
 </header>

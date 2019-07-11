@@ -3,11 +3,7 @@
 <div class="overlay-black"></div>
 <main class="container home-container">
     
-    <div class="row hidden-xs index-heading-row">
-        <div class="col-xs-12 ">
-            <p class="index-heading">Taste</p> 
-        </div>
-    </div>
+    
     {% if 'flash-message-not-allowed' in session %} {% with messages = get_flashed_messages()%} {% if messages %} {% for message in messages %}
                     <p class=" center flash-message">{{ message }}</p>
 
@@ -38,9 +34,9 @@
     <div class="row index-btn-row">
         <div class="col-xs-12 center">
             {% if 'user' not in session%}
-            <p class="signin-btn register-trigger">Register</p>
+            <p class="signin-btn register-trigger">Sign Up</p>
             {% endif %}
-            <p class="signin-btn "><a href="{{url_for('recipes')}}">Enter</a></p>
+            <p class="signin-btn "><a href="{{url_for('recipes')}}">Recipes</a></p>
         </div>
         
     </div>
