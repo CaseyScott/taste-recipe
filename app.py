@@ -56,12 +56,17 @@ def registration_form():
     return data
 
 
-#---- Tasks ---------
 
+#----------------------------------------------INDEX
 @app.route('/')
-@app.route('/get_tasks')
-def get_tasks():
-    return render_template('tasks.html', tasks=mongo.db.tasks.find())
+def index():
+    
+    usernames = current_usernames() # FUNCTION 4
+    recipes = mongo.db.recipe.aggregate([{ "$match": { "username": "admin"} }, {"$sample": {"size": 5}}])
+    
+    return render_template('index.html', recipes=recipes, usernames=usernames)
+
+
    
 #----------------------------------------**** ADD RECIPE TO DATABASE
 @app.route("/add_recipe")
