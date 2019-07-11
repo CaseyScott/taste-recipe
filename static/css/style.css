@@ -176,6 +176,19 @@ box-shadow: 0 5px 15px hsla(0,0%, 0% .2); /*middle size*/
 
 
 /*------------------------------------ALL recipes page*/
-.collapsible {
-  
+
+
+/*----------------------------ALL recipes page search forms*/
+.triggered_search_box {
+  display: none;
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  text-align: center;
+  top: 25vh;
+}
+
+  .center {
+    text-align: center;
 }

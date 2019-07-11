@@ -1,5 +1,94 @@
 {% extends 'base.html' %} {% block content %}
 
+<main class="container main-container">
+    
+    <div class="row">
+        <p class="recipe-title">Recipes</p>
+    </div>
+
+<!-- Search form (ingredients,cuisine,allergen,custom search) -->
+{% block search_menu %}
+{% include 'search_menu.html' %}
+{% endblock search_menu %} 
+
+<div class="row ordered-by-row">
+    <div class="col-xs-12 col-sm-5">
+        <p class="ordered-by-title">All Recipes</p>
+        <a href="{{url_for('all_recipes')}}" class="see-all">View all Recipes</a>
+    </div>
+</div>
+
+<!-- All Recipes -->
+<div class="row found_recipe_row">
+{% for recipe in all_recipes %}
+
+    <div class="single-recipe-result col-xs-12 col-sm-4 col-md-3">
+        <div class="inner_recipe_box">
+            <div class="row">
+                <div class="col-xs-12 found_image_box">
+                    <a href="{{ url_for('update_view_count', recipe_id=recipe._id)}}">
+                    <img class="found_image" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/b/b1/Missing-image-232x150.png'" src="{{ recipe.image }}" alt=" {{ recipe.name }}">
+                    </a>
+                </div>
+                
+                <div class=" name_box col-xs-12 center">
+                    <h4><b>{{ recipe.name }}</b></h4>
+                </div>
+                
+                <div class="center allergen_box col-xs-12">  
+                  <p>{{ recipe.description |truncate(65) }}</p>
+                </div>
+                
+                <div class="cuisine_box col-xs-12 center">
+                    <div><b>Cuisine</b></div>
+                {% for item in recipe.cuisine %}
+                {% if loop.index == 0 or item == "" %}
+                <p>None</p>
+                {% else %}
+                    <span>{{ item |title}}</span>
+                {% endif %}
+                {% endfor %}
+                </div>
+
+                <div class=" allergen_box col-xs-12 center">
+                    <div><b>Allergens</b></div>
+                {% for item in recipe.allergens %}
+                {% if loop.index == 0 or item == "" %}
+                <p>None</p>
+                {% else %}
+                    <span>{{ item | title}}</span>
+                {% endif %}
+                {% endfor %}
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+{% endfor %}
+</div>
+
+</main>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
