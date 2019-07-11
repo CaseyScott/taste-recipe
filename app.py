@@ -57,7 +57,7 @@ def registration_form():
 
 
 
-#----------------------------------------------INDEX
+#-----------------------------------------****INDEX
 @app.route('/')
 def index():
     
@@ -77,11 +77,12 @@ def add_recipe():
         allergens_json=allergens_json)
    
    
+   
 #-----------------------------------**** INSERT RECIPE INTO DATABASE  
 @app.route("/insert_recipe", methods=['POST'])
 def insert_recipe():
-   username = if_user_in_session()
-   mongo.db.recipe.insert_one(doc)
+    username = if_user_in_session()
+    mongo.db.recipe.insert_one(doc)
     id_num = mongo.db.recipe.find_one(
         {'name': request.form.get('name'), 'username': username})
     
@@ -110,6 +111,7 @@ def edit_recipe(recipe_id):
                             cuisines_json=cuisines_json,
                             allergens_json=allergens_json)
     
+   
    
 #-------------------------------------------------**** UPDATE RECIPE
 @app.route('/update_recipe/<recipe_id>', methods=['POST'])
@@ -143,10 +145,11 @@ def update_recipe(recipe_id):
         return redirect(url_for('index'))
     
     
+    
 #-----------------------------------------------------**** DELETE
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
-   username = if_user_in_session()
+    username = if_user_in_session()
 
     author = mongo.db.recipe.find_one({'_id': ObjectId(recipe_id)})
     contributer = ""
