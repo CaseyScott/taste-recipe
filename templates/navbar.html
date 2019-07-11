@@ -1,20 +1,64 @@
 <header>
   <nav>
       <div class="nav-wrapper">
-          <a href="{{url_for('get_tasks')}}" class="brand-logo">Taste</a>
+          <a href="{{url_for('index')}}" class="brand-logo">Taste</a>
           <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+          <!-- Navigation -->
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-              <li><a href="{{url_for('get_tasks')}}">Home</a></li>
-              <li><a href="{{url_for('add_recipe')}}">Add Recipes</a></li>
-              <li><a href="{{url_for('get_categories')}}">Sign in</a></li>
-              <li><a href="{{url_for('get_categories')}}">Register</a></li>
+              <li><a href="{{url_for('index')}}">Home</a></li>
+              <li><a href="{{url_for('recipes')}}">Recipes</a></li>
+              <!-- If a user has signed in or just registered the session['user'] variable will be active -->
+              {% if 'user' in session %}
+              <li>
+                  <a href="{{url_for('user_recipes', username = session['user'])}}">User Recipes</a>
+              </li>
+              <li>
+                  <a href="{{url_for('logout')}}">Log Out</a>
+              </li>
+              <!-- If the user is only a guest the session['user'] variable will be inactive -->
+              {% else %}
+              <li>
+                  <p class=" register-trigger">Sign up</p>
+              </li>
+              <li>
+                  <p class=" signin-trigger">Sign In</p>
+              </li>
+              {% endif %}
           </ul>
-          <ul class="side-nav" id="mobile-demo">
-              <li><a href="{{url_for('get_tasks')}}">Home</a></li>
-              <li><a href="{{url_for('add_recipe')}}">Add Recipes</a></li>
-              <li><a href="{{url_for('get_categories')}}">Sign in</a></li>
-              <li><a href="{{url_for('get_categories')}}">Register</a></li>
-          </ul>
+
+
+        <!-- Mobile Navigation -->
+        <nav class="mobile-nav hidden-sm hidden-md hidden-lg">
+                <div class="mobile-bars">
+                    <i id="fa-bars" class="fas fa-bars"></i>
+                </div>
+
+                <ul class=" mobile-ul">
+                    <li class="mobile-li">
+                        <a href="{{url_for('index')}}">Home</a>
+                    </li>
+                    <li class="mobile-li">
+                        <a href="{{url_for('recipes')}}">Recipes</a>
+                    </li>
+                    <!-- If the user is only a guest the session['user'] variable will be inactive -->
+                    {% if 'user' not in session %}
+                    <li class="mobile-li">
+                        <p class="mobile-form-btn register-trigger">Register</p>
+                    </li>
+                    <li class="mobile-li">
+                        <p class=" mobile-form-btn signin-trigger">Sign In</p>
+                    </li>
+                    <!-- If a user has signed in or just registered the session['user'] variable will be active -->
+                    {% else %}
+                    <li class="mobile-li">
+                        <a href="{{url_for('user_recipes', username = session['user'])}}">User Recipes</a>
+                    </li>
+                    <li class="mobile-li">
+                        <a href="{{url_for('logout')}}">Log Out</a>
+                    </li>
+                    {% endif %}
+                </ul>
+        </nav>
       </div>
   </nav>
 </header>
