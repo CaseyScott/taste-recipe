@@ -11,7 +11,16 @@
 <body>
     {% block nav %} {% endblock %} {% block content %} {% endblock %} {% block footer %} {% endblock %}
    
+<div class="wrapper">
+  <header class="container-fluid">
     
+    <!--TITLE-->
+      <div class="col-xs-12">
+        <a href="{{url_for('index')}}">
+          <h3 class="hidden-xs logo">Taste</h3>
+        </a>
+        <h1 class="hidden-sm hidden-md hidden-lg mobile-heading">Taste</h1>
+      </div>
 
 
 
