@@ -63,7 +63,7 @@ def registration_form():
 def get_tasks():
     return render_template('tasks.html', tasks=mongo.db.tasks.find())
    
-#-------------------------------edited for recipe
+#----------------------------------------**** ADD RECIPE TO DATABASE
 @app.route("/add_recipe")
 def add_recipe():
     return render_template(
@@ -71,7 +71,8 @@ def add_recipe():
         cuisines_json=cuisines_json,
         allergens_json=allergens_json)
    
-#----------------------------------------insert recipe into database  
+   
+#-----------------------------------**** INSERT RECIPE INTO DATABASE  
 @app.route("/insert_recipe", methods=['POST'])
 def insert_recipe():
    username = if_user_in_session()
@@ -95,7 +96,7 @@ def insert_recipe():
    
    
   
-    
+#-------------------------------------------------**** EDIT RECIPE
 @app.route('/edit_recipe/<recipe_id>')
 def edit_recipe(recipe_id):
     the_recipe =  mongo.db.recipe.find_one({"_id": ObjectId(recipe_id)})
@@ -105,24 +106,66 @@ def edit_recipe(recipe_id):
                             allergens_json=allergens_json)
     
    
-@app.route('/update_task/<task_id>', methods=['POST'])
-def update_task(task_id):
-    tasks = mongo.db.tasks
-    tasks.update({'_id': ObjectId(task_id)},
-    {
-        'task_name': request.form.get('task_name'),
-        'category_name': request.form.get('category_name'),
-        'task_description': request.form.get('task_description'),
-        'due_date': request.form.get('due_date'),
-        'is_urgent': request.form.get('is_urgent')
-    })
-    return redirect(url_for('get_tasks'))
+#-------------------------------------------------**** UPDATE RECIPE
+@app.route('/update_recipe/<recipe_id>', methods=['POST'])
+def update_recipe(recipe_id):
+    username = if_user_in_session() 
+
+    author = mongo.db.recipe.find_one({'_id': ObjectId(recipe_id)})
+    contributer = ""
+    for key, value in author.items():
+        if key == "username":
+            contributer = value
+
+    if username == contributer or username == "admin":
+        mongo.db.recipe.update_many({'_id': ObjectId(recipe_id)}, {
+                                    "$set": recipe_database()})
+
+        id_num = mongo.db.recipe.find_one(
+            {'name': request.form.get('name'), 'username': username})
+
+        recipe_id = ""
+        for key, value in id_num.items():
+            if key == "_id":
+                recipe_id = ObjectId(value)
+
+        return redirect(url_for('single_recipe', recipe_id=recipe_id))
+    else:
+        session['flash-message-not-allowed'] = True
+        flash("There was an error in the last action. Please sign in again.")
+        if 'user' in session:
+            session.pop('user')
+        return redirect(url_for('index'))
     
     
-@app.route('/delete_task/<task_id>')
-def delete_task(task_id):
-    mongo.db.tasks.remove({'_id': ObjectId(task_id)})
-    return redirect(url_for('get_tasks'))
+#-----------------------------------------------------**** DELETE
+@app.route('/delete_recipe/<recipe_id>')
+def delete_recipe(recipe_id):
+   username = if_user_in_session()
+
+    author = mongo.db.recipe.find_one({'_id': ObjectId(recipe_id)})
+    contributer = ""
+    for key, value in author.items():
+        if key == "username":
+            contributer = value
+
+    if username == contributer or username == "admin":
+
+        mongo.db.recipe.remove({'_id': ObjectId(recipe_id)})
+        return redirect(url_for('my_recipes', username=username))
+        
+    else:
+        session['flash-message-not-allowed'] = True
+        flash("There was an error in the last action. Please sign in again.")
+        if 'user' in session:
+            session.pop('user')
+        return redirect(url_for('index'))
+
+
+
+
+
+
 
 
 
