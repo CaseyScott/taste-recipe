@@ -71,24 +71,38 @@ def add_recipe():
         cuisines_json=cuisines_json,
         allergens_json=allergens_json)
    
-   
-##@app.route("/insert_recipe", methods=['POST'])
-##def insert_recipe():
-   
+#----------------------------------------insert recipe into database  
+@app.route("/insert_recipe", methods=['POST'])
+def insert_recipe():
+   username = if_user_in_session()
+   mongo.db.recipe.insert_one(doc)
+    id_num = mongo.db.recipe.find_one(
+        {'name': request.form.get('name'), 'username': username})
     
-@app.route('/insert_task', methods=['POST'])
-def insert_task():
-    tasks=mongo.db.tasks
-    tasks.insert_one(request.form.to_dict())
-    return redirect(url_for('get_tasks'))
+    recipe_id = ""
+    for key, value in id_num.items():
+        if key == "_id":
+            recipe_id = ObjectId(value)
+    mongo.db.recipe.update_one({'_id': ObjectId(recipe_id)}, {
+        "$set": {"views": 0}}, upsert=True)
+    mongo.db.recipe.update_one({'_id': ObjectId(recipe_id)}, {
+        "$set": {"likes": 0}}, upsert=True)
+        
+    mongo.db.recipe.update_one({'_id': ObjectId(recipe_id)}, {
+        "$set": {"submit_date":adelaide_now}}, upsert=True)
+        
+    return redirect(url_for('single_recipe', recipe_id=recipe_id))
+   
+   
   
     
-@app.route('/edit_task/<task_id>')
-def edit_task(task_id):
-    the_task =  mongo.db.tasks.find_one({"_id": ObjectId(task_id)})
-    all_categories =  mongo.db.categories.find()
-    return render_template('edittask.html', task=the_task,
-                           categories=all_categories)
+@app.route('/edit_recipe/<recipe_id>')
+def edit_recipe(recipe_id):
+    the_recipe =  mongo.db.recipe.find_one({"_id": ObjectId(recipe_id)})
+    return render_template('edit_recipe.html',
+                            recipe=the_recipe,
+                            cuisines_json=cuisines_json,
+                            allergens_json=allergens_json)
     
    
 @app.route('/update_task/<task_id>', methods=['POST'])
