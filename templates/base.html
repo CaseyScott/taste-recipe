@@ -5,12 +5,33 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}" type="text/css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 </head>
 
 <body>
     {% block nav %} {% endblock %} {% block content %} {% endblock %} {% block footer %} {% endblock %}
    
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- jQuery -->    
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -21,18 +42,7 @@
             $('select').material_select();
             $(".button-collapse").sideNav();
         });
-        $('.datepicker').pickadate({
-            selectMonths: true, // Creates a dropdown to control month
-            selectYears: 15, // Creates a dropdown of 15 years to control year,
-            today: 'Today',
-            clear: 'Clear',
-            close: 'Ok',
-            closeOnSelect: false // Close upon selecting a date,
-        });
-        /* Fix for datepicker bug */
-        document.getElementById("matfix").addEventListener("click", function(e) {
-            e.stopPropagation();
-        })
+        
     </script>
 
 </body>
