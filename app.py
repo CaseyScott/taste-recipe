@@ -353,18 +353,17 @@ def logout():
 #----------------------------------**** FIND INGREDIENTS
 @app.route("/find_ingredient", methods=['POST'])
 def find_ingredient():
-    pop_flask_message() # FUNCTION 3
-    usernames = current_usernames()# FUNCTION 4
+    pop_flask_message() 
+    usernames = current_usernames()
     session["search_title"] = 0
     recipe_category = mongo.db.recipe.find(
-        {"ingredients": {"$regex": request.form.get("ingredient_category"), "$options": 'i'}}).sort("likes",pymongo.DESCENDING)
+        {"ingredients": {"$regex": request.form.get("ingredient_category"), "$options": 'i'}})
     recipe_count = recipe_category.count()
     return render_template(
         'search_results.html',
         recipe_category=recipe_category,
         cuisines_json=cuisines_json,
         allergens_json=allergens_json,
-        recipe_count=recipe_count,
         usernames=usernames)
 
 
