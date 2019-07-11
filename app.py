@@ -1,7 +1,7 @@
 import os
 import json
 import pymongo
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for,session, flash
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 
@@ -47,14 +47,54 @@ def recipe_database():
 def registration_form():
     data = {
         "first_name": request.form.get('register_first_name'),
-        "last_name": request.form.get('register_last_name'),
         "username": request.form.get('register_username'),
         "email": request.form.get('register_email'),
-        "password": request.form.get('register_password'),
-        "liked_recipes": []
+        "password": request.form.get('register_password')
     }
     return data
 
+
+
+"""
+FUNCTION 1
+A function to return a specific field value after performing a query search"""
+def find_value(variable):
+    item = ""
+    for key, value in variable.items():
+        if key != "_id":
+            item = value
+    return item
+    
+"""
+FUNCTION 2
+ A function to say that if the session['user'] variable is in session, 
+ username will be what the session variable is. """
+def if_user_in_session():
+    username = ""
+    if 'user' in session:
+        username = session['user']
+    return username
+"""
+FUNCTION 3
+Removes the session variable if it's in session."""
+def pop_flask_message():
+    if 'flash-message1' in session:
+        return session.pop('flash-message1')
+        
+"""
+FUNCTION 4
+returns a list of the current usernames in the mlab database. Used in the 
+base.html and combined with jinja and javascript to tell the user on
+registration from submission, whether the requested username is taken or not."""
+def current_usernames():
+    
+    items = []
+    usernames = mongo.db.user_details.find()
+    for item in usernames:
+        for key, value in item.items():
+            if key == "username":
+                items.append(value)  
+    return items
 
 
 #-----------------------------------------****INDEX

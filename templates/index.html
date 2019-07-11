@@ -1,0 +1,48 @@
+{% extends 'base.html' %} {% block content %}
+<div class="overlay-black"></div>
+<main class="container home-container">
+    
+    <div class="row hidden-xs index-heading-row">
+        <div class="col-xs-12 ">
+            <p class="index-heading">Taste</p> 
+        </div>
+    </div>
+    {% if 'flash-message-not-allowed' in session %} {% with messages = get_flashed_messages()%} {% if messages %} {% for message in messages %}
+                    <p class=" center flash-message">{{ message }}</p>
+
+                    {% endfor %} {% endif %} {% endwith %} {% endif %}
+
+    <div class="row center recipe-display index-image-row">
+    {% for recipe in recipes %}
+    
+        <div class="col-xs-12 box add-class center ">
+            
+            <div class="col-xs-12 display-image">
+                <a href="{{ url_for('update_view_count', recipe_id=recipe._id)}}"><img class="displayed-image" src="{{ recipe.image }}" alt="{{ recipe.name }}"></a>
+                <div class="overlay">
+                    <h3 class="overlay-image-heading">{{ recipe.name }}</h3>
+                </div>
+            </div>
+        </div>
+        
+    {% endfor%}
+    </div>
+    <div class="row index-tagline-row">
+        <div class="col-xs-12 center">
+            <p class="index-tagline-p hidden-xs">Register and add your own recipes to our list</p>
+            <p class="index-tagline-p hidden-sm hidden-md hidden-lg">Register and add your own recipes to our list</p>
+        </div>
+        
+    </div>
+    <div class="row index-btn-row">
+        <div class="col-xs-12 center">
+            {% if 'user' not in session%}
+            <p class="signin-btn register-trigger">Register</p>
+            {% endif %}
+            <p class="signin-btn "><a href="{{url_for('recipes')}}">Enter</a></p>
+        </div>
+        
+    </div>
+
+</main>
+{% endblock %}
