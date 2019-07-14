@@ -7,10 +7,24 @@ from bson.objectid import ObjectId
 
 app = Flask(__name__)
 
+if app.debug == True:
+    import config
+    app.secret_key = config.DB_CONFIG['SECRET_KEY']
+    app.config["MONGO_DBNAME"] = config.DB_CONFIG['MONGO_DBNAME']
+    app.config["MONGO_URI"] = config.DB_CONFIG['MONGO_URI']
+else:
+    app.secret_key = os.environ.get('SECRET_KEY')
+    app.config["MONGO_DBNAME"] = os.environ.get("MONGO_DBNAME")
+    app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
+
+
+"""
 app.config['MONGO_DBNAME'] = 'data'
-app.config['MONGO_URI'] = ('mongodb+srv://casey:rOOtUser@cluster0-uoefk.mongodb.net/data?retryWrites=true&w=majority')
+app.config['MONGO_URI'] = ('mongodb+srv://casey:rOOtUser@cluster0-uoefk.mongodb.net/data?retryWrites=true&w=majority')"""
+
 
 mongo = PyMongo(app)
+
 
 
 # List of the cuisine categories
@@ -24,8 +38,12 @@ with open("data/cuisine_category.json", "r") as file:
 allergens_json = []
 with open("data/allergen_category.json", "r") as file:
     allergens_json = json.load(file)
-
-
+    
+"""
+ Data added to or edited in mlabs on recipe form submission. 
+ Additionally on the add_recipes route, recipe_views and recipe_likes are set 
+ to 0. The user in session has their unique username added to the recipe.
+ """
 def recipe_database():
     data = {
         "name": request.form.get('name'),
@@ -44,17 +62,18 @@ def recipe_database():
     return data
 
 
+""" New user details sent to mlabs on user registration form submission.
+Every user will have a unique username"""
 def registration_form():
     data = {
         "first_name": request.form.get('register_first_name'),
+        "last_name": request.form.get('register_last_name'),
         "username": request.form.get('register_username'),
         "email": request.form.get('register_email'),
-        "password": request.form.get('register_password')
+        "password": request.form.get('register_password'),
+        "liked_recipes": []
     }
     return data
-
-
-
 """
 FUNCTION 1
 A function to return a specific field value after performing a query search"""
@@ -95,10 +114,10 @@ def current_usernames():
             if key == "username":
                 items.append(value)  
     return items
-
-
-#-----------------------------------------****INDEX
-@app.route('/')
+    
+# /////////////////////////////////////////////////////////////// INDEX (render)
+""" Returns 5 random pictures from any recipe added by admin """
+@app.route("/")
 def index():
     
     usernames = current_usernames() # FUNCTION 4
@@ -107,192 +126,14 @@ def index():
     return render_template('index.html', recipes=recipes, usernames=usernames)
 
 
+# ///////////////////////////////////////////////////////////////////// REGISTER
+"""On registration if the passwords don't match or the requested username 
+already exists in the database, return the user to the index page. If the 
+passwords match and the requested username doesn't exist, than send the 
+register form information to the mlab database. Upon a successful 
+registration, a session['user'] variable is set to what the requested 
+username is."""
 
-#------------------------------------------****RECIPES 
-@app.route("/recipes")
-def recipes():
-    usernames = current_usernames()
-    all_recipes = mongo.db.recipe.find(
-        {"$query": {}, "$orderby": {"name": 1}}).limit(4)
-    pop_flask_message()
-    
-    return render_template(
-        'recipes.html',
-        all_recipes=all_recipes,
-        cuisines_json=cuisines_json,
-        allergens_json=allergens_json,
-        usernames=usernames)      
-   
-   
-#----------------------------------------All RECIPES
-@app.route("/all_recipes")
-def all_recipes():
-    pop_flask_message() # FUNCTION 3
-    usernames = current_usernames()# FUNCTION 4
-    session["search_title"] = 3
-    recipe_category = mongo.db.recipe.find(
-        {"$query": {}, "$orderby": {"name": 1}})
-
-    recipe_count = None
-    return render_template(
-        'search_results.html',
-        search_title=session["search_title"],
-        recipe_category=recipe_category,
-        cuisines_json=cuisines_json,
-        allergens_json=allergens_json,
-        recipe_count=recipe_count,
-        usernames=usernames)
-   
-#----------------------------------------**** ADD RECIPE TO DATABASE
-@app.route("/add_recipe")
-def add_recipe():
-    return render_template(
-        "add_recipe.html",
-        cuisines_json=cuisines_json,
-        allergens_json=allergens_json)
-   
-   
-   
-#-----------------------------------**** INSERT RECIPE INTO DATABASE  
-@app.route("/insert_recipe", methods=['POST'])
-def insert_recipe():
-    username = if_user_in_session()
-    mongo.db.recipe.insert_one(doc)
-    id_num = mongo.db.recipe.find_one(
-        {'name': request.form.get('name'), 'username': username})
-    
-    recipe_id = ""
-    for key, value in id_num.items():
-        if key == "_id":
-            recipe_id = ObjectId(value)
-    mongo.db.recipe.update_one({'_id': ObjectId(recipe_id)}, {
-        "$set": {"views": 0}}, upsert=True)
-    mongo.db.recipe.update_one({'_id': ObjectId(recipe_id)}, {
-        "$set": {"likes": 0}}, upsert=True)
-        
-    mongo.db.recipe.update_one({'_id': ObjectId(recipe_id)}, {
-        "$set": {"submit_date":adelaide_now}}, upsert=True)
-        
-    return redirect(url_for('single_recipe', recipe_id=recipe_id))
-   
-   
-  
-#-------------------------------------------------**** EDIT RECIPE
-@app.route('/edit_recipe/<recipe_id>')
-def edit_recipe(recipe_id):
-    the_recipe =  mongo.db.recipe.find_one({"_id": ObjectId(recipe_id)})
-    return render_template('edit_recipe.html',
-                            recipe=the_recipe,
-                            cuisines_json=cuisines_json,
-                            allergens_json=allergens_json)
-    
-   
-   
-#-------------------------------------------------**** UPDATE RECIPE
-@app.route('/update_recipe/<recipe_id>', methods=['POST'])
-def update_recipe(recipe_id):
-    username = if_user_in_session() 
-
-    author = mongo.db.recipe.find_one({'_id': ObjectId(recipe_id)})
-    contributer = ""
-    for key, value in author.items():
-        if key == "username":
-            contributer = value
-
-    if username == contributer or username == "admin":
-        mongo.db.recipe.update_many({'_id': ObjectId(recipe_id)}, {
-                                    "$set": recipe_database()})
-
-        id_num = mongo.db.recipe.find_one(
-            {'name': request.form.get('name'), 'username': username})
-
-        recipe_id = ""
-        for key, value in id_num.items():
-            if key == "_id":
-                recipe_id = ObjectId(value)
-
-        return redirect(url_for('single_recipe', recipe_id=recipe_id))
-    else:
-        session['flash-message-not-allowed'] = True
-        flash("There was an error in the last action. Please sign in again.")
-        if 'user' in session:
-            session.pop('user')
-        return redirect(url_for('index'))
-    
-    
-    
-#-----------------------------------------------------**** DELETE
-@app.route('/delete_recipe/<recipe_id>')
-def delete_recipe(recipe_id):
-    username = if_user_in_session()
-
-    author = mongo.db.recipe.find_one({'_id': ObjectId(recipe_id)})
-    contributer = ""
-    for key, value in author.items():
-        if key == "username":
-            contributer = value
-
-    if username == contributer or username == "admin":
-
-        mongo.db.recipe.remove({'_id': ObjectId(recipe_id)})
-        return redirect(url_for('my_recipes', username=username))
-        
-    else:
-        session['flash-message-not-allowed'] = True
-        flash("There was an error in the last action. Please sign in again.")
-        if 'user' in session:
-            session.pop('user')
-        return redirect(url_for('index'))
-
-
-
-#--------------------------------------------------**** USER RECIPES
-@app.route('/user_recipes/<username>')
-def user_recipes(username):
-    pop_flask_message() # FUNCTION 3
-    if session['user'] == username:
-        user = mongo.db.user_details.find_one({"username": username})
-        user_recipes = mongo.db.recipe.find({"username": session['user']})
-        recipe_count = user_recipes.count()
-
-        return render_template(
-            'user_recipes.html',
-            user=user,
-            user_recipes=user_recipes,
-            cuisines_json=cuisines_json,
-            allergens_json=allergens_json,
-            recipe_count=recipe_count)
-
-    else:
-        session['flash-message-not-allowed'] = True
-        flash("There was an error in the last action. Please sign in again.")
-        if 'user' in session:
-            session.pop('user')
-        return redirect(url_for('index'))
-
-
-
-#------------------------------------------------**** SINGLE RECIPE
-@app.route('/single_recipe/<recipe_id>')
-def single_recipe(recipe_id):
-    pop_flask_message()
-    usernames = current_usernames() 
-    recipe_name = mongo.db.recipe.find_one(
-        {'_id': ObjectId(recipe_id)}, {"name"})
-        
-    the_recipe = mongo.db.recipe.find_one({"_id": ObjectId(recipe_id)})
-    username = if_user_in_session()   
-    recipe = find_value(recipe_name) 
-
-   
-
-
-
-
-
-#-------------- Registration Section - signin into user session
-
-# ---------------------------------------Registration form
 @app.route('/register', methods=['POST'])
 def register():
 
@@ -311,7 +152,7 @@ def register():
                 session['user'] = requested_username
                 return redirect(
                     url_for(
-                        'user_recipes',
+                        'my_recipes',
                         username=requested_username))
 
             else:
@@ -324,8 +165,12 @@ def register():
         return redirect(request.referrer)
 
 
+# /////////////////////////////////////////////////////////////////// SIGN IN
+""" verifies that the posted username and password from the sign in form
+matches the username and password stored in the database.
+Upon a successful sign in, a session['user'] variable is set to what the
+form username is."""
 
-# --------------------------------------- Sign in
 @app.route('/signin', methods=['POST'])
 def signin():
 
@@ -356,42 +201,387 @@ def signin():
         flash("Incorrect username or password")
         return redirect(url_for('index'))
 
+# ///////////////////////////////////////////////////////////////////// LOGOUT
+""" When the logout button is pressed the user session ends and is returned to
+the index page"""
 
-
-#--------------------------------------------Log out
 @app.route('/logout')
 def logout():
     session.pop('user')
     return redirect(url_for('index'))
 
-#----END OF------- Registration Section - signin into user session
+# ///////////////////////////////////////////////////////////// RECIPES (render)
+""" Returns three different recipe categories. The top 4 most liked recipes,
+The 4 most recently added recipes and the first 4 recipes starting in 
+alphabetical order."""
+
+@app.route("/recipes")
+def recipes():
+    usernames = current_usernames() # FUNCTION 4
+    all_recipes = mongo.db.recipe.find(
+        {"$query": {}, "$orderby": {"name": 1}}).limit(4)
+
+    pop_flask_message() # FUNCTION 3
+
+    return render_template(
+        'recipes.html',
+        all_recipes=all_recipes,
+        cuisines_json=cuisines_json,
+        allergens_json=allergens_json,
+        usernames=usernames)
+
+
+# ////////////////////////////////////////////////////////////////////MY RECIPES
+""" Upon registration or login the session['user'] variable is set. If the 
+session variable matches the endpoint the user is granted access to their 
+account. This is so the user can't change the endpoint to another
+username to access that users account. If a user tries to access another account
+through the endpoint, that users session ends and returns them to the index
+page."""
+@app.route('/my_recipes/<username>')
+def my_recipes(username):
+    pop_flask_message() # FUNCTION 3
+    if session['user'] == username:
+        user = mongo.db.user_details.find_one({"username": username})
+        user_recipes = mongo.db.recipe.find({"username": session['user']})
+        recipe_count = user_recipes.count()
+
+        return render_template(
+            'my_recipes.html',
+            user=user,
+            user_recipes=user_recipes,
+            cuisines_json=cuisines_json,
+            allergens_json=allergens_json,
+            recipe_count=recipe_count)
+
+    else:
+        session['flash-message-not-allowed'] = True
+        flash("There was an error in the last action. Please sign in again.")
+        if 'user' in session:
+            session.pop('user')
+        return redirect(url_for('index'))
+        
+# ///////////////////////////////////////////////////// UPDATE THE RECIPE VIEWS
+"""Before accessing a recipe the view is routed here, If the user is the one who
+added the recipe, the recipe view count won't increase. If a user has previously
+accessed the recipe, the view count will increase by one and a session variable 
+is set to that recipes name. If the recipe name is in session then the view 
+count won't increase"""
+
+@app.route('/update_view_count/<recipe_id>')
+def update_view_count(recipe_id):
+    recipe_name = mongo.db.recipe.find_one(
+        {'_id': ObjectId(recipe_id)}, {"name"})
+    recipe_name = find_value(recipe_name) # FUNCTION 1
+
+    recipe_views = mongo.db.recipe.find_one(
+        {'_id': ObjectId(recipe_id)}, {"views"})
+    recipe_author = mongo.db.recipe.find_one(
+        {'_id': ObjectId(recipe_id)}, {"username"})
+    count = find_value(recipe_views)  # FUNCTION 1
+    recipe_author = find_value(recipe_author)  # FUNCTION 1
+
+    if if_user_in_session() != recipe_author and recipe_name not in session:
+    # FUNCTION 2
+        session[recipe_name] = True 
+
+        if not count:
+            mongo.db.recipe.update_one({'_id': ObjectId(recipe_id)}, {
+                                       "$set": {"views": 1}}, upsert=True)
+
+        elif count >= 0:
+            mongo.db.recipe.update_one({'_id': ObjectId(recipe_id)}, {
+                "$set": {"views": count + 1}})
+
+        return redirect(url_for('single_recipe', recipe_id=recipe_id))
+
+    else:
+        return redirect(url_for('single_recipe', recipe_id=recipe_id))
+
+
+# ///////////////////////////////////////////////////////////////  SINGLE RECIPE
+""" A single recipe will be on this view. If a user is in session a few things 
+are enabled and disabled with a session variable and referenced with jinja. 
+A user in session has the ability to like recipes and a user not in session 
+won't be able too. Also if the user in session is also the user who contributed
+the recipe, they will have additional 'edit' and 'delete' buttons. """
+
+@app.route('/single_recipe/<recipe_id>')
+def single_recipe(recipe_id):
+    pop_flask_message() # FUNCTION 3
+    usernames = current_usernames() # FUNCTION 4
+    recipe_name = mongo.db.recipe.find_one(
+        {'_id': ObjectId(recipe_id)}, {"name"})
+        
+    the_recipe = mongo.db.recipe.find_one({"_id": ObjectId(recipe_id)})
+    username = if_user_in_session()  # FUNCTION 2
+
+    users_liked_recipes = mongo.db.user_details.find_one(
+        {"username": username}, {"liked_recipes"})
+
+    recipe = find_value(recipe_name) # FUNCTION 1
+
+    if if_user_in_session():# FUNCTION 2
+
+        if recipe in find_value(users_liked_recipes): # FUNCTION 1
+            session['recipe_liked'] = 1
+
+        else:
+            session['recipe_liked'] = 0
+        return render_template(
+            "single_recipe.html",
+            recipe_liked=session['recipe_liked'],
+            recipe=the_recipe,
+            cuisines_json=cuisines_json,
+            allergens_json=allergens_json,
+            username=username)
+
+    else:
+        session['recipe_liked'] = 2
+        return render_template(
+            "single_recipe.html",
+            recipe_liked=session['recipe_liked'],
+            recipe=the_recipe,
+            cuisines_json=cuisines_json,
+            allergens_json=allergens_json,
+            usernames=usernames)
 
 
 
-#----------------------------------**** FIND INGREDIENTS
+# //////////////////////////////////////////////////// SEARCHING RESULT (render)
+
+""" Returns all documents in alphabetical order. """
+@app.route("/all_recipes")
+def all_recipes():
+    pop_flask_message() # FUNCTION 3
+    usernames = current_usernames()# FUNCTION 4
+    session["search_title"] = 3
+    recipe_category = mongo.db.recipe.find(
+        {"$query": {}, "$orderby": {"name": 1}})
+
+    recipe_count = None
+    return render_template(
+        'search_results.html',
+        search_title=session["search_title"],
+        recipe_category=recipe_category,
+        cuisines_json=cuisines_json,
+        allergens_json=allergens_json,
+        recipe_count=recipe_count,
+        usernames=usernames)
+
+""" Returns any document by a word matching a value inside a recipes ingredients
+list and sort by most popular """
 @app.route("/find_ingredient", methods=['POST'])
 def find_ingredient():
-    pop_flask_message() 
-    usernames = current_usernames()
+    pop_flask_message() # FUNCTION 3
+    usernames = current_usernames()# FUNCTION 4
     session["search_title"] = 0
     recipe_category = mongo.db.recipe.find(
-        {"ingredients": {"$regex": request.form.get("ingredient_category"), "$options": 'i'}})
+        {"ingredients": {"$regex": request.form.get("ingredient_category"), "$options": 'i'}}).sort("likes",pymongo.DESCENDING)
     recipe_count = recipe_category.count()
     return render_template(
         'search_results.html',
         recipe_category=recipe_category,
         cuisines_json=cuisines_json,
         allergens_json=allergens_json,
+        recipe_count=recipe_count,
+        usernames=usernames)
+
+""" Returns any document by a cuisine selection in the search model
+and sort by most popular"""
+@app.route("/find_cuisine", methods=['POST'])
+def find_cuisine():
+    pop_flask_message() # FUNCTION 3
+    usernames = current_usernames()# FUNCTION 4
+    session["search_title"] = 0
+    recipe_category = mongo.db.recipe.find(
+        {"cuisine": request.form.get("cuisine_category").title()}).sort("likes",pymongo.DESCENDING)
+    recipe_count = recipe_category.count()
+    return render_template(
+        'search_results.html',
+        recipe_category=recipe_category,
+        cuisines_json=cuisines_json,
+        allergens_json=allergens_json,
+        recipe_count=recipe_count,
+        usernames=usernames)
+
+""" Returns any document not containing the allergen value in the search model
+and sort by most popular
+"""
+@app.route("/find_allergen", methods=['POST'])
+def find_allergen():
+    pop_flask_message() # FUNCTION 3
+    usernames = current_usernames()# FUNCTION 4
+    session["search_title"] = 0
+    recipe_category = mongo.db.recipe.find(
+        {"allergens": {"$nin": request.form.getlist("allergen_category")}}).sort("likes",pymongo.DESCENDING)
+    recipe_count = recipe_category.count()
+    return render_template(
+        'search_results.html',
+        recipe_category=recipe_category,
+        cuisines_json=cuisines_json,
+        allergens_json=allergens_json,
+        recipe_count=recipe_count,
+        usernames=usernames)
+
+""" Returns any document by the combination of ingredient, 
+cuisine and or allergen values and sort by most popular"""
+@app.route("/find_multiple_categories", methods=['POST'])
+def find_multiple_categories():
+    pop_flask_message() # FUNCTION 3
+    usernames = current_usernames()# FUNCTION 4
+    session["search_title"] = 0
+    ingredient = request.form.get("find_ingredient")
+    cuisine = request.form.get("find_cuisine").title()
+    allergens = request.form.getlist("find_allergen")
+
+    if cuisine == "" and not ingredient:
+        recipe_category = mongo.db.recipe.find(
+            {"allergens": {"$nin": allergens}}).sort("likes",pymongo.DESCENDING)
+
+    elif cuisine == "" and not allergens:
+        recipe_category = mongo.db.recipe.find(
+            {"ingredients": {"$regex": ingredient, "$options": 'i'}}).sort("likes",pymongo.DESCENDING)
+
+    elif not ingredient and not allergens:
+        recipe_category = mongo.db.recipe.find({"cuisine": cuisine}).sort("likes",pymongo.DESCENDING)
+
+    elif not ingredient and cuisine and allergens:
+        recipe_category = mongo.db.recipe.find(
+            {"$and": [{"cuisine": cuisine}, {"allergens": {"$nin": allergens}}]}).sort("likes",pymongo.DESCENDING)
+
+    elif ingredient and cuisine == "" and allergens:
+        recipe_category = mongo.db.recipe.find({"$and": [{"allergens": {"$nin": allergens}}, {
+                                               "ingredients": {"$regex": ingredient, "$options": 'i'}}]}).sort("likes",pymongo.DESCENDING)
+
+    elif ingredient and cuisine and not allergens:
+        recipe_category = mongo.db.recipe.find({"$and": [{"cuisine": cuisine}, {
+                                               "ingredients": {"$regex": ingredient, "$options": 'i'}}]}).sort("likes",pymongo.DESCENDING)
+
+    elif ingredient and cuisine and allergens:
+        recipe_category = mongo.db.recipe.find({"$and": [{"cuisine": cuisine},
+                                                         {"allergens": {"$nin": allergens}},
+                                                         {"ingredients": {"$regex": ingredient, "$options": 'i'}}]}).sort("likes",pymongo.DESCENDING)
+
+    recipe_count = recipe_category.count()
+    return render_template(
+        'search_results.html',
+        recipe_category=recipe_category,
+        recipe_count=recipe_count,
+        cuisines_json=cuisines_json,
+        allergens_json=allergens_json,
         usernames=usernames)
 
 
+# ////////////////////////////// ADD RECIPE(render) AND INSERT RECIPE(redirect)
+""" The route to the add recipes page"""
+@app.route("/add_recipe")
+def add_recipe():
+    return render_template(
+        "add_recipe.html",
+        cuisines_json=cuisines_json,
+        allergens_json=allergens_json)
 
+# Insert (redirect)
+""" Upon submmission of a form in the add recipes page, the form field 
+infomation is inserted into a document and into the recipe collection."""
 
+@app.route("/insert_recipe", methods=['POST'])
+def insert_recipe():
+    doc = recipe_database()
 
+    username = if_user_in_session()  # FUNCTION 2
 
+    mongo.db.recipe.insert_one(doc)
+    id_num = mongo.db.recipe.find_one(
+        {'name': request.form.get('name'), 'username': username})
+    
+    recipe_id = ""
+    for key, value in id_num.items():
+        if key == "_id":
+            recipe_id = ObjectId(value)
+   
+        
+    return redirect(url_for('single_recipe', recipe_id=recipe_id))
 
+# /////////////////////////////////////////////// EDIT RECIPE AND UPDATE RECIPE
+""" The route to the edit recipes page. It gets the recipe by the id to 
+display all that recipes information in the form fields."""
 
+@app.route('/edit_recipe/<recipe_id>')
+def edit_recipe(recipe_id):
 
+    the_recipe = mongo.db.recipe.find_one({"_id": ObjectId(recipe_id)})
+    return render_template(
+        'edit_recipe.html',
+        recipe=the_recipe,
+        cuisines_json=cuisines_json,
+        allergens_json=allergens_json)
+
+# Update (redirect)
+""" Upon submmission of a form in the edit recipes page, the document
+being edited is updated with the form field values. I also added that the recipe
+can only be updated if the user in session is 'admin' or the session user 
+matches the name of the user who contributed the recipe"""
+
+@app.route("/update_recipe/<recipe_id>", methods=['POST'])
+def update_recipe(recipe_id):
+
+    username = if_user_in_session()  # FUNCTION 2
+
+    author = mongo.db.recipe.find_one({'_id': ObjectId(recipe_id)})
+    contributer = ""
+    for key, value in author.items():
+        if key == "username":
+            contributer = value
+
+    if username == contributer or username == "admin":
+        mongo.db.recipe.update_many({'_id': ObjectId(recipe_id)}, {
+                                    "$set": recipe_database()})
+
+        id_num = mongo.db.recipe.find_one(
+            {'name': request.form.get('name'), 'username': username})
+
+        recipe_id = ""
+        for key, value in id_num.items():
+            if key == "_id":
+                recipe_id = ObjectId(value)
+
+        return redirect(url_for('single_recipe', recipe_id=recipe_id))
+    else:
+        session['flash-message-not-allowed'] = True
+        flash("There was an error in the last action. Please sign in again.")
+        if 'user' in session:
+            session.pop('user')
+        return redirect(url_for('index'))
+
+# ///////////////////////////////////////////////////////// DELETE RECIPE
+""" Upon a click of the delete comfirmation button, that recipes document is
+removed from the database. I also added that the recipe
+can only be deleted if the user in session is admin or the session user 
+matches the name of the user who contributed the recipe"""
+
+@app.route("/delete_recipe/<recipe_id>")
+def delete_recipe(recipe_id):
+    username = if_user_in_session() # FUNCTION 2
+
+    author = mongo.db.recipe.find_one({'_id': ObjectId(recipe_id)})
+    contributer = ""
+    for key, value in author.items():
+        if key == "username":
+            contributer = value
+
+    if username == contributer or username == "admin":
+
+        mongo.db.recipe.remove({'_id': ObjectId(recipe_id)})
+        return redirect(url_for('my_recipes', username=username))
+        
+    else:
+        session['flash-message-not-allowed'] = True
+        flash("There was an error in the last action. Please sign in again.")
+        if 'user' in session:
+            session.pop('user')
+        return redirect(url_for('index'))
 
 
 

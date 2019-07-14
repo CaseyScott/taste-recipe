@@ -183,7 +183,7 @@ a:hover {
   background-color: rgba(255, 255, 255, .95);
   margin: 0 auto;
   border-radius: 10px;
-  border: 2px solid rgba(255, 165, 0, 1)
+  
 }
 
 .inner-register-page h2,
@@ -258,7 +258,7 @@ nav  {
     text-align: center;
     display: inline-block;
     width: 150px;
-    border: 2px solid orange;
+    
     border-radius: 10px;
     padding: 2px 3px;
     margin: 0 3px;
@@ -294,7 +294,7 @@ nav  {
     text-align: left;
     border-radius: 10px;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 1);
-    border: 2px solid rgba(255, 165, 0, 1);
+    
 }
 
 @media (max-width: 767px) {
@@ -384,7 +384,7 @@ nav  {
   text-align: center;
   display: inline-block;
   width: 150px;
-  border: 2px solid orange;
+  
   border-radius: 10px;
   padding: 2px 3px;
   margin: 0 3px;
