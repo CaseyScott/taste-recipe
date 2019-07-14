@@ -1,7 +1,11 @@
 {% extends 'base.html' %} {% block nav %} {% include 'navbar.html' %} {% endblock %} {% block content %}
 
-<div class="overlay-black"></div>
-<main class="container home-container">
+
+<div id="container">
+    <div id="main">
+
+    
+
     
     
     {% if 'flash-message-not-allowed' in session %} {% with messages = get_flashed_messages()%} {% if messages %} {% for message in messages %}
@@ -40,5 +44,7 @@
         
     </div>
 
-</main>
+
+    </div>
+</div>
 {% endblock %} {% block footer %} {% include 'footer.html' %} {% endblock %} 

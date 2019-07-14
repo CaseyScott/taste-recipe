@@ -7,6 +7,8 @@ from bson.objectid import ObjectId
 
 app = Flask(__name__)
 
+#config.py file set to ignore by gitignore.
+#config vars set up in heroku
 if app.debug == True:
     import config
     app.config["MONGO_DBNAME"] = config.DB_CONFIG["MONGO_DBNAME"]
@@ -18,11 +20,6 @@ else:
     app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 
 
-"""
-app.config['MONGO_DBNAME'] = 'data'
-app.config['MONGO_URI'] = ('mongodb+srv://casey:rOOtUser@cluster0-uoefk.mongodb.net/data?retryWrites=true&w=majority')"""
-
-
 mongo = PyMongo(app)
 
 
@@ -31,7 +28,6 @@ mongo = PyMongo(app)
 cuisines_json = []
 with open("data/cuisine_category.json", "r") as file:
     cuisines_json = json.load(file)
-
 
 
 # List of the allergen categories
@@ -70,8 +66,7 @@ def registration_form():
         "last_name": request.form.get('register_last_name'),
         "username": request.form.get('register_username'),
         "email": request.form.get('register_email'),
-        "password": request.form.get('register_password'),
-        "liked_recipes": []
+        "password": request.form.get('register_password')
     }
     return data
 """
