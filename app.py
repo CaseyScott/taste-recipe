@@ -9,9 +9,9 @@ app = Flask(__name__)
 
 if app.debug == True:
     import config
+    app.config["MONGO_DBNAME"] = config.DB_CONFIG["MONGO_DBNAME"]
+    app.config["MONGO_URI"] = config.DB_CONFIG["MONGO_URI"]
     app.secret_key = config.DB_CONFIG['SECRET_KEY']
-    app.config["MONGO_DBNAME"] = config.DB_CONFIG['MONGO_DBNAME']
-    app.config["MONGO_URI"] = config.DB_CONFIG['MONGO_URI']
 else:
     app.secret_key = os.environ.get('SECRET_KEY')
     app.config["MONGO_DBNAME"] = os.environ.get("MONGO_DBNAME")
@@ -585,24 +585,5 @@ def delete_recipe(recipe_id):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 if __name__ == '__main__':
-    app.run(
-            debug=True)
+    app.run(debug=True)
