@@ -130,7 +130,6 @@ html, body {
 #footer {
   position: relative;
   background-color: hsl(209, 61%, 16%); /*darkest*/
-  /*
   height: 80px;
   margin-top: -80px
   clear;
@@ -143,4 +142,21 @@ html, body {
   text-align: center;
   color: red;
   margin: 0;
+}
+
+/* -----------------------------------buttons */
+.btn_del {
+  text-decoration: none;
+  color: #fff;
+  background-color: red;
+  text-align: center;
+  letter-spacing: .5px;
+}
+
+.btn_edit {
+  text-decoration: none;
+  color: #fff;
+  background-color: blue;
+  text-align: center;
+  letter-spacing: .5px;
 }
