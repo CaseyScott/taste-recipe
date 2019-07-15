@@ -24,10 +24,14 @@ mongo = PyMongo(app)
 
 
 
+mongo = PyMongo(app)
+
+
 # List of the cuisine categories
 cuisines_json = []
 with open("data/cuisine_category.json", "r") as file:
     cuisines_json = json.load(file)
+
 
 
 # List of the allergen categories
@@ -36,8 +40,9 @@ with open("data/allergen_category.json", "r") as file:
     allergens_json = json.load(file)
     
 """
- Data added to or edited in mongodb on recipe form submission. 
- Additionally on the add_recipes route. The user in session has their unique username added to the recipe.
+ Data added to or edited in mlabs on recipe form submission. 
+ Additionally on the add_recipes route, recipe_views and recipe_likes are set 
+ to 0. The user in session has their unique username added to the recipe.
  """
 def recipe_database():
     data = {
@@ -57,16 +62,18 @@ def recipe_database():
     return data
 
 
-""" New user details sent to mongodb on user registration form submission.
+""" New user details sent to mlabs on user registration form submission.
 Every user will have a unique username"""
 def registration_form():
     data = {
+        "first_name": request.form.get('register_first_name'),
+        "last_name": request.form.get('register_last_name'),
         "username": request.form.get('register_username'),
         "email": request.form.get('register_email'),
-        "password": request.form.get('register_password')
+        "password": request.form.get('register_password'),
+        "liked_recipes": []
     }
     return data
-
 """
 FUNCTION 1
 A function to return a specific field value after performing a query search"""
@@ -86,7 +93,6 @@ def if_user_in_session():
     if 'user' in session:
         username = session['user']
     return username
-
 """
 FUNCTION 3
 Removes the session variable if it's in session."""
@@ -96,7 +102,7 @@ def pop_flask_message():
         
 """
 FUNCTION 4
-returns a list of the current usernames in the mongodb database. Used in the 
+returns a list of the current usernames in the mlab database. Used in the 
 base.html and combined with jinja and javascript to tell the user on
 registration from submission, whether the requested username is taken or not."""
 def current_usernames():
@@ -109,7 +115,7 @@ def current_usernames():
                 items.append(value)  
     return items
     
-# ///////////////////////////////// INDEX (render)
+# /////////////////////////////////////////////////////////////// INDEX (render)
 """ Returns 5 random pictures from any recipe added by admin """
 @app.route("/")
 def index():
@@ -120,11 +126,11 @@ def index():
     return render_template('index.html', recipes=recipes, usernames=usernames)
 
 
-# /////////////////////////////////////////////// REGISTER
+# ///////////////////////////////////////////////////////////////////// REGISTER
 """On registration if the passwords don't match or the requested username 
 already exists in the database, return the user to the index page. If the 
 passwords match and the requested username doesn't exist, than send the 
-register form information to the mongo database. Upon a successful 
+register form information to the mlab database. Upon a successful 
 registration, a session['user'] variable is set to what the requested 
 username is."""
 
@@ -159,7 +165,7 @@ def register():
         return redirect(request.referrer)
 
 
-# /////////////////////////////////////// SIGN IN
+# /////////////////////////////////////////////////////////////////// SIGN IN
 """ verifies that the posted username and password from the sign in form
 matches the username and password stored in the database.
 Upon a successful sign in, a session['user'] variable is set to what the
@@ -212,6 +218,10 @@ alphabetical order."""
 @app.route("/recipes")
 def recipes():
     usernames = current_usernames() # FUNCTION 4
+    most_popular_recipes = mongo.db.recipe.find(
+        {"$query": {}, "$orderby": {"likes": -1}}).limit(4)
+    new_recipes = mongo.db.recipe.find(
+        {"$query": {}, "$orderby": {"submit_date": -1}}).limit(4)
     all_recipes = mongo.db.recipe.find(
         {"$query": {}, "$orderby": {"name": 1}}).limit(4)
 
@@ -220,6 +230,8 @@ def recipes():
     return render_template(
         'recipes.html',
         all_recipes=all_recipes,
+        new_recipes=new_recipes,
+        most_popular_recipes=most_popular_recipes,
         cuisines_json=cuisines_json,
         allergens_json=allergens_json,
         usernames=usernames)
@@ -341,8 +353,94 @@ def single_recipe(recipe_id):
             usernames=usernames)
 
 
+# ///////////////////////////////////////////////////////////////UPDATE LIKES
+""" If the user presses the heart icon on the recipe page they are redirected to
+this route. If the user is also the recipe contributer than the like count won't 
+increase. A normal user will add 1 like to the recipe document and add that 
+recipes name to their user document. If the user already has the recipe name in
+their document, the user will be directed back to the recipe page without
+increasing the count."""
+@app.route('/update_like/<recipe_id>')
+def update_like(recipe_id):
+
+    try:
+        username = if_user_in_session()# FUNCTION 2
+
+        recipe_name = mongo.db.recipe.find_one(
+            {'_id': ObjectId(recipe_id)}, {"name"})
+        recipe_likes = mongo.db.recipe.find_one(
+            {'_id': ObjectId(recipe_id)}, {"likes"})
+        recipe_author = mongo.db.recipe.find_one(
+            {'_id': ObjectId(recipe_id)}, {"username"})
+        users_liked_recipes = mongo.db.user_details.find_one(
+            {"username": username}, {"liked_recipes"})
+
+        recipe_name = find_value(recipe_name) # FUNCTION 1
+        recipe_author = find_value(recipe_author)  # FUNCTION 1
+        recipe_likes = find_value(recipe_likes)  # FUNCTION 1
+
+        if username != recipe_author and recipe_name not in find_value(
+                users_liked_recipes):  # FUNCTION 1
+
+            mongo.db.user_details.update({'username': username}, {"$push": {
+                                         "liked_recipes": recipe_name}},
+                                         upsert=True)
+
+            if not recipe_likes:
+                mongo.db.recipe.update_one({'_id': ObjectId(recipe_id)}, {
+                                           "$set": {"likes": 1}}, upsert=True)
+
+            elif recipe_likes >= 0:
+                mongo.db.recipe.update_one({'_id': ObjectId(recipe_id)}, {
+                    "$set": {"likes": recipe_likes + 1}})
+
+            return redirect(url_for('single_recipe', recipe_id=recipe_id))
+
+        else:
+            return redirect(url_for('single_recipe', recipe_id=recipe_id))
+    except BaseException:
+        return redirect(url_for('single_recipe', recipe_id=recipe_id))
 
 # //////////////////////////////////////////////////// SEARCHING RESULT (render)
+""" Routes triggered on submission of a filled out search model. This finds any 
+document matching specific values in the recipe collection."""
+
+
+""" Returns the top 10 documents with the most recipe likes """
+@app.route("/most_popular_recipes")
+def most_popular_recipes():
+    pop_flask_message() # FUNCTION 3
+    usernames = current_usernames() # FUNCTION 4
+    recipe_category = mongo.db.recipe.find(
+        {"$query": {}, "$orderby": {"likes": -1}}).limit(10)
+    recipe_count = None
+    session["search_title"] = 1
+    return render_template(
+        'search_results.html',
+        search_title=session["search_title"],
+        recipe_category=recipe_category,
+        cuisines_json=cuisines_json,
+        allergens_json=allergens_json,
+        recipe_count=recipe_count,
+        usernames=usernames)
+
+""" Returns the 10 most recently add recipes """
+@app.route("/new_recipes")
+def new_recipes():
+    pop_flask_message() # FUNCTION 3
+    usernames = current_usernames() # FUNCTION 4
+    session["search_title"] = 2
+    recipe_category = mongo.db.recipe.find(
+        {"$query": {}, "$orderby": {"submit_date": -1}}).limit(10)
+    recipe_count = None
+    return render_template(
+        'search_results.html',
+        search_title=session["search_title"],
+        recipe_category=recipe_category,
+        cuisines_json=cuisines_json,
+        allergens_json=allergens_json,
+        recipe_count=recipe_count,
+        usernames=usernames)
 
 """ Returns all documents in alphabetical order. """
 @app.route("/all_recipes")
@@ -482,6 +580,8 @@ infomation is inserted into a document and into the recipe collection."""
 
 @app.route("/insert_recipe", methods=['POST'])
 def insert_recipe():
+    local_time = pytz.timezone('Australia/Adelaide')
+    adelaide_now = str(datetime.now(local_time).strftime('%Y-%m-%d %H:%M:%S'))
     doc = recipe_database()
 
     username = if_user_in_session()  # FUNCTION 2
@@ -494,7 +594,13 @@ def insert_recipe():
     for key, value in id_num.items():
         if key == "_id":
             recipe_id = ObjectId(value)
-   
+    mongo.db.recipe.update_one({'_id': ObjectId(recipe_id)}, {
+        "$set": {"views": 0}}, upsert=True)
+    mongo.db.recipe.update_one({'_id': ObjectId(recipe_id)}, {
+        "$set": {"likes": 0}}, upsert=True)
+        
+    mongo.db.recipe.update_one({'_id': ObjectId(recipe_id)}, {
+        "$set": {"submit_date":adelaide_now}}, upsert=True)
         
     return redirect(url_for('single_recipe', recipe_id=recipe_id))
 
@@ -576,6 +682,7 @@ def delete_recipe(recipe_id):
         if 'user' in session:
             session.pop('user')
         return redirect(url_for('index'))
+
 
 
 

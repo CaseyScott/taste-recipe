@@ -45,7 +45,7 @@ hsl(210, 36%, 96%) lightest
 
 
 
-
+/*
 body {
   position: relative;
   height: 100%;
@@ -86,8 +86,9 @@ h5,
 h6 {
   font-family: 'Roboto', sans-serif;
 }
-
+*/
 /*--------------------------------------- nav bar */
+/*
 nav .brand-logo{
   position: absolute;
   color: #fff;
@@ -95,21 +96,23 @@ nav .brand-logo{
   font-size: 2.1rem;
   padding: 0;
   background-color: hsl(209, 61%, 16%); /*darkest*/
+  /*
   margin-left: 20px;
-}
-
+}*/
+/*
 nav  {
   color: #fff;
   background-color: hsl(209, 61%, 16%); /*darkest*/
+  /*
   width: 100%;
   height: 56px;
   line-height: 56px;
 }
 
 
-
 /*---------------------------------------- footer */
 /* ------sticky footer---- */
+/*
 * {
   margin: 0;
   padding: 0;
@@ -131,62 +134,10 @@ html, body {
 #footer {
   position: relative;
   background-color: hsl(209, 61%, 16%); /*darkest*/
+  /*
   height: 80px;
   margin-top: -80px
   clear;
 }
 /* ------sticky footer---- */
-
-
-
-footer, container-fluid centering {
- 
-  background-color: hsl(209, 61%, 16%); /*darkest*/
-  height: 80px;
-  width: 100%;
-  margin-top: 20px;
-  bottom: 0;
-  text-align: center;;
-}
-
-#github-icon {
-  color: #fff;
-  font-size: 35px;
-  margin-top: 10px;
-}
-
-.web-developer {
-  color: #fff;
-  margin: 0;
-}
-
-/*---------------------------------------body*/
-
-
-
-
-
-
-
-/*------------------------------------Add recipe page*/
-
- .main-container {
-  color: hsl(209, 34%, 30%); /*8*/
- }
-
-.input-field label {
-  color: hsl(209, 34%, 30%); /*8*/
-} 
-
-.btn {            /*.btn may need to be renamed for other buttons */
-  text-decoration: none;
-  color: #fff;
-  background-color: hsl(185, 62%, 45%); /*6*/
-  margin-left: 20px;
-}
-
-
-
-/*------------------------------------ALL recipes page*/
-
 
