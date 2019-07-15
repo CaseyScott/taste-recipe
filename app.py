@@ -36,9 +36,8 @@ with open("data/allergen_category.json", "r") as file:
     allergens_json = json.load(file)
     
 """
- Data added to or edited in mlabs on recipe form submission. 
- Additionally on the add_recipes route, recipe_views and recipe_likes are set 
- to 0. The user in session has their unique username added to the recipe.
+ Data added to or edited in mongodb on recipe form submission. 
+ Additionally on the add_recipes route. The user in session has their unique username added to the recipe.
  """
 def recipe_database():
     data = {
@@ -58,17 +57,16 @@ def recipe_database():
     return data
 
 
-""" New user details sent to mlabs on user registration form submission.
+""" New user details sent to mongodb on user registration form submission.
 Every user will have a unique username"""
 def registration_form():
     data = {
-        "first_name": request.form.get('register_first_name'),
-        "last_name": request.form.get('register_last_name'),
         "username": request.form.get('register_username'),
         "email": request.form.get('register_email'),
         "password": request.form.get('register_password')
     }
     return data
+
 """
 FUNCTION 1
 A function to return a specific field value after performing a query search"""
@@ -88,6 +86,7 @@ def if_user_in_session():
     if 'user' in session:
         username = session['user']
     return username
+
 """
 FUNCTION 3
 Removes the session variable if it's in session."""
@@ -97,7 +96,7 @@ def pop_flask_message():
         
 """
 FUNCTION 4
-returns a list of the current usernames in the mlab database. Used in the 
+returns a list of the current usernames in the mongodb database. Used in the 
 base.html and combined with jinja and javascript to tell the user on
 registration from submission, whether the requested username is taken or not."""
 def current_usernames():
@@ -110,7 +109,7 @@ def current_usernames():
                 items.append(value)  
     return items
     
-# /////////////////////////////////////////////////////////////// INDEX (render)
+# ///////////////////////////////// INDEX (render)
 """ Returns 5 random pictures from any recipe added by admin """
 @app.route("/")
 def index():
@@ -121,11 +120,11 @@ def index():
     return render_template('index.html', recipes=recipes, usernames=usernames)
 
 
-# ///////////////////////////////////////////////////////////////////// REGISTER
+# /////////////////////////////////////////////// REGISTER
 """On registration if the passwords don't match or the requested username 
 already exists in the database, return the user to the index page. If the 
 passwords match and the requested username doesn't exist, than send the 
-register form information to the mlab database. Upon a successful 
+register form information to the mongo database. Upon a successful 
 registration, a session['user'] variable is set to what the requested 
 username is."""
 
@@ -160,7 +159,7 @@ def register():
         return redirect(request.referrer)
 
 
-# /////////////////////////////////////////////////////////////////// SIGN IN
+# /////////////////////////////////////// SIGN IN
 """ verifies that the posted username and password from the sign in form
 matches the username and password stored in the database.
 Upon a successful sign in, a session['user'] variable is set to what the

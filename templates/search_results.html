@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% block content %}{% block nav %} {% endblock %} {% block content %}
 
 <main class="container main-container margin-top-20">
     <div class="row">
@@ -12,9 +12,9 @@
         
     </div>
     <!--FORMS FOR SEARCHING CRITERIA BY CUISINE, ALLERGEN OR INGREDIENT -->
-    {% block search_menu %}
-	{% include 'search_menu.html' %}
-	{% endblock search_menu %} 
+    {% block search_form %}
+	{% include 'search_form.html' %}
+	{% endblock search_form %} 
     
     <!--THE COUNT AS TO HOW MANY RECIPES WERE FOUND--> 
     <div class="row">
@@ -91,4 +91,4 @@
 
 
 
-{% endblock %}
+{% endblock %} {% block footer %} {% endblock %}

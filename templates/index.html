@@ -4,29 +4,25 @@
 <div id="container">
     <div id="main">
 
-    
+        <div class="carousel">
+            <a class="carousel-item" href="#one!"><img src="https://www.themealdb.com/images/media/meals/cuio7s1555492979.jpg"></a>
 
-    
-    
-    {% if 'flash-message-not-allowed' in session %} {% with messages = get_flashed_messages()%} {% if messages %} {% for message in messages %}
-                    <p class=" center flash-message">{{ message }}</p>
+            <a class="carousel-item" href="#two!"><img src="https://www.themealdb.com/images/media/meals/thazgm1555350962.jpg"></a>
 
-                    {% endfor %} {% endif %} {% endwith %} {% endif %}
+            <a class="carousel-item" href="#three!"><img src="https://www.themealdb.com/images/media/meals/x2fw9e1560460636.jpg"></a>
 
-    <div class="row center recipe-display index-image-row">
-    {% for recipe in recipes %}
-    
-        <div class="col-xs-12 box add-class center ">
+            <a class="carousel-item" href="#four!"><img src="https://www.themealdb.com/images/media/meals/8x09hy1560460923.jpg"></a>
+
+            <a class="carousel-item" href="#five!"><img src="https://www.themealdb.com/images/media/meals/t3r3ka1560461972.jpg"></a>
             
-            <div class="col-xs-12 display-image">
-                <a href="{{ url_for('update_view_count', recipe_id=recipe._id)}}"><img class="displayed-image" src="{{ recipe.image }}" alt="{{ recipe.name }}"></a>
-                <div class="overlay">
-                    <h3 class="overlay-image-heading">{{ recipe.name }}</h3>
-                </div>
-            </div>
         </div>
-        
-    {% endfor%}
+                      
+
+
+
+
+
+
     </div>
     <div class="row index-tagline-row">
         <div class="col-xs-12 center">
@@ -47,4 +43,15 @@
 
     </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.collapsible').collapsible();
+        $('select').material_select();
+        $(".button-collapse").sideNav();
+        $('.carousel').carousel();
+    });
+</script>
 {% endblock %} {% block footer %} {% include 'footer.html' %} {% endblock %} 
