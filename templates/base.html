@@ -3,7 +3,9 @@
 
 <head>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
     <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}" type="text/css" />
 </head>
 
@@ -14,12 +16,12 @@
                 <a href="{{url_for('get_recipes')}}" class="brand-logo">Taste</a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="{{url_for('get_recipes')}}">Home</a></li>
+                    <li><a href="{{url_for('get_recipes')}}">Recipes</a></li>
                     <li><a href="{{url_for('add_recipe')}}">New recipe</a></li>
                     <li><a href="{{url_for('get_categories')}}">Manage Categories</a></li>
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
-                    <li><a href="{{url_for('get_recipes')}}">Home</a></li>
+                    <li><a href="{{url_for('get_recipes')}}">Recipes</a></li>
                     <li><a href="{{url_for('add_recipe')}}">New recipe</a></li>
                     <li><a href="{{url_for('get_categories')}}">Manage Categories</a></li>
                 </ul>

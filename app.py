@@ -33,7 +33,6 @@ with open("data/cuisine_category.json", "r") as file:
     cuisines_json = json.load(file)
 
 
-
 # List of the allergen categories
 allergens_json = []
 with open("data/allergen_category.json", "r") as file:
@@ -41,6 +40,10 @@ with open("data/allergen_category.json", "r") as file:
     
 
 @app.route('/')
+def home():
+    return render_template('home.html')
+
+
 @app.route('/get_recipes')
 def get_recipes():
     return render_template('recipes.html', recipes=mongo.db.recipes.find())
