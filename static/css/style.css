@@ -368,3 +368,9 @@ table {
 
 }
 /* End of media queries for min width of 768px max width of 991px */
+
+@media only screen and (min-width: 993px){
+.container {
+  width: 75%;
+}
+}
