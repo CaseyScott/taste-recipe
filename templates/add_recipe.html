@@ -7,97 +7,104 @@
         <div class="center col-xs-12">
         <form name="add_form" onSubmit="return valid_image()" class="" action="{{url_for('insert_recipe')}}" method="POST">
         
-            <!--recipe name-->
-            <fieldset>
-                <legend>Recipe Name</legend>
-                <input required type="text" name="name" id="name" placeholder="Name" class="" />
-            </fieldset>
-                        
-            <!--Description-->
-            <fieldset>
-                <legend>Recipe Description</legend>
-                    <textarea required name="description"  id="description" placeholder="Recipe Description" class=""></textarea>
-            </fieldset>
+    
+<!--recipe name-->      
+            <div class="input-field col s12">
+                <input placeholder="Recipe Name" id="name" name="name" type="text" class="validate">
+                <label for="name">Recipe Name</label>
+            </div>
 
-            <!--Ingredients-->
-            <fieldset id="ingredients_fieldset">
-                <legend>Ingredients</legend>
-                    <input required type="text" name="ingredient" class="ingredients" id="ingredients" placeholder="Ingredient" /><br>
+
+<!--Recipe Description-->      
+            <div class="input-field col s12">
+                <textarea placeholder="Recipe Description" id="description"
+                class="materialize-textarea"></textarea>
+                <label for="description">Recipe Description</label>
+            </div>
+
+
+<!--Ingredients-->      
+            <div class="input-field col s12">
+                    <input placeholder="Ingredients" id="instructions" name="instructions" type="text" class="validate">
+                    <label for="instructions">Ingredients</label>
                     <div class="spacer inline"></div>
                     <i id="firsta" class="material-icons first-add duplicate pointer">add</i>
-            </fieldset>
+            </div>
 
-            <!--Instructions-->
-            <fieldset id="instructions_fieldset">
-                <legend>Instructions</legend>
-                    <input required type="text" name="instruction" class="instructions" id="instructions" placeholder="Instruction" /><br>
+
+<!--Instructions-->      
+            <div class="input-field col s12">
+                    <input placeholder="Instructions" id="Instructions" name="Instructions" type="text" class="validate">
+                    <label for="name">Instructions</label>
                     <div class="spacer inline"></div>
-                    <i id="firstb" class="material-icons first-add duplicate pointer">add</i>
-            </fieldset>
-                                                            
-            <!--Image-->
-            <fieldset>
-                <legend>Image</legend>
-                    <input required oninput="return checkImageExists()" type="url" name="image" id="image" placeholder="http://url" />
-            </fieldset>
-                                        
-            <!--cuisine-->
-            <fieldset id="cuisine_fieldset">
-                <legend>Cuisine</legend>
-                    <div class="cuisine_container">
-                        <select required name="cuisine" class="cuisine" id="cuisine">
-                        <option disabled selected value="">Choose your option</option>
-        <!-- pulls items from mongo db data database from cuisine collection and sorts alphabeticly -->
-                        {% for item in cuisine_json.cuisine|sort %}
+                    <i id="firsta" class="material-icons first-add duplicate pointer">add</i>
+            </div>
+
+
+<!--image-->      
+            <div class="input-field col s12">
+                    <input placeholder="http://url" id="Image" name="Image" type="url" class="validate">
+                    <label for="name">Image</label>
+            </div>
+
+
+<!--cuisine-->
+            <div class="input-field col s12">
+                    
+                    <select>
+                      <option value="" disabled selected>Choose your option</option>
+ <!-- pulls items from mongo db data database from cuisine collection and sorts alphabeticly -->
+                    {% for item in cuisine_json.cuisine|sort %}
                         <option value="{{ item }}">{{ item| title }}</option>
-                        {% endfor %}
-                        </select>
-                        <i id="add_cuisine" class="material-icons duplicate_select pointer">add</i>
+                    {% endfor %}
+                    <label>Cuisine</label>
+                    </select>
+                    
+            </div>
+
+
+<!--allergen-->
+            <div class="input-field col s12">
+                <select>
+                    {% for item in allergens_json.allergens %}
+                    <div class='allergen_checkbox'>
+                        <p>
+                        <input type="checkbox" id="{{ item }}">
+                        </p>
                     </div>
-            </fieldset>
+                    {% endfor %}
+                </select>
+                <label for="{{ item }}">Allergens</label>
+            </div>
                                         
-            <!--Allergens-->
-            <fieldset id="allergen_fieldset">
-                <legend>Allergens</legend>
-                    <div class="allergens_container">
-                        {% for item in allergens_json.allergens %}
-                        <div class='allergen_checkbox'>
-                            <input class="{{ item }}"  name="allergens" type="checkbox" value="{{ item }}">
-                                <p class="{{ item }}1">{{ item }}</p>
-                        </div>
-                        {% endfor%}
-                    </div>
-            </fieldset>
+<!--Preperation time-->      
+            <div class="input-field col s12">
+                    <input placeholder="Preperation Time" id="prep" name="prep" type="text" class="validate">
+                    <label for="prep">Preperation time</label>
+            </div>                          
                                         
-            <!--Prep time-->                
-            <fieldset>
-                <legend>Prep Time</legend>
-                    <input required type="text" name="prep_time" id="prep_time" placeholder="Prep Time" />
-            </fieldset>
+<!--Cooking time-->      
+            <div class="input-field col s12">
+                    <input placeholder="Cooking time" id="cook" name="cook" type="text" class="validate">
+                    <label for="cook">Cooking time</label>
+            </div>
                                         
-            <!--Cook time--> 
-            <fieldset>
-                <legend>Cook Time</legend>
-                    <input required type="text" name="cook_time" id="cook_time" placeholder="Cook Time" />
-            </fieldset>
+<!--Servings-->      
+            <div class="input-field col s12">
+                    <input placeholder="Servings" id="servings" name="servings" type="text" class="validate">
+                    <label for="servings">Servings</label>
+            </div>
                                         
-            <!--recipe yield-->
-            <fieldset>
-                <legend>Recipe Yield</legend>
-                    <input required type="number" name="recipe_yield" id="recipe_yield" placeholder="Servings" />
-            </fieldset>
+<!--Author-->      
+            <div class="input-field col s12">
+                    <input placeholder="Author" id="author" name="author"" type="text" class="validate">
+                    <label for="author">Author</label>
+            </div>
                                         
-            <!--Author-->
-            <fieldset>
-                <legend>Author</legend>
-                    <input required type="text" value="" name="author" id="author" placeholder="Author" />
-            </fieldset>
-                                        
-                                        
-            <!--Submit-->
+<!--Submit Save button-->
             <div class="center margin-bottom-20">
                 <p id="image-validation"></p>
-                    <input class="inline" type="submit" value="Save" />
+                    <input class="inline" type="submit" value="Save"/>
             </div>
         </form>
         </div>
