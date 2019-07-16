@@ -255,6 +255,10 @@ textarea {
 }
 
 /*-------------- cuisine, ingredients and instruction section */
+.add-recipe-title{
+  text-align: center;
+}
+
 .cuisine,
 .ingredients,
 .instructions {
