@@ -24,13 +24,10 @@ mongo = PyMongo(app)
 
 
 
-mongo = PyMongo(app)
-
-
 # List of the cuisine categories
-cuisines_json = []
+cuisine_json = []
 with open("data/cuisine_category.json", "r") as file:
-    cuisines_json = json.load(file)
+    cuisine_json = json.load(file)
 
 
 # List of the allergen categories
@@ -51,7 +48,10 @@ def get_recipes():
    
 @app.route('/add_recipe')
 def add_recipe():
-    return render_template('add_recipe.html', categories=mongo.db.categories.find())
+    return render_template(
+        "add_recipe.html",
+        cuisine_json=cuisine_json,
+        allergens_json=allergens_json)
    
    
 @app.route('/insert_recipe', methods=['POST'])
@@ -127,7 +127,22 @@ def insert_category():
 def new_category():
     return render_template('addcategory.html')
 
-
+def recipe_database():
+    data = {
+        "name": request.form.get('name'),
+        "cuisine": request.form.getlist('cuisine'),
+        "allergens": request.form.getlist('allergens'),
+        "description": request.form.get('description'),
+        "ingredients": request.form.getlist('ingredient'),
+        "instructions": request.form.getlist('instruction'),
+        "prep_time": request.form.get('prep_time'),
+        "cook_time": request.form.get('cook_time'),
+        "recipe_yield": request.form.get('recipe_yield'),
+        "author": request.form.get('author'),
+        "image": request.form.get('image'),
+        "username": session['user']
+    }
+    return data
 
 
 

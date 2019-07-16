@@ -16,7 +16,7 @@
                 <div class="cuisine_container">
                     <select required name="cuisine" class="cuisine" id="cuisine">
                     <option disabled selected value="">Choose your option</option>
-                    {% for item in cuisines|sort %}
+                    {% for item in cuisine_json.cuisine|sort %}
                     <option value="{{ item }}">{{ item| title }}</option>
                     {% endfor %}
                     </select>
@@ -28,7 +28,7 @@
         <fieldset id="allergen_fieldset">
             <legend>Allergens</legend>
                 <div class="allergens_container">
-                    {% for item in allergens %}
+                    {% for item in allergens_json.allergens %}
                     <div class='allergen_checkbox'>
                         <input class="{{ item }}"  name="allergens" type="checkbox" value="{{ item }}">
                             <p class="{{ item }}1">{{ item }}</p>

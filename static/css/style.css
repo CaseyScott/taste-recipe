@@ -153,3 +153,62 @@ footer {
   text-align: center;
   letter-spacing: .5px;
 }
+
+/*-------------------------------------Forms*/
+legend {
+  text-align: left;
+}
+
+input[type=checkbox] {
+  height: 17px;
+  width: 17px;
+}
+
+input:not([type=checkbox]):not([type=submit]) {
+  border-radius: 6px;
+}
+
+form fieldset {
+  margin-bottom: 12px;
+}
+
+form legend {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+fieldset select,
+fieldset input:not([type=checkbox]):not([type=submit]) {
+    height: 30px;
+    width: 500px;
+}
+
+textarea {
+  display: inline-block;
+  width: 500px;
+  height: 150px;
+  border-radius: 6px;
+}
+
+/*------------------allergens section in form */
+.allergens_container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 500px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.allergen_checkbox {
+  width: 33%;
+  display: flex;
+}
+
+.allergen_checkbox input {
+  flex: 2;
+}
+
+.allergen_checkbox p {
+  flex: 3;
+  text-align: left;
+}
