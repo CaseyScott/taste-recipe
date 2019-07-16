@@ -335,7 +335,6 @@ textarea {
 
 .allergen_checkbox {
   width: 100%;
-
 }
 
 .spacer {
@@ -355,7 +354,7 @@ textarea {
 /* End of media queries for max width of 767px */
 
 /* media query for min width of 768px mac width of 991px */
-@media (min-width: 768px) and (max-width: 991px) {
+@media (min-width: 768px)  {
   fieldset select,
   fieldset input:not([type=checkbox]) {
       width: 500px;

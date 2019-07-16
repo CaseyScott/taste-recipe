@@ -146,20 +146,5 @@ def recipe_database():
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=True)

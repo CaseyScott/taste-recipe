@@ -65,18 +65,17 @@
 
 <!--allergen-->
             <div class="input-field col s12">
-                <select>
-                    {% for item in allergens_json.allergens %}
-                    <div class='allergen_checkbox'>
-                        <p>
-                        <input type="checkbox" id="{{ item }}">
-                        </p>
-                    </div>
-                    {% endfor %}
-                </select>
-                <label for="{{ item }}">Allergens</label>
+                <form action="#">
+                {% for item in allergens_json.allergens %}
+                    <p>
+                      <input type="checkbox" id="{{ item }}" />
+                      <label for="{{ item }}1">{{ item }}">Allergens</label>
+                    </p>
+                    
+                {% endfor %} 
             </div>
-                                        
+                    
+            
 <!--Preperation time-->      
             <div class="input-field col s12">
                     <input placeholder="Preperation Time" id="prep" name="prep" type="text" class="validate">
