@@ -1,11 +1,23 @@
 {% extends 'base.html' %} {% block content %}
+
+<main class="container main-container">
+    <div class="row">
+        <p class="recipe-heading">Recipes</p>
+    </div>
+
+{% block search_menu %}
+	{% include 'search_menu.html' %}
+	{% endblock search_menu %}
+
+
+
 <ul class="collapsible" data-collapsible="accordion">
     {% for recipe in recipes %}
     <li>
         <div class="collapsible-header">
 
             <div class="task_header col s9">
-                <strong>{{recipe.recipe_name}}</strong> - {{recipe.due_date}}
+                <strong>{{recipe.recipe_name}}</strong>
             </div>
 
             <div class="col s1">

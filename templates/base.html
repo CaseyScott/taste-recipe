@@ -2,6 +2,8 @@
 <html>
 
 <head>
+    <link rel="shortcut icon" href="#" />
+
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
@@ -84,24 +86,15 @@
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
 
                     <li><a href="{{url_for('home')}}">Home</a></li>
-
                     <li><a href="{{url_for('get_recipes')}}">Recipes</a></li>
-
                     {% if 'user' in session %}
                     <li><a href="{{url_for('my_recipes', username = session['user'])}}">My Recipes</a></li>
-
                     <li><a href="{{url_for('logout')}}">Log Out</a></li>
                     {% else %}
-
                     <li><a href="register-trigger">Register</a></li>
-
                     <li><a href="signin-trigger">Sign In</a></li>
                     {% endif %}
-
-
-
                     <li><a href="{{url_for('add_recipe')}}">Add Recipe</a></li>
-
                     <li><a href="{{url_for('get_categories')}}">Categories</a></li>
 
                 </ul>
@@ -111,17 +104,12 @@
                 <ul class="side-nav" id="mobile-demo">
 
                     <li><a href="{{url_for('home')}}">Home</a></li>
-
                     <li><a href="{{url_for('get_recipes')}}">Recipes</a></li>
-
                     {% if 'user' not in session %}
                     <li><p class="mobile-form-btn register-trigger">Register</p></li>
-
                     <li><p class=" mobile-form-btn signin-trigger">Sign In</p></li>
                     {% else %}
-
                     <li><a href="{{url_for('my_recipes', username = session['user'])}}">My Recipes</a></li>
-
                     <li><a href="{{url_for('logout')}}">Log Out</a></li>
                     {% endif %}
 
@@ -178,23 +166,22 @@
     return false;
         }
         }      	 
-    </script>
+</script>
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $('.collapsible').collapsible();
         $('select').material_select();
         $(".button-collapse").sideNav();
-        Materialize.updateTextFields();
         $('.dropdown-trigger').dropdown();
         $('select').formSelect();
+    });
 
     $(document).on("submit", "form1", function(e){
-              e.preventDefault();
-              alert('it works!');
-              return  false;
-          });    
-    });
+        e.preventDefault();
+        alert('it works!');
+        return  false;
+    });    
+
 
     function validateForm_Edit_recipe() {
               var x = document.forms["edit_recipe_form"]["file"].value;
@@ -212,7 +199,10 @@
         }
     }
 </script>
-
+ <script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery-3.4.1.min.js')}}"></script>
+ <script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery-ui-1.12.1/jquery-ui.min.js')}}"></script>
+ <script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery.js')}}"></script>
+ <script type="text/javascript" src="{{ url_for('static', filename='js/javascript.js')}}"></script>
 </body>
 
 </html>

@@ -79,7 +79,18 @@ nav a {      /* 3 lined button */
   color: hsl(186, 100%, 94%);
 }
 
-
+/* side nav styling */
+.side-nav li,
+.mobile-form-btn,
+.side-nav li>a {
+color: rgba(0,0,0,0.87);
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    height: 48px;
+    line-height: 48px;
+    padding: 0 32px;
+}
 
 /*---------------------------------------- footer */
 /* ------sticky footer---- */
@@ -233,15 +244,3 @@ footer {
 
 
 
-/* side nav styling */
-.side-nav li,
-.mobile-form-btn,
-.side-nav li>a {
-color: rgba(0,0,0,0.87);
-    display: block;
-    font-size: 14px;
-    font-weight: 500;
-    height: 48px;
-    line-height: 48px;
-    padding: 0 32px;
-}

@@ -1,18 +1,4 @@
 $(document).ready(function() {
-  
-  $('.collapsible').collapsible();
-  $('select').material_select();
-  $(".button-collapse").sideNav();
-  Materialize.updateTextFields();
-  $('.dropdown-trigger').dropdown();
-  $('select').formSelect();
-
-$(document).on("submit", "form1", function(e){
-          e.preventDefault();
-          alert('it works!');
-          return  false;
-      });    
-});
 
 /*Select cuisine on add and edit html*/
 
@@ -50,13 +36,13 @@ $(document).on("submit", "form1", function(e){
     $('.duplicate_select').prev().remove()
 
   }
-
+});
 
   /*REGISTER*/
   $('.register-close-btn').click(function() {
     $(this).parent().parent().parent().hide('fade', 500)
     $(window).off('scroll');
-
+  });
 
   $('.register-trigger').click(function() {
     $(".signin-page").hide('fade')
@@ -69,7 +55,7 @@ $(document).on("submit", "form1", function(e){
         $(window).scrollTop(current);
     });
 
-
+});
 
   $('.signin-trigger').click(function() {
     $(".register-page").hide('fade')

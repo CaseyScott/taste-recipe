@@ -27,6 +27,11 @@ mongo = PyMongo(app)
 def home():
     return render_template('home.html')
 
+    usernames = current_usernames()
+    recipes = mongo.db.recipes
+    
+    return render_template('index.html', recipes=recipes, usernames=usernames)
+
 #----------------------------------------------------Registion Form  
 def registration_form():
     data = {
@@ -113,7 +118,15 @@ def logout():
     session.pop('user')
     return redirect(url_for('index'))
 #------------------------------------------------------Log Out
-#--------------------------------------------------------User session functions
+#--------------------------------------------User session functions
+"""A function to return a specific field value after performing a query search"""
+def find_value(variable):
+    item = ""
+    for key, value in variable.items():
+        if key != "_id":
+            item = value
+    return item
+
 """User in session function: 
  A function to say that if the session['user'] variable is in session, 
  username will be what the session variable is. """
@@ -140,7 +153,7 @@ def current_usernames():
             if key == "username":
                 items.append(value)  
     return items
-#------------------------------------------------------------User session functions     
+#--------------------------------------User session functions     
 
 #--------------------------------------------------Recipes CRUD functionality
 @app.route('/get_recipes')
