@@ -60,13 +60,16 @@ def insert_recipe():
     recipes.insert_one(request.form.to_dict())
     return redirect(url_for('get_recipes'))
   
-    
+  
+"""Route for editing the recipes page, using the recipe id to display that recipes content from the form"""    
 @app.route('/edit_recipe/<recipe_id>')
 def edit_recipe(recipe_id):
-    the_recipe =  mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
-    all_categories =  mongo.db.categories.find()
-    return render_template('edit_recipe.html', recipe=the_recipe,
-                           categories=all_categories)
+    the_recipe =  mongo.db.recipe.find_one({"_id": ObjectId(recipe_id)})
+    return render_template(
+        'edit_recipe.html',
+        recipe=the_recipe,
+        cuisine_json=cuisine_json,
+        allergens_json=allergens_json)
     
    
 @app.route('/update_recipe/<recipe_id>', methods=['POST'])
@@ -80,13 +83,13 @@ def update_recipe(recipe_id):
         'due_date': request.form.get('due_date'),
         'is_urgent': request.form.get('is_urgent')
     })
-    return redirect(url_for('get_recipe'))
+    return redirect(url_for('get_recipes'))
     
     
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
     mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
-    return redirect(url_for('get_recipe'))
+    return redirect(url_for('get_recipes'))
 
 
 @app.route('/get_categories')
