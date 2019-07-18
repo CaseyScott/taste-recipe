@@ -1,94 +1,71 @@
 {% extends 'base.html' %} {% block content %}
+
+<main class="container main-container">
 <div class="add-recipe-title">
     <h3>Add Recipe</h3>
 </div>
-<main class="container main-container">
-    <div class="row">
-        <div class="center col-xs-12">
-        <form name="add_form" class="" action="{{url_for('insert_recipe')}}" method="POST">
-        
-    
-<!--recipe name--> 
-            <div class="row">
-                <form class="col s12">
-                    <div class="row">     
-                        <div class="input-field col s12">
-                            <input id="name" name="name" type="text" class="validate">
-                            <label for="name">Recipe Name</label>
-                        </div>
-                    </div>
-                </form>
-            </div>
 
+<div class="row">
+    <form name="add_recipe_form" class="" action="{{url_for('insert_recipe')}}" role="form" id="form1" method="POST">
+
+<!--recipe name--> 
+        <div class="row">     
+            <div class="input-field col s12">
+                <input id="name" name="name" type="text" class="validate">
+                <label for="name">Recipe Name</label>
+            </div>
+        </div>
 
 <!--Recipe Description-->  
-            <div class="row">
-                <form class="col s12">
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <textarea id="textarea-description" class=""></textarea>
-                            <label for="textarea-description">Recipe Description</label>
-                        </div>
-                    </div>
-                </form>
+        <div class="row">
+            <div class="input-field col s12">
+                <textarea id="textarea-description" class=""></textarea>
+                <label for="textarea-description">Recipe Description</label>
             </div>
-
+        </div>
 
 <!--Ingredients-->  
-            <div class="row">
-                <form class="col s12">
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <textarea id="textarea-description" class=""></textarea>
-                            <label for="textarea-description">Ingredients</label>
-                        </div>
-                    </div>
-                </form>
+        <div class="row">
+            <div class="input-field col s12">
+                <textarea id="textarea-description" class=""></textarea>
+                <label for="textarea-description">Ingredients</label>
             </div>
-
+        </div>
 
 <!--Instructions-->
-            <div class="row">
-                <form class="col s12">
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <textarea id="textarea-description" class=""></textarea>
-                            <label for="textarea-description">Instructions</label>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-
-<!--image-->   
-            <div class="row">
-                <form class="col s12">
-                    <div class="row">     
-                        <div class="input-field col s12">
-                            <input id="image" name="image" type="text" class="validate">
-                            <label for="image">Image URL</label>
-                        </div>
-                    </div>
-                </form>
-            </div>   
-
-
-<!--cuisine-->     
-               
+        <div class="row">
             <div class="input-field col s12">
-                
-                <select>
+                <textarea id="textarea-description" class=""></textarea>
+                <label for="textarea-description">Instructions</label>
+            </div>
+        </div>
+            
+<!--image-->   
+        <div class="row">     
+            <div class="input-field col s12">
+                <input required oninput="return checkImageExists()" id="image" name="image" type="url" class="validate">
+                <label for="image">Image URL</label>
+            </div>
+        </div>
+            
+<!--cuisine-->     
+        <div class="row">      
+            <div class="input-field col s12">
+                <div class="cuisine_container">
+                    <select>
                     <option value="" disabled selected>Cuisine</option>                    
-                    {% for item in cuisine_json.cuisine|sort %}    
+                    {% for item in cuisine_json.cuisine|sort %} 
                     <option value="{{ item }}">{{ item| title }}</option>
                     {% endfor %}
-                </select>
+                    </select>
+                </div>
             </div>
+        </div>
+
 
 <!--allergen-->   
-                     
+        <div class="row">      
             <div class="input-field col s12">
-                
                 <select multiple>
                     <option value="" disabled selected>Allergens</option>
                     {% for item in allergens_json.allergen %}
@@ -96,67 +73,40 @@
                     {% endfor %} 
                 </select>
             </div>
-                    
+        </div>              
             
 <!--Preperation time--> 
-            <div class="row">
-                <form class="col s12">
-                    <div class="row">     
-                        <div class="input-field col s12">
-                            <input id="prep" name="prep" type="text" class="validate">
-                            <label for="prep">Preperation time</label>
-                        </div>
-                    </div>
-                </form>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="prep" name="prep" type="text" class="validate">
+                <label for="prep">Preperation time</label>
             </div>
-                                      
-                                        
+        </div>                       
+                                     
 <!--Cooking time-->  
-            <div class="row">
-                <form class="col s12">
-                    <div class="row">     
-                        <div class="input-field col s12">
-                            <input id="cook" name="cook" type="text" class="validate">
-                            <label for="cook">Cooking time</label>
-                        </div>
-                    </div>
-                </form>
+        <div class="row">    
+            <div class="input-field col s12">
+                <input id="cook" name="cook" type="text" class="validate">
+                <label for="cook">Cooking time</label>
             </div>
-               
+        </div>
             
 <!--Servings-->    
-            <div class="row">
-                <form class="col s12">
-                    <div class="row">     
-                        <div class="input-field col s12">
-                            <input id="servings" name="servings" type="text" class="validate">
-                            <label for="servings">Servings</label>
-                        </div>
-                    </div>
-                </form>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="servings" name="servings" type="text" class="validate">
+                <label for="servings">Servings</label>
             </div>
-
+        </div>
             
-<!--Author--> 
-            <div class="row">
-                <form class="col s12">
-                    <div class="row">     
-                        <div class="input-field col s12">
-                            <input id="author" name="author"" type="text" class="validate">
-                            <label for="author">Author</label>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
                                         
 <!--Submit Save button-->
-            <div class="input-field">
-                <button type="submit" class="btn btn-primary">Save</button>
-            </div>
-        </form>
+        <div class="input-field">
+            <button type="submit" class="btn btn-primary">Save</button>
         </div>
-    </div>
+    </form>
+</div>
+
 </main>
 
 {% endblock %}

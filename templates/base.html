@@ -17,31 +17,120 @@
 <div id="container">
     <div id="main">
  
-    <header>
+    <header class="container-fluid">
+
+<!--REGISTRATION FORM-->
+    <div class="register-signin-page register-page">
+            <div id="inner-register-page" class="inner-register-page">
+                <h2>Registration</h2>
+
+                <form name="registrationform"  action="{{url_for('register')}}" onSubmit="return validateusername()" method='POST'>
+                    <p id="validation-message"></p>
+
+                    <div class="col-xs-12">
+                        <label class="inline hidden-xs" for="register_username">User Name:</label>
+                        <input class="inline" type="text" id="register_username" name="register_username" placeholder="User Name" required/>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <label class="inline hidden-xs" for="register_password">Password:</label>
+                        <input class="inline" type="password" id="register_password" name="register_password" placeholder="password" required/>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <label class="inline hidden-xs" for="comfirm_password">Re-enter Password:</label>
+                        <input class="inline" type="password" id="comfirm_password" name="comfirm_password" placeholder="Confirm password" required/>
+                    </div>
+                    
+                    <input class="inline" type="submit" value="Submit" />
+                    <p class="register-close-btn close-btn inline">Close</p>
+                </form>
+            </div>
+        </div>
+
+<!--SIGN IN PAGE-->
+        <div class="register-signin-page signin-page" {% if 'flash-message' in session %}style="display:block;" {% endif %}>
+                <div class="inner-signin-page">
+                    <h2>Sign In</h2>
+                    
+                    <!--On a unsuccessful sign in attempt the session['flash-message'] variable becomes active
+                        and the following becomes active  -->
+                    {% if 'flash-message' in session %} {% with messages = get_flashed_messages()%} {% if messages %} {% for message in messages %}
+                    <p class="flash-message">{{ message }}</p>
+
+                    {% endfor %} {% endif %} {% endwith %} {% endif %}
+                    <form action="{{url_for('signin')}}"flask
+                    method='POST'>
+                        <div class="col-xs-12">
+                            <input class="inline" type="text" id="signin_username" name="signin_username" placeholder="User Name" required/>
+                        </div>
+                        <div class="col-xs-12">
+                            <input class="inline" type="password" id="signin-password" name="signin_password" placeholder="Password" required/>
+                        </div>
+
+                        <input class="inline" type="submit" value="Submit" />
+                        <p class="register-close-btn close-btn inline">Close</p>
+                    </form>
+                </div>
+
+        </div>
+
         <nav>
             <div class="nav-wrapper">
-                <a href="{{url_for('get_recipes')}}" class="brand-logo">Taste</a>
+                <a href="{{url_for('home')}}" class="brand-logo">Taste</a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+
+                <!--NAVIGATION LINKS-->
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
 
                     <li><a href="{{url_for('home')}}">Home</a></li>
 
                     <li><a href="{{url_for('get_recipes')}}">Recipes</a></li>
 
-                    <li><a href="{{url_for('add_recipe')}}">New recipe</a></li>
+                    {% if 'user' in session %}
+                    <li><a href="{{url_for('my_recipes', username = session['user'])}}">My Recipes</a></li>
 
-                    <li><a href="{{url_for('get_categories')}}">Manage Categories</a></li>
+                    <li><a href="{{url_for('logout')}}">Log Out</a></li>
+                    {% else %}
+
+                    <li><a href="register-trigger">Register</a></li>
+
+                    <li><a href="signin-trigger">Sign In</a></li>
+                    {% endif %}
+
+
+
+                    <li><a href="{{url_for('add_recipe')}}">Add Recipe</a></li>
+
+                    <li><a href="{{url_for('get_categories')}}">Categories</a></li>
 
                 </ul>
+
+
+                <!--MOBILE MENU-->
                 <ul class="side-nav" id="mobile-demo">
 
                     <li><a href="{{url_for('home')}}">Home</a></li>
 
                     <li><a href="{{url_for('get_recipes')}}">Recipes</a></li>
 
-                    <li><a href="{{url_for('add_recipe')}}">New recipe</a></li>
+                    {% if 'user' not in session %}
+                    <li><p class="mobile-form-btn register-trigger">Register</p></li>
 
-                    <li><a href="{{url_for('get_categories')}}">Manage Categories</a></li>
+                    <li><p class=" mobile-form-btn signin-trigger">Sign In</p></li>
+                    {% else %}
+
+                    <li><a href="{{url_for('my_recipes', username = session['user'])}}">My Recipes</a></li>
+
+                    <li><a href="{{url_for('logout')}}">Log Out</a></li>
+                    {% endif %}
+
+
+
+                    <li><a href="{{url_for('add_recipe')}}">Add Recipe</a></li>
+
+                    <li><a href="{{url_for('get_categories')}}">Categories</a></li>
+                    
 
                 </ul>
             </div>
@@ -74,13 +163,54 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 
+<script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery.js')}}"></script>
+
+<script>
+    /* verifiy if the requested username on the register form already exists in the database */
+    function validateusername() {
+    var usernames = `{{usernames}}`;
+    if ( usernames.includes(registrationform.register_username.value)  ) {
+        document.getElementById('validation-message').innerHTML = "This Username already exists.";
+        return false;
+            }
+    else if (registrationform.register_password.value != registrationform.comfirm_password.value) {
+    document.getElementById('validation-message').innerHTML = "The passwords do not match.";
+    return false;
+        }
+        }      	 
+    </script>
+
 <script type="text/javascript">
     $(document).ready(function() {
         $('.collapsible').collapsible();
         $('select').material_select();
         $(".button-collapse").sideNav();
         Materialize.updateTextFields();
+        $('.dropdown-trigger').dropdown();
+        $('select').formSelect();
+
+    $(document).on("submit", "form1", function(e){
+              e.preventDefault();
+              alert('it works!');
+              return  false;
+          });    
     });
+
+    function validateForm_Edit_recipe() {
+              var x = document.forms["edit_recipe_form"]["file"].value;
+              if (x == "") {
+                  alert("An Image URL must be included");
+                  return false;
+              }
+          }
+
+    function validateForm_Add_Recipe() {
+        var x = document.forms["add_recipe_form"]["file"].value;
+        if (x == "") {
+            alert("An Image URL must be included");
+            return false;
+        }
+    }
 </script>
 
 </body>
