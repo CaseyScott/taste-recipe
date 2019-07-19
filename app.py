@@ -117,7 +117,7 @@ def signin():
 @app.route('/signout')
 def signout():
     session.pop('user')
-    return redirect(url_for('index'))
+    return redirect(url_for(home))
 #---------------------------------------Sign Out
 
 #--------------------------------------------User session functions
