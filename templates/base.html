@@ -21,31 +21,31 @@
  
     <header class="container-fluid">
 
-<!--REGISTRATION FORM-->
+<!--register page-->
     <div class="register-signin-page register-page">
             <div id="inner-register-page" class="inner-register-page">
                 <h2>Registration</h2>
 
-                <form name="registrationform"  action="{{url_for('users/register')}}"  method='POST'>
+                <form name="registrationform"  action="{{url_for('register')}}"  method='POST'>
 
                     <div class="col-xs-12">
-                        <label class="inline hidden-xs" for="username">User Name:</label>
-                        <input class="inline" type="text" id="username" name="username" placeholder="User Name" required/>
+                        <label class="inline hidden-xs" for="register_username">User Name:</label>
+                        <input class="inline" type="text" id="register_username" name="register_username" placeholder="User Name" required/>
                     </div>
 
                     <div class="col-xs-12">
-                        <label class="inline hidden-xs" for="first_name">First Name:</label>
-                        <input class="inline" type="text" id="first_name" name="first_name" placeholder="User Name" required/>
+                        <label class="inline hidden-xs" for="register_first_name">First Name:</label>
+                        <input class="inline" type="text" id="register_first_name" name="register_first_name" placeholder="register_first_name" required/>
                     </div>
 
                     <div class="col-xs-12">
-                        <label class="inline hidden-xs" for="last_name">Last Name:</label>
-                        <input class="inline" type="text" id="last_name" name="last_name" placeholder="User Name" required/>
+                        <label class="inline hidden-xs" for="register_last_name">Last Name:</label>
+                        <input class="inline" type="text" id="register_last_name" name="register_last_name" placeholder="register_last_name" required/>
                     </div>
 
                     <div class="col-xs-12">
-                        <label class="inline hidden-xs" for="email">email:</label>
-                        <input class="inline" type="email" id="email" name="email" placeholder="User Name" required/>
+                        <label class="inline hidden-xs" for="register_email">email:</label>
+                        <input class="inline" type="email" id="register_email" name="email" placeholder="register_email" required/>
                     </div>
 
                     <div class="col-xs-12">
@@ -64,7 +64,7 @@
             </div>
         </div>
 
-<!--SIGN IN PAGE-->
+<!--Sign in page-->
         <div class="register-signin-page signin-page" {% if 'flash-message' in session %}style="display:block;" {% endif %}>
                 <div class="inner-signin-page">
                     <h2>Sign In</h2>
@@ -81,7 +81,7 @@
                             <input class="inline" type="text" id="signin_username" name="signin_username" placeholder="User Name" required/>
                         </div>
                         <div class="col-xs-12">
-                            <input class="inline" type="password" id="signin-password" name="signin_password" placeholder="Password" required/>
+                            <input class="inline" type="signin_password" id="signin_password" name="signin_password" placeholder="Password" required/>
                         </div>
 
                         <input class="inline" type="submit" value="Submit" />
@@ -103,10 +103,10 @@
                     <li><a href="{{url_for('get_recipes')}}">Recipes</a></li>
                     {% if 'user' in session %}
                     <li><a href="{{url_for('my_recipes', username = session['user'])}}">My Recipes</a></li>
-                    <li><a href="{{url_for('logout')}}">Log Out</a></li>
+                    <li><a href="{{url_for('signout')}}">Sign Out</a></li>
                     {% else %}
-                    <li><a href="{{url_for('users/register')}}">Register</a></li>
-                    <li><a href="{{url_for('users/login')}}">Log In</a></li>
+                    <li><a href="{{url_for('register')}}">Register</a></li>
+                    <li><a href="{{url_for('signin')}}">Sign In</a></li>
                     {% endif %}
                     <li><a href="{{url_for('add_recipe')}}">Add Recipe</a></li>
                     <li><a href="{{url_for('get_categories')}}">Categories</a></li>
@@ -120,11 +120,11 @@
                     <li><a href="{{url_for('home')}}">Home</a></li>
                     <li><a href="{{url_for('get_recipes')}}">Recipes</a></li>
                     {% if 'user' not in session %}
-                    <li><p class="{{url_for('users/register')}}">Register</p></li>
-                    <li><p class="{{url_for('users/login')}}">Log In</p></li>
+                    <li><p class="{{url_for('register')}}">Register</p></li>
+                    <li><p class="{{url_for('signin')}}">Sign In</p></li>
                     {% else %}
                     <li><a href="{{url_for('my_recipes', username = session['user'])}}">My Recipes</a></li>
-                    <li><a href="{{url_for('logout')}}">Log Out</a></li>
+                    <li><a href="{{url_for('signout')}}">Sign Out</a></li>
                     {% endif %}
 
 

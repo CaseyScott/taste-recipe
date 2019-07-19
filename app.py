@@ -1,12 +1,12 @@
 import os
 import pymongo
-from flask import Flask, render_template, redirect, request, url_for,session, json
+from flask import Flask, render_template, redirect, request, url_for,session, json, flash
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
-from flask_login import login_user
-from app.home import home
-from app import mongo, bcrypt, login_manager
-from app.home.user_loging_manager import User
+#from flask_login import login_user
+#from app.home import home
+#from app import mongo, bcrypt, login_manager
+#from app.home.user_loging_manager import User
 
 app = Flask(__name__)
 
@@ -25,60 +25,100 @@ else:
 
 mongo = PyMongo(app)
 
-
+"""
 @login_manager.user_loader
 def load_user(email):
     users = mongo.db.users.find_one({'email': email})
     if not users:
         return None
-    return User(users['email'])
+    return User(users['email'])"""
 
 @app.route('/')
-@cross_origin()
 def home():
     return render_template('home.html')
 
 
 
 #-----------------------------------------------Registion Form  
-@home.route('/register', methods=['GET', 'POST'])
+@app.route('/register', methods=['POST'])
 def register():
-    if request.method == 'POST':
-        email = request.form['inputEmail']
-        password = request.form['inputPassword']
-        if mongo.db.users.find_one({'email': email}):
-            return redirect(url_for('home.sign'))
-        else:
-            mongo.db.users.insert({'email': email, 'password': bcrypt.generate_password_hash(password), 'authenticated': False})
-            return redirect(url_for('home.sign'))
-    return render_template('home/register.html')
+    requested_username = request.form.get("register_username")
+    new_password = request.form.get("register_password")
+    comfirm_password = request.form.get("comfirm_password")
+   
+    if comfirm_password == new_password:
+        try:
+            existing_user = mongo.db.user_details.find_one(
+                {'username': requested_username}, {"username"})
+
+            if existing_user is None:
+
+                mongo.db.user_details.insert_one(registration_form())
+                session['user'] = requested_username
+                return redirect(
+                    url_for(
+                        'my_recipes',
+                        username=requested_username))
+
+            else:
+                return redirect(request.referrer)
+
+        except BaseException:
+            return redirect(request.referrer)
+
+    else:
+        return redirect(request.referrer)
+    
+
+def registration_form():
+    data = {
+        "first_name": request.form.get('register_first_name'),
+        "last_name": request.form.get('register_last_name'),
+        "username": request.form.get('register_username'),
+        "email": request.form.get('register_email'),
+        "password": request.form.get('register_password'),
+    }
+    return data
 #-----------------------------------------------Registion Form
 
-#-------------------------------------------------------Log In Form
-@home.route('/sign', methods=['POST', 'GET'])
-def sign():
-    if request.method == 'POST':
-        email = request.form['inputEmail']
-        password = request.form['inputPassword']
-        user = mongo.db.users.find_one({'email': email})
-        if user:
-            if User.validate_login(user['password'], password):
-                user_obj = User(email)
-                login_user(user_obj)
-                return redirect(url_for('user.profile'))
-            else:
-                print('Incorrect Credentials')
-        else:
-            return redirect(url_for('home.register'))
-    return render_template('home/sign.html')
-#-------------------------------------------------------Log In Form  
+#---------------------------------------------------Sign In Form
+@app.route('/signin', methods=['POST'])
+def signin():
 
-#------------------------------------------Log Out  
-@app.route('/logout')
-def logout():
+    username = request.form.get('signin_username')
+    password = request.form.get('signin_password')
+
+    try:
+        user_doc_username = mongo.db.user_details.find_one(
+            {'username': username}, {'username'})
+        user_doc_password = mongo.db.user_details.find_one(
+            {'username': username}, {'password'})
+
+        stored_username = find_value(user_doc_username) 
+        stored_password = find_value(user_doc_password)  
+        if password == stored_password and username == stored_username:
+            if 'flash-message' in session:
+                session.pop('flash-message')
+            session['user'] = username
+            return redirect(url_for('my_recipes', username=username))
+
+        else:
+            session['flash-message'] = 1
+            flash("Incorrect username or password")
+            return redirect(url_for('home'))
+
+    except BaseException:
+        session['flash-message'] = 1
+        flash("Incorrect username or password")
+        return redirect(url_for('home'))
+#---------------------------------------Sign In Form  
+
+#-------------------------------------Sign Out  
+@app.route('/signout')
+def signout():
     session.pop('user')
     return redirect(url_for('index'))
-#-------------------------------------------------Log Out
+#---------------------------------------Sign Out
 
 #--------------------------------------------User session functions
 def find_value(variable):
@@ -112,6 +152,21 @@ def current_usernames():
 #--------------------------------------User session functions     
 
 #--------------------------------------------------Recipes CRUD functionality
+@app.route("/recipes")
+def recipes():
+    usernames = current_usernames()
+    recipes = mongo.db.recipe.find()
+
+    pop_flask_message()
+
+    return render_template(
+        'recipes.html',
+        recipes=all_recipes,
+        cuisine_json=cuisine_json,
+        allergens_json=allergens_json,
+        usernames=usernames)
+
+
 @app.route('/get_recipes')
 def get_recipes():
     return render_template('recipes.html', recipes=mongo.db.recipes.find())
@@ -233,7 +288,7 @@ with open("data/allergen_category.json", "r") as file:
 #-------------------------------------------------My Recipes
 @app.route('/my_recipes/<username>')
 def my_recipes(username):
-    pop_flask_message() # FUNCTION 3
+    pop_flask_message() 
     if session['user'] == username:
         user = mongo.db.user_details.find_one({"username": username})
         user_recipes = mongo.db.recipe.find({"username": session['user']})
