@@ -26,12 +26,26 @@
             <div id="inner-register-page" class="inner-register-page">
                 <h2>Registration</h2>
 
-                <form name="registrationform"  action="{{url_for('register')}}" onSubmit="return validateusername()" method='POST'>
-                    <p id="validation-message"></p>
+                <form name="registrationform"  action="{{url_for('users/register')}}"  method='POST'>
 
                     <div class="col-xs-12">
-                        <label class="inline hidden-xs" for="register_username">User Name:</label>
-                        <input class="inline" type="text" id="register_username" name="register_username" placeholder="User Name" required/>
+                        <label class="inline hidden-xs" for="username">User Name:</label>
+                        <input class="inline" type="text" id="username" name="username" placeholder="User Name" required/>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <label class="inline hidden-xs" for="first_name">First Name:</label>
+                        <input class="inline" type="text" id="first_name" name="first_name" placeholder="User Name" required/>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <label class="inline hidden-xs" for="last_name">Last Name:</label>
+                        <input class="inline" type="text" id="last_name" name="last_name" placeholder="User Name" required/>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <label class="inline hidden-xs" for="email">email:</label>
+                        <input class="inline" type="email" id="email" name="email" placeholder="User Name" required/>
                     </div>
 
                     <div class="col-xs-12">
@@ -91,8 +105,8 @@
                     <li><a href="{{url_for('my_recipes', username = session['user'])}}">My Recipes</a></li>
                     <li><a href="{{url_for('logout')}}">Log Out</a></li>
                     {% else %}
-                    <li><a href="register-trigger">Register</a></li>
-                    <li><a href="signin-trigger">Sign In</a></li>
+                    <li><a href="{{url_for('users/register')}}">Register</a></li>
+                    <li><a href="{{url_for('users/login')}}">Log In</a></li>
                     {% endif %}
                     <li><a href="{{url_for('add_recipe')}}">Add Recipe</a></li>
                     <li><a href="{{url_for('get_categories')}}">Categories</a></li>
@@ -106,8 +120,8 @@
                     <li><a href="{{url_for('home')}}">Home</a></li>
                     <li><a href="{{url_for('get_recipes')}}">Recipes</a></li>
                     {% if 'user' not in session %}
-                    <li><p class="mobile-form-btn register-trigger">Register</p></li>
-                    <li><p class=" mobile-form-btn signin-trigger">Sign In</p></li>
+                    <li><p class="{{url_for('users/register')}}">Register</p></li>
+                    <li><p class="{{url_for('users/login')}}">Log In</p></li>
                     {% else %}
                     <li><a href="{{url_for('my_recipes', username = session['user'])}}">My Recipes</a></li>
                     <li><a href="{{url_for('logout')}}">Log Out</a></li>
@@ -142,16 +156,6 @@
     </div> 
 </footer>
 
-<script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
-
-<script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery.js')}}"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-
-<script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery.js')}}"></script>
 
 <script>
     /* verifiy if the requested username on the register form already exists in the database */
@@ -167,42 +171,17 @@
         }
         }      	 
 </script>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('select').material_select();
-        $(".button-collapse").sideNav();
-        $('.dropdown-trigger').dropdown();
-        $('select').formSelect();
-    });
-
-    $(document).on("submit", "form1", function(e){
-        e.preventDefault();
-        alert('it works!');
-        return  false;
-    });    
-
-
-    function validateForm_Edit_recipe() {
-              var x = document.forms["edit_recipe_form"]["file"].value;
-              if (x == "") {
-                  alert("An Image URL must be included");
-                  return false;
-              }
-          }
-
-    function validateForm_Add_Recipe() {
-        var x = document.forms["add_recipe_form"]["file"].value;
-        if (x == "") {
-            alert("An Image URL must be included");
-            return false;
-        }
-    }
+   
 </script>
- <script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery-3.4.1.min.js')}}"></script>
- <script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery-ui-1.12.1/jquery-ui.min.js')}}"></script>
- <script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery.js')}}"></script>
- <script type="text/javascript" src="{{ url_for('static', filename='js/javascript.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+
+<script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery-3.4.1.min.js')}}"></script>
+
+<script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery-ui-1.12.1/jquery-ui.min.js')}}"></script>
+
+<script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery.js')}}"></script>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/javascript.js')}}"></script>
 </body>
 
 </html>
