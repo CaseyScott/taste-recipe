@@ -4,7 +4,6 @@ $(document).ready(function() {
   Materialize.updateTextFields();
   $(".button-collapse").sideNav();
   $('.dropdown-trigger').dropdown();
-  $('select').formSelect();
   $('textarea-description').val('New Text');
   $('textarea-description').trigger('autoresize');
   $('textarea-ingredients').val('New Text');

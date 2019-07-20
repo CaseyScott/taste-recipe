@@ -161,7 +161,7 @@ def recipes():
 
     return render_template(
         'recipes.html',
-        recipes=all_recipes,
+        recipes=recipes,
         cuisine_json=cuisine_json,
         allergens_json=allergens_json,
         usernames=usernames)
