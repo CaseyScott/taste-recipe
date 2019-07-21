@@ -91,86 +91,24 @@
 
         </div>
 
-        <nav>
-            <div class="nav-wrapper">
-                <a href="{{url_for('home')}}" class="brand-logo">Taste</a>
-                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-
-                <!--NAVIGATION LINKS-->
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-
-                    <li>
-                        <a href="{{url_for('home')}}">Home</a>
-                    </li>
-                    <li>
-                        <a href="{{url_for('get_recipes')}}">Recipes</a>
-                    </li>
-                    {% if 'user' in session %}
-                    <li>
-                        <a href="{{url_for('my_recipes', username = session['user'])}}">My Recipes</a>
-                    </li>
-                    <li>
-                        <a href="{{url_for('signout')}}">Sign Out</a>
-                    </li>
-                    {% else %}
-                    <li>
-                        <a href="{{url_for('register')}}">Register</a>
-                    </li>
-                    <li>
-                        <a href="{{url_for('signin')}}">Sign In</a>
-                    </li>
-                    {% endif %}
-                    <li>
-                        <a href="{{url_for('add_recipe')}}">Add Recipe</a>
-                    </li>
-                    <li>
-                        <a href="{{url_for('get_categories')}}">Categories</a>
-                    </li>
-
-                </ul>
-
-
-                <!--MOBILE MENU-->
-                <ul class="side-nav" id="mobile-demo">
-
-                    <li><a href="{{url_for('home')}}">Home</a></li>
-                    <li><a href="{{url_for('get_recipes')}}">Recipes</a></li>
-                    {% if 'user' not in session %}
-                    <li><a href="{{url_for('register')}}">Register</a></<li>
-                    <li><a href="{{url_for('signin')}}">Sign In</a></li>
-                    {% else %}
-                    <li><a href="{{url_for('my_recipes', username = session['user'])}}">My Recipes</a></li>
-                    <li><a href="{{url_for('signout')}}">Sign Out</a></li>
-                    {% endif %}
-
-
-
-                    <li><a href="{{url_for('add_recipe')}}">Add Recipe</a></li>
-
-                    <li><a href="{{url_for('get_categories')}}">Categories</a></li>
-                    
-
-                </ul>
-            </div>
-        </nav>
+        
     </header>
             
+<!-- Navigation -->
+{% include 'page-layout/nav.html' %}
 
-    <!-- block content -->
-    <div class="container">
-        {% block content %} {% endblock %}
-    </div>
+<!-- block content -->
+{% block content %} {% endblock %}
+    
+   
 
-    </div>
 </div>
 
-<footer id="footer" class="container-fluid centering">
-    <div class=" col-xs-12">
-        <a href="https://github.com/CaseyScott" target="_blank"><i id="github-icon" class="fab fa-github"></i></a>
-                <br>
-        <p class="web-developer">©2019 Taste Recipe Web app</p>
-    </div> 
-</footer>
+</div>
+<!-- Footer -->
+{% include 'page-layout/footer.html' %}  
+
+
 
 
 <script>
