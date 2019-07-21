@@ -33,9 +33,10 @@ def load_user(email):
         return None
     return User(users['email'])"""
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/home', methods=['GET', 'POST'])
 def home():
-    return render_template('home.html')
+    return render_template('pages/home.html')
 
 
 
@@ -57,7 +58,7 @@ def register():
                 session['user'] = requested_username
                 return redirect(
                     url_for(
-                        'my_recipes',
+                        'my_recipe',
                         username=requested_username))
 
             else:
@@ -117,7 +118,7 @@ def signin():
 @app.route('/signout')
 def signout():
     session.pop('user')
-    return redirect(url_for(home))
+    return redirect(url_for('home'))
 #---------------------------------------Sign Out
 
 #--------------------------------------------User session functions
@@ -160,7 +161,7 @@ def recipes():
     pop_flask_message()
 
     return render_template(
-        'recipes.html',
+        'pages/recipes.html',
         recipes=recipes,
         cuisine_json=cuisine_json,
         allergens_json=allergens_json,
@@ -169,13 +170,13 @@ def recipes():
 
 @app.route('/get_recipes')
 def get_recipes():
-    return render_template('recipes.html', recipes=mongo.db.recipes.find())
+    return render_template('pages/recipes.html', recipes=mongo.db.recipes.find())
    
    
 @app.route('/add_recipe')
 def add_recipe():
     return render_template(
-        "add_recipe.html",
+        "pages/add_recipe.html",
         cuisine_json=cuisine_json,
         allergens_json=allergens_json)
    
@@ -191,7 +192,7 @@ def insert_recipe():
 def edit_recipe(recipe_id):
     the_recipe =  mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
     return render_template(
-        'edit_recipe.html',
+        'pages/edit_recipe.html',
         recipe=the_recipe,
         cuisine_json=cuisine_json,
         allergens_json=allergens_json)
@@ -219,13 +220,13 @@ def delete_recipe(recipe_id):
 #---------------------------Categories CRUD functionality
 @app.route('/get_categories')
 def get_categories():
-    return render_template('categories.html',
+    return render_template('pages/categories.html',
     categories = mongo.db.categories.find())
 
 
 @app.route('/edit_category/<category_id>')
 def edit_category(category_id):
-    return render_template('editcategory.html',
+    return render_template('pages/editcategory.html',
     category = mongo.db.categories.find_one({'_id': ObjectId(category_id)}))
     
 
@@ -253,7 +254,7 @@ def insert_category():
     
 @app.route('/new_category')
 def new_category():
-    return render_template('addcategory.html')
+    return render_template('pages/addcategory.html')
 #-----------------------------------Categories CRUD functionality
 
 #-------------------------------------------------Database
@@ -295,7 +296,7 @@ def my_recipes(username):
         recipe_count = user_recipes.count()
 
         return render_template(
-            'my_recipes.html',
+            'pages/my_recipes.html',
             user=user,
             user_recipes=user_recipes,
             cuisine_json=cuisine_json,
@@ -307,7 +308,7 @@ def my_recipes(username):
         flash("There was an error in the last action. Please sign in again.")
         if 'user' in session:
             session.pop('user')
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
 #------------------------------------------------My Recipes
     
     
