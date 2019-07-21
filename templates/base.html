@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <link rel="shortcut icon" href="#" />
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -99,17 +99,33 @@
                 <!--NAVIGATION LINKS-->
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
 
-                    <li><a href="{{url_for('home')}}">Home</a></li>
-                    <li><a href="{{url_for('get_recipes')}}">Recipes</a></li>
+                    <li>
+                        <a href="{{url_for('home')}}">Home</a>
+                    </li>
+                    <li>
+                        <a href="{{url_for('get_recipes')}}">Recipes</a>
+                    </li>
                     {% if 'user' in session %}
-                    <li><a href="{{url_for('my_recipes', username = session['user'])}}">My Recipes</a></li>
-                    <li><a href="{{url_for('signout')}}">Sign Out</a></li>
+                    <li>
+                        <a href="{{url_for('my_recipes', username = session['user'])}}">My Recipes</a>
+                    </li>
+                    <li>
+                        <a href="{{url_for('signout')}}">Sign Out</a>
+                    </li>
                     {% else %}
-                    <li><a href="{{url_for('register')}}">Register</a></li>
-                    <li><a href="{{url_for('signin')}}">Sign In</a></li>
+                    <li>
+                        <a href="{{url_for('register')}}">Register</a>
+                    </li>
+                    <li>
+                        <a href="{{url_for('signin')}}">Sign In</a>
+                    </li>
                     {% endif %}
-                    <li><a href="{{url_for('add_recipe')}}">Add Recipe</a></li>
-                    <li><a href="{{url_for('get_categories')}}">Categories</a></li>
+                    <li>
+                        <a href="{{url_for('add_recipe')}}">Add Recipe</a>
+                    </li>
+                    <li>
+                        <a href="{{url_for('get_categories')}}">Categories</a>
+                    </li>
 
                 </ul>
 
@@ -178,7 +194,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 
-<script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery.js')}}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='jquery/recipe-init.js')}}"></script>
 
 <script type="text/javascript" src="{{ url_for('static', filename='js/javascript.js')}}"></script>
 
