@@ -16,83 +16,10 @@
 </head>
 
 <body>
+"""This container and main works with sticky footer to keep footer at the bottom of the page"""
 <div id="container">
     <div id="main">
  
-    <header class="container-fluid">
-
-<!--register page-->
-    <div class="register-signin-page register-page">
-            <div id="inner-register-page" class="inner-register-page">
-                <h2>Registration</h2>
-
-                <form name="registrationform"  action="{{url_for('register')}}"  method='POST'>
-
-                    <div class="col-xs-12">
-                        <label class="inline hidden-xs" for="register_username">User Name:</label>
-                        <input class="inline" type="text" id="register_username" name="register_username" placeholder="User Name" required/>
-                    </div>
-
-                    <div class="col-xs-12">
-                        <label class="inline hidden-xs" for="register_first_name">First Name:</label>
-                        <input class="inline" type="text" id="register_first_name" name="register_first_name" placeholder="register_first_name" required/>
-                    </div>
-
-                    <div class="col-xs-12">
-                        <label class="inline hidden-xs" for="register_last_name">Last Name:</label>
-                        <input class="inline" type="text" id="register_last_name" name="register_last_name" placeholder="register_last_name" required/>
-                    </div>
-
-                    <div class="col-xs-12">
-                        <label class="inline hidden-xs" for="register_email">email:</label>
-                        <input class="inline" type="email" id="register_email" name="email" placeholder="register_email" required/>
-                    </div>
-
-                    <div class="col-xs-12">
-                        <label class="inline hidden-xs" for="register_password">Password:</label>
-                        <input class="inline" type="password" id="register_password" name="register_password" placeholder="password" required/>
-                    </div>
-
-                    <div class="col-xs-12">
-                        <label class="inline hidden-xs" for="comfirm_password">Re-enter Password:</label>
-                        <input class="inline" type="password" id="comfirm_password" name="comfirm_password" placeholder="Confirm password" required/>
-                    </div>
-                    
-                    <input class="inline" type="submit" value="Submit" />
-                    <p class="register-close-btn close-btn inline">Close</p>
-                </form>
-            </div>
-        </div>
-
-<!--Sign in page-->
-        <div class="register-signin-page signin-page" {% if 'flash-message' in session %}style="display:block;" {% endif %}>
-                <div class="inner-signin-page">
-                    <h2>Sign In</h2>
-                    
-                    <!--On a unsuccessful sign in attempt the session['flash-message'] variable becomes active
-                        and the following becomes active  -->
-                    {% if 'flash-message' in session %} {% with messages = get_flashed_messages()%} {% if messages %} {% for message in messages %}
-                    <p class="flash-message">{{ message }}</p>
-
-                    {% endfor %} {% endif %} {% endwith %} {% endif %}
-                    <form action="{{url_for('signin')}}"flask
-                    method='POST'>
-                        <div class="col-xs-12">
-                            <input class="inline" type="text" id="signin_username" name="signin_username" placeholder="User Name" required/>
-                        </div>
-                        <div class="col-xs-12">
-                            <input class="inline" type="signin_password" id="signin_password" name="signin_password" placeholder="Password" required/>
-                        </div>
-
-                        <input class="inline" type="submit" value="Submit" />
-                        <p class="register-close-btn close-btn inline">Close</p>
-                    </form>
-                </div>
-
-        </div>
-
-        
-    </header>
             
 <!-- Navigation -->
 {% include 'page-layout/nav.html' %}
@@ -100,28 +27,12 @@
 <!-- block content -->
 {% block content %} {% endblock %}
 
-</div>
+    </div>
 </div>
 <!-- Footer -->
 {% include 'page-layout/footer.html' %}  
 
 
-
-
-<script>
-    /* verifiy if the requested username on the register form already exists in the database */
-    function validateusername() {
-    var usernames = `{{usernames}}`;
-    if ( usernames.includes(registrationform.register_username.value)  ) {
-        document.getElementById('validation-message').innerHTML = "This Username already exists.";
-        return false;
-            }
-    else if (registrationform.register_password.value != registrationform.comfirm_password.value) {
-    document.getElementById('validation-message').innerHTML = "The passwords do not match.";
-    return false;
-        }
-        }      	 
-</script>
 
 <script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery-3.4.1.min.js')}}"></script>
 
