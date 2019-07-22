@@ -16,17 +16,16 @@
 </head>
 
 <body>
-"""This container and main works with sticky footer to keep footer at the bottom of the page"""
+
 <div id="container">
-    <div id="main">
- 
+    <div id="main"> 
             
 <!-- Navigation -->
 {% include 'page-layout/nav.html' %}
 
+
 <!-- block content -->
 {% block content %} {% endblock %}
-
     </div>
 </div>
 <!-- Footer -->
@@ -34,16 +33,20 @@
 
 
 
-<script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery-3.4.1.min.js')}}"></script>
 
-<script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery-ui-1.12.1/jquery-ui.min.js')}}"></script>
+
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.4.1.min.js')}}"></script>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui-1.12.1/jquery-ui.min.js')}}"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 
-<script type="text/javascript" src="{{ url_for('static', filename='jquery/recipe-init.js')}}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/recipe-init.js')}}"></script>
 
 <script type="text/javascript" src="{{ url_for('static', filename='js/javascript.js')}}"></script>
 
+<script src="{{url_for('static', filename='js/home.js')}}"></script>
 
 
 </body>
