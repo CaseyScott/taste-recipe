@@ -36,18 +36,6 @@ def index():
         
     return render_template('pages/index.html')
 
-@app.route('/login')
-def login():
-    return render_template('pages/login.html')
-
-
-
-
-
-
-
-
-
 
 #--------------------------------------------User session functions
 def find_value(variable):
@@ -57,17 +45,17 @@ def find_value(variable):
             item = value
     return item
 
-""" def index():
+
 def if_user_in_session():
     username = ""
     if 'user' in session:
         username = session['user']
-    return username"""
+    return username
 
 
 def pop_flask_message():
-    if 'flash-message' in session:
-        return session.pop('flash-message')
+    if 'flash-message1' in session:
+        return session.pop('flash-message1')
  
  
 def current_usernames():
@@ -88,7 +76,7 @@ def registration_form():
         "password": request.form.get('register_password'),
     }
     return data
-"""
+
 @app.route('/register', methods=['POST'])
 def register():
     requested_username = request.form.get("register_username")
@@ -116,12 +104,12 @@ def register():
             return redirect(request.referrer)
 
     else:
-        return redirect(request.referrer)"""
+        return redirect(request.referrer)
     
 #-----------------------------------------------Registion Form
 
 #---------------------------------------------------Sign In Form
-"""
+
 @app.route('/signin', methods=['POST'])
 def signin():
 
@@ -137,20 +125,20 @@ def signin():
         stored_username = find_value(user_doc_username) 
         stored_password = find_value(user_doc_password)  
         if password == stored_password and username == stored_username:
-            if 'flash-message' in session:
-                session.pop('flash-message')
+            if 'flash-message1' in session:
+                session.pop('flash-message1')
             session['user'] = username
             return redirect(url_for('my_recipes', username=username))
 
         else:
-            session['flash-message'] = 1
+            session['flash-message1'] = 1
             flash("Incorrect username or password")
             return redirect(url_for('index'))
 
     except BaseException:
-        session['flash-message'] = 1
+        session['flash-message1'] = 1
         flash("Incorrect username or password")
-        return redirect(url_for('index'))"""
+        return redirect(url_for('index'))
         
 #---------------------------------------Sign In Form  
 

@@ -1,0 +1,23 @@
+{% block logged_in_modal %}
+
+<div id="loggedInModal" class="container-fluid no-fouc">
+    <div class="row justify-content-center">
+        <div class="col-10 col-md-8 col-lg-6 modal-content-box text-center py-3">
+            <h2 id="welcomeMessage">Welcome</h2>
+            <hr>
+            <h3>Log in successful</h3>
+            <div class="container-fluid">
+                <div class="row mt-5">
+                    <div class="col-12 col-md-6">
+                        <a id="accountUrl" href="#" class="btn btn-readmore my-2" aria-label="My listings">My recipes</a>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <a id="newActivityUrl" href="#" class="btn btn-search my-2" aria-label="Add new activity">Add new recipe</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

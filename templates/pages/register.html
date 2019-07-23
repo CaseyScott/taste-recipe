@@ -1,0 +1,38 @@
+{% extends 'page-layout/base.html' %} {% block content %}
+
+<!--REGISTRATION FORM-->
+<div class="register-signin-page register-page">
+  <div id="inner-register-page" class="inner-register-page">
+      <h2>Registration</h2>
+
+      <form name="registrationform"  action="{{url_for('register')}}" onSubmit="return validateusername()" method='POST'>
+          <p id="validation-message"></p>
+          <div class="col-xs-12">
+              <label class="inline hidden-xs" for="register_email">E-mail:</label>
+              <input class="inline" type="email" id="register_email" name="register_email" placeholder="e-mail" required/>
+          </div>
+          <div class="col-xs-12">
+              <label class="inline hidden-xs" for="register_password">Password:</label>
+              <input class="inline" type="password" id="register_password" name="register_password" placeholder="password" required/>
+          </div>
+          <div class="col-xs-12">
+              <label class="inline hidden-xs" for="comfirm_password">Re-enter Password:</label>
+              <input class="inline" type="password" id="comfirm_password" name="comfirm_password" placeholder="Confirm password" required/>
+          </div>
+          
+          <input class="inline" type="submit" value="Submit" />
+          <p class="register-close-btn close-btn inline">Close</p>
+      </form>
+  </div>
+</div>
+</main>
+
+
+
+
+
+
+
+
+
+{% endblock %}

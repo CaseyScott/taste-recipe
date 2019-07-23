@@ -4,7 +4,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
 <div class="container">
-    <a class="navbar-brand js-scroll-trigger" href="#page-top">Restaurant Chef</a>
+    <a class="navbar-brand js-scroll-trigger" href="{{url_for('index')}}">Restaurant Chef</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
     </button>
@@ -12,20 +12,31 @@
     <ul class="navbar-nav ml-auto my-2 my-lg-0">
 
         <li class="nav-item">
-        <a class="nav-link js-scroll-trigger" href="#about">Home</a>
+        <a class="nav-link js-scroll-trigger" href="{{url_for('index')}}">Home</a>
         </li>
 
         <li class="nav-item">
-        <a class="nav-link js-scroll-trigger" href="#services">Recipes</a>
+        <a class="nav-link js-scroll-trigger" href="{{url_for('recipes')}}">Recipes</a>
+        </li>
+
+<!-- If the user is only a guest the session['user'] variable will be inactive -->
+        {% if 'user' not in session %}
+        <li class="nav-item">
+        <a class="nav-link js-scroll-trigger" href="{{url_for('register')}}">Create Account</a>
         </li>
 
         <li class="nav-item">
-        <a class="nav-link js-scroll-trigger" href="{{url_for('login')}}">Register || Sign in</a>
+        <a class="nav-link js-scroll-trigger" href="{{url_for('signin')}}">Sign in</a>
         </li>
-
-        <li class="nav-item">
-        <a class="nav-link js-scroll-trigger" href="#contact">####</a>
+        <!-- If a user has signed in or just registered the session['user'] variable will be active -->
+        {% else %}
+        <li class="mobile-li">
+            <a href="{{url_for('my_recipes', username = session['user'])}}">My Recipes</a>
         </li>
+        <li class="mobile-li">
+            <a href="{{url_for('logout')}}">Log Out</a>
+        </li>
+        {% endif %}
 
     </ul>
     </div>
