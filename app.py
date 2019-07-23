@@ -3,6 +3,7 @@ import pymongo
 from flask import Flask, render_template, redirect, request, url_for,session, json, flash
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
+#import bcrypt
 #from flask_login import login_user
 #from app.home import home
 #from app import mongo, bcrypt, login_manager
@@ -25,22 +26,71 @@ else:
 
 mongo = PyMongo(app)
 
-"""
-@login_manager.user_loader
-def load_user(email):
-    users = mongo.db.users.find_one({'email': email})
-    if not users:
-        return None
-    return User(users['email'])"""
 
 @app.route('/', methods=['GET', 'POST'])
-@app.route('/home', methods=['GET', 'POST'])
-def home():
-    return render_template('pages/home.html')
+
+@app.route('/index', methods=['GET', 'POST'])
+def index():
+    if 'username' in session:
+        return 'You are logged in as ' + session['username']
+        
+    return render_template('pages/index.html')
+
+@app.route('/login')
+def login():
+    return ''
+
+@app.route('/register')
+def register():
+    return ''
 
 
+
+
+
+
+
+
+#--------------------------------------------User session functions
+def find_value(variable):
+    item = ""
+    for key, value in variable.items():
+        if key != "_id":
+            item = value
+    return item
+
+""" def index():
+def if_user_in_session():
+    username = ""
+    if 'user' in session:
+        username = session['user']
+    return username"""
+
+
+def pop_flask_message():
+    if 'flash-message' in session:
+        return session.pop('flash-message')
+ 
+ 
+def current_usernames():
+    items = []
+    usernames = mongo.db.user_details.find()
+    for item in usernames:
+        for key, value in item.items():
+            if key == "username":
+                items.append(value)  
+    return items
+#--------------------------------------User session functions 
 
 #-----------------------------------------------Registion Form  
+def registration_form():
+    data = {
+        "username": request.form.get('register_username'),
+        "email": request.form.get('register_email'),
+        "password": request.form.get('register_password'),
+    }
+    return data
+"""
 @app.route('/register', methods=['POST'])
 def register():
     requested_username = request.form.get("register_username")
@@ -68,19 +118,12 @@ def register():
             return redirect(request.referrer)
 
     else:
-        return redirect(request.referrer)
+        return redirect(request.referrer)"""
     
-
-def registration_form():
-    data = {
-        "username": request.form.get('register_username'),
-        "email": request.form.get('register_email'),
-        "password": request.form.get('register_password'),
-    }
-    return data
 #-----------------------------------------------Registion Form
 
 #---------------------------------------------------Sign In Form
+"""
 @app.route('/signin', methods=['POST'])
 def signin():
 
@@ -104,53 +147,23 @@ def signin():
         else:
             session['flash-message'] = 1
             flash("Incorrect username or password")
-            return redirect(url_for('home'))
+            return redirect(url_for('index'))
 
     except BaseException:
         session['flash-message'] = 1
         flash("Incorrect username or password")
-        return redirect(url_for('home'))
+        return redirect(url_for('index'))"""
+        
 #---------------------------------------Sign In Form  
 
 #-------------------------------------Sign Out  
 @app.route('/signout')
 def signout():
     session.pop('user')
-    return redirect(url_for('home'))
+    return redirect(url_for('index'))
 #---------------------------------------Sign Out
 
-#--------------------------------------------User session functions
-def find_value(variable):
-    item = ""
-    for key, value in variable.items():
-        if key != "_id":
-            item = value
-    return item
-
-
-def if_user_in_session():
-    username = ""
-    if 'user' in session:
-        username = session['user']
-    return username
-
-
-def pop_flask_message():
-    if 'flash-message' in session:
-        return session.pop('flash-message')
- 
- 
-def current_usernames():
-    items = []
-    usernames = mongo.db.user_details.find()
-    for item in usernames:
-        for key, value in item.items():
-            if key == "username":
-                items.append(value)  
-    return items
-#--------------------------------------User session functions     
-
-#--------------------------------------------------Recipes CRUD functionality
+#----------------------------------------Recipes CRUD functionality
 @app.route("/recipes")
 def recipes():
     usernames = current_usernames()
@@ -306,7 +319,7 @@ def my_recipes(username):
         flash("There was an error in the last action. Please sign in again.")
         if 'user' in session:
             session.pop('user')
-        return redirect(url_for('home'))
+        return redirect(url_for('index'))
 #------------------------------------------------My Recipes
     
     
