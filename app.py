@@ -4,10 +4,7 @@ from flask import Flask, render_template, redirect, request, url_for,session, js
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 import bcrypt
-#from flask_login import login_user
-#from app.home import home
-#from app import mongo, bcrypt, login_manager
-#from app.home.user_loging_manager import User
+
 
 app = Flask(__name__)
 
@@ -27,7 +24,7 @@ else:
 mongo = PyMongo(app)
 
 
-@app.route('/', methods=['GET', 'POST'])
+
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
@@ -45,7 +42,7 @@ def login():
     if login_user:
         if bcrypt.hashpw(request.form['pass'].encode('utf-8'), login_user['password'].encode('utf-8')) == login_user['password'].encode('utf-8'):
             session['username'] = request.form['username']
-            return redirect(url_for('index'))
+        return redirect(url_for('index'))
 
     return 'Invalid username/password combination'
      
@@ -71,7 +68,7 @@ def register():
 #-------------------------------------Sign Out  
 @app.route('/logout')
 def logout():
-    session.pop('user')
+    session.pop('username')
     return redirect(url_for('index'))
 #---------------------------------------Sign Out
 
@@ -227,8 +224,7 @@ def my_recipes(username):
             recipe_count=recipe_count)
 
     else:
-        session['flash-message-not-allowed'] = True
-        flash("There was an error in the last action. Please sign in again.")
+        
         if 'user' in session:
             session.pop('user')
         return redirect(url_for('index'))
