@@ -3,7 +3,7 @@ import pymongo
 from flask import Flask, render_template, redirect, request, url_for,session, json, flash
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
-#import bcrypt
+import bcrypt
 #from flask_login import login_user
 #from app.home import home
 #from app import mongo, bcrypt, login_manager
@@ -33,27 +33,37 @@ mongo = PyMongo(app)
 def index():
     if 'username' in session:
         return 'you are logged in as ' + session['username']
+    
     return render_template('pages/index.html')
         
-@app.route('/login')
+@app.route('/login', methods=['POST'])
 def login():
-    return ''
+    users = mongo.db.users
+    login_user = users.find_one({'name' : request.form['username']})
+
+    if login_user:
+        if bcrypt.hashpw(request.form['pass'].encode('utf-8'), login_user['password'].encode('utf-8')) == login_user['password'].encode('utf-8'):
+            session['username'] = request.form['username']
+            return redirect(url_for('index'))
+
+    return 'Invalid username/password combination'
+     
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
     if request.method == 'POST':
         users = mongo.db.users
-        existing_users.find_one({'name' : request.form['username']})
-        
-        if existing_users is None:
-            hashpass = bcrypt.hashpw(request.form['pass'], bcrypt.genSalt())
-            user.insert({'name' : request.form['username'], password : hashpass})
+        existing_user = users.find_one({'name' : request.form['username']})
+
+        if existing_user is None:
+            hashpass = bcrypt.hashpw(request.form['pass'].encode('utf-8'), bcrypt.gensalt())
+            users.insert({'name' : request.form['username'], 'password' : hashpass})
             session['username'] = request.form['username']
             return redirect(url_for('index'))
         
         return 'That username already exists!'
     
-    return render_template('register.html')    
+    return render_template('pages/register.html')    
         
     
     
@@ -74,8 +84,8 @@ def register():
 #---------------------------------------Sign In Form  
 
 #-------------------------------------Sign Out  
-@app.route('/signout')
-def signout():
+@app.route('/logout')
+def logout():
     session.pop('user')
     return redirect(url_for('index'))
 #---------------------------------------Sign Out
