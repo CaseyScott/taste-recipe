@@ -32,113 +32,44 @@ mongo = PyMongo(app)
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     if 'username' in session:
-        return 'You are logged in as ' + session['username']
-        
+        return 'you are logged in as ' + session['username']
     return render_template('pages/index.html')
+        
+@app.route('/login')
+def login():
+    return ''
+
+@app.route('/register', methods=['POST', 'GET'])
+def register():
+    if request.method == 'POST':
+        users = mongo.db.users
+        existing_users.find_one({'name' : request.form['username']})
+        
+        if existing_users is None:
+            hashpass = bcrypt.hashpw(request.form['pass'], bcrypt.genSalt())
+            user.insert({'name' : request.form['username'], password : hashpass})
+            session['username'] = request.form['username']
+            return redirect(url_for('index'))
+        
+        return 'That username already exists!'
+    
+    return render_template('register.html')    
+        
+    
+    
 
 
 #--------------------------------------------User session functions
-def find_value(variable):
-    item = ""
-    for key, value in variable.items():
-        if key != "_id":
-            item = value
-    return item
 
-
-def if_user_in_session():
-    username = ""
-    if 'user' in session:
-        username = session['user']
-    return username
-
-
-def pop_flask_message():
-    if 'flash-message1' in session:
-        return session.pop('flash-message1')
- 
- 
-def current_usernames():
-    items = []
-    usernames = mongo.db.user_details.find()
-    for item in usernames:
-        for key, value in item.items():
-            if key == "username":
-                items.append(value)  
-    return items
 #--------------------------------------User session functions 
 
 #-----------------------------------------------Registion Form  
-def registration_form():
-    data = {
-        "username": request.form.get('register_username'),
-        "email": request.form.get('register_email'),
-        "password": request.form.get('register_password'),
-    }
-    return data
 
-@app.route('/register', methods=['POST'])
-def register():
-    requested_username = request.form.get("register_username")
-    new_password = request.form.get("register_password")
-    comfirm_password = request.form.get("comfirm_password")
-   
-    if comfirm_password == new_password:
-        try:
-            existing_user = mongo.db.user_details.find_one(
-                {'username': requested_username}, {"username"})
-
-            if existing_user is None:
-
-                mongo.db.user_details.insert_one(registration_form())
-                session['user'] = requested_username
-                return redirect(
-                    url_for(
-                        'my_recipe',
-                        username=requested_username))
-
-            else:
-                return redirect(request.referrer)
-
-        except BaseException:
-            return redirect(request.referrer)
-
-    else:
-        return redirect(request.referrer)
-    
 #-----------------------------------------------Registion Form
 
 #---------------------------------------------------Sign In Form
 
-@app.route('/signin', methods=['POST'])
-def signin():
 
-    username = request.form.get('signin_username')
-    password = request.form.get('signin_password')
-
-    try:
-        user_doc_username = mongo.db.user_details.find_one(
-            {'username': username}, {'username'})
-        user_doc_password = mongo.db.user_details.find_one(
-            {'username': username}, {'password'})
-
-        stored_username = find_value(user_doc_username) 
-        stored_password = find_value(user_doc_password)  
-        if password == stored_password and username == stored_username:
-            if 'flash-message1' in session:
-                session.pop('flash-message1')
-            session['user'] = username
-            return redirect(url_for('my_recipes', username=username))
-
-        else:
-            session['flash-message1'] = 1
-            flash("Incorrect username or password")
-            return redirect(url_for('index'))
-
-    except BaseException:
-        session['flash-message1'] = 1
-        flash("Incorrect username or password")
-        return redirect(url_for('index'))
         
 #---------------------------------------Sign In Form  
 
