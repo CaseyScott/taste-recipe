@@ -36,6 +36,7 @@ def index():
     
     return render_template('pages/index.html')
         
+        
 @app.route('/login', methods=['POST'])
 def login():
     users = mongo.db.users
@@ -65,23 +66,7 @@ def register():
     
     return render_template('pages/register.html')    
         
-    
-    
-
-
-#--------------------------------------------User session functions
-
-#--------------------------------------User session functions 
-
-#-----------------------------------------------Registion Form  
-
-#-----------------------------------------------Registion Form
-
-#---------------------------------------------------Sign In Form
-
-
-        
-#---------------------------------------Sign In Form  
+      
 
 #-------------------------------------Sign Out  
 @app.route('/logout')
