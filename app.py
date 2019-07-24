@@ -3,10 +3,11 @@ import pymongo
 from flask import Flask, render_template, redirect, request, url_for,session, json, flash
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
-import bcrypt
+#from flask.ext.bcrypt import Bcrypt
 
 
 app = Flask(__name__)
+#bcrypt = Bcrypt(app)
 
 #config.py file set to ignore by gitignore.
 #config vars set up in heroku
