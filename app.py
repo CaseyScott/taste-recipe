@@ -25,7 +25,7 @@ mongo = PyMongo(app)
 
 
 
-
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     if 'username' in session:
@@ -46,8 +46,27 @@ def login():
 
     return 'Invalid username/password combination'
      
+     
+     
+     
+@app.route('/login_page', methods=['GET', 'POST'])
+def login_page():
+    if request.method == 'POST':
+        users = mongo.db.users
+        existing_user = users.find_one({'name' : request.form['username']})
+        
+        if existing_user is None:
+            hashpass = bcrypt.hashpw(request.form['pass'].encode('utf-8'), bcrypt.gensalt())
+            users.insert({'name' : request.form['username'], 'password' : hashpass})
+            session['username'] = request.form['username']
+        return redirect(url_for('index'))
+        
+    return render_template('pages/login.html')    
+        
 
-@app.route('/register', methods=['POST', 'GET'])
+
+
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         users = mongo.db.users
@@ -85,7 +104,7 @@ def recipes():
         recipes=recipes,
         cuisine_json=cuisine_json,
         allergens_json=allergens_json,
-        usernames=usernames)
+        users=usernames)
 
 
 @app.route('/get_recipes')
