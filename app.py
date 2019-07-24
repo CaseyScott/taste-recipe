@@ -34,35 +34,21 @@ def index():
     return render_template('pages/index.html')
         
         
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    users = mongo.db.users
-    login_user = users.find_one({'name' : request.form['username']})
-
-    if login_user:
-        if bcrypt.hashpw(request.form['pass'].encode('utf-8'), login_user['password'].encode('utf-8')) == login_user['password'].encode('utf-8'):
-            session['username'] = request.form['username']
-        return redirect(url_for('index'))
-
-    return 'Invalid username/password combination'
-     
-     
-     
-     
-@app.route('/login_page', methods=['GET', 'POST'])
-def login_page():
     if request.method == 'POST':
         users = mongo.db.users
-        existing_user = users.find_one({'name' : request.form['username']})
+        login_user = users.find_one({'name' : request.form['username']})
+
+        if login_user:
+            validPasswd = bcrypt.checkpw(request.form['pass'].encode('utf-8'), login_user['password'])
+            if validPasswd:
+                session['username'] = request.form['username']
+            return redirect(url_for('index'))
+            
+        return 'Invalid username/password combination'
         
-        if existing_user is None:
-            hashpass = bcrypt.hashpw(request.form['pass'].encode('utf-8'), bcrypt.gensalt())
-            users.insert({'name' : request.form['username'], 'password' : hashpass})
-            session['username'] = request.form['username']
-        return redirect(url_for('index'))
-        
-    return render_template('pages/login.html')    
-        
+    return redirect(url_for('pages/login.html'))
 
 
 
