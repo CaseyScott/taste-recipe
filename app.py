@@ -3,7 +3,7 @@ import pymongo
 from flask import Flask, render_template, redirect, request, url_for,session, json, flash
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
-#from flask.ext.bcrypt import Bcrypt
+import bcrypt
 
 
 app = Flask(__name__)
@@ -27,6 +27,7 @@ mongo = PyMongo(app)
 
 
 @app.route('/', methods=['GET', 'POST'])
+
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     if 'username' in session:
@@ -49,7 +50,7 @@ def login():
             
         return 'Invalid username/password combination'
         
-    return redirect(url_for('pages/login.html'))
+    return render_template('pages/login.html')
 
 
 
