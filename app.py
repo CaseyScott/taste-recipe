@@ -66,7 +66,7 @@ def register():
     if request.method == 'POST':
         if request.form['pass'] != request.form['pass_confirm']:
             error = "Passwords don't match!"
-            return render_template('pages/register.html')
+            return render_template('pages/register.html', error=error)
         
         users = mongo.db.users
         existing_user = users.find_one({'name' : request.form['username']})

@@ -1,112 +1,97 @@
-{% extends 'page-layout/base.html' %} {% block content %}
+{% extends 'page-layout/base.html'%} {% block content %}
 
-<main class="container main-container">
-<div class="add-recipe-title">
-    <h3>Add Recipe</h3>
-</div>
 
-<div class="row">
-    <form name="add_recipe_form" class="" action="{{url_for('insert_recipe')}}" role="form" id="form1" method="POST">
+<main class="container main-container margin-top-20">
+  <div class="row">
+    <div class="col-xs-12">
+      <p class="my-recipe-heading">Add a Recipe</p>
+    </div>
+    <div class=" center col-xs-12">
+      <form name="add_form" onSubmit="return valid_image()" class="" action="{{url_for('insert_recipe')}}" method="POST">
 
-<!--recipe name--> 
-        <div class="row">     
-            <div class="input-field col s12">
-                <input id="name" name="name" type="text" class="validate">
-                <label for="name">Recipe Name</label>
-            </div>
-        </div>
+      <fieldset>
+          <legend>Recipe Name</legend>
+          <input required type="text" name="name" id="name" placeholder="Name" class="" />
+      </fieldset>
+          
+<!--Description-->
+      <fieldset>
+          <legend>Recipe Description</legend>
+          <textarea required name="description"  id="description" placeholder="Recipe Description" class=""></textarea>
+      </fieldset>
 
-<!--Recipe Description-->  
-        <div class="row">
-            <div class="input-field col s12">
-                <textarea id="textarea-description" class=""></textarea>
-                <label for="textarea-description">Recipe Description</label>
-            </div>
-        </div>
-
-<!--Ingredients-->  
-        <div class="row">
-            <div class="input-field col s12">
-                <textarea id="textarea-ingredients" class=""></textarea>
-                <label for="textarea-ingredients">Ingredients</label>
-            </div>
-        </div>
+<!--Ingredients-->
+      <fieldset id="ingredients_fieldset">
+        <legend>Ingredients Put each ingredient on new line.</legend>
+          <textarea required name="ingredients"  id="ingredients" placeholder="Ingredients" class=""></textarea>
+      </fieldset>
 
 <!--Instructions-->
-        <div class="row">
-            <div class="input-field col s12">
-                <textarea id="textarea-instructions" class=""></textarea>
-                <label for="textarea-instructions">Instructions</label>
-            </div>
-        </div>
-            
-<!--image-->   
-        <div class="row">     
-            <div class="input-field col s12">
-                <input required oninput="return checkImageExists()" id="image" name="image" type="url" class="validate">
-                <label for="image">Image URL</label>
-            </div>
-        </div>
-            
-<!--cuisine-->     
-        <div class="row">      
-            <div class="input-field col s12">
-                <div class="cuisine_container">
-                    <select>
-                    <option value="" disabled selected>Cuisine</option>                    
-                    {% for item in cuisine_json.cuisine|sort %} 
-                    <option value="{{ item }}">{{ item| title }}</option>
-                    {% endfor %}
-                    </select>
-                </div>
-            </div>
-        </div>
+      <fieldset id="instructions_fieldset">
+          <legend>Instructions Put each of the Instruction on new line.</legend>
+            <textarea required name="instructions"  id="instructions" placeholder="instructions" class=""></textarea>
+      </fieldset>
 
+<!--Image-->
+      <fieldset>
+        <legend>Image</legend>
+        <input required type="url" name="image" id="image" placeholder="http://url"/>
+      </fieldset>
 
-<!--allergen-->   
-        <div class="row">      
-            <div class="input-field col s12">
-                <select multiple>
-                    <option value="" disabled selected>Allergens</option>
-                    {% for item in allergens_json.allergen %}
-                    <option value="{{ item }}">{{ item }}</option>
-                    {% endfor %} 
-                </select>
-            </div>
-        </div>              
-            
-<!--Preperation time--> 
-        <div class="row">
-            <div class="input-field col s12">
-                <input id="prep" name="prep" type="text" class="validate">
-                <label for="prep">Preperation time</label>
-            </div>
-        </div>                       
-                                     
-<!--Cooking time-->  
-        <div class="row">    
-            <div class="input-field col s12">
-                <input id="cook" name="cook" type="text" class="validate">
-                <label for="cook">Cooking time</label>
-            </div>
-        </div>
-            
-<!--Servings-->    
-        <div class="row">
-            <div class="input-field col s12">
-                <input id="servings" name="servings" type="text" class="validate">
-                <label for="servings">Servings</label>
-            </div>
-        </div>
-            
-                                        
+  <!--cuisine-->
+      <fieldset id="cuisine_fieldset">
+        <legend>Cuisine</legend>
+          <div class="cuisine_container">
+            <select required name="cuisine" class="cuisine" id="cuisine">
+              <option value="" disabled selected>Cuisine</option>
+              {% for item in cuisine_json.cuisine|sort %}
+              <option value="{{ item }}">{{ item| title }}</option>
+              {% endfor %}
+            </select>
+          </div>
+      </fieldset>
+          
+<!--Allergens-->
+      <fieldset id="allergen_fieldset">
+        <legend>Allergens</legend>
+          <div class="allergens_container">
+            <select multiple>
+              <option value="" disabled selected>Allergens</option>
+                  {% for item in allergens_json.allergen %}
+              <option value="{{ item }}">{{ item }}</option>
+                  {% endfor %} 
+            </select>
+          </div>
+      </fieldset>
+         
+<!--Preperation time-->        
+      <fieldset>
+          <legend>Preperation Time</legend>
+          <input required type="text" name="prep_time" id="prep_time" placeholder="Prep Time" />
+      </fieldset>     
+
+<!--Cooking time--> 
+      <fieldset>
+          <legend>Cooking Time</legend>
+          <input required type="text" name="cook_time" id="cook_time" placeholder="Cooking Time" />
+      </fieldset>
+
+<!--Servings-->
+      <fieldset>
+          <legend>Recipe Yield</legend>
+          <input required type="number" name="recipe_yield" id="recipe_yield" placeholder="Servings" />
+      </fieldset>
+                                  
 <!--Submit Save button-->
-        <div class="input-field">
-            <button type="submit" class="btn btn-primary">Save</button>
-        </div>
-    </form>
-</div>
-
+      <div class="input-field">
+          <button type="submit" class="btn btn-primary">Save</button>
+      </div>  
+  
+      </form>
+    </div>
+  </div>
 </main>
+
+
 
 {% endblock %}

@@ -36,9 +36,13 @@
         <li class="nav-item">
         <a class="nav-link js-scroll-trigger" href="{{url_for('my_recipes', username = session['user'])}}">My Recipes</a>
         </li>
-        
+
         <li class="nav-item">
-        <a class="nav-link js-scroll-trigger" href="{{url_for('logout')}}">Log Out</a>
+            <a class="nav-link js-scroll-trigger" href="{{url_for('add_recipe')}}">Add Recipe</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="{{url_for('logout')}}">Log Out</a>
         </li>
 
         {% endif %}
