@@ -11,7 +11,10 @@
 			  <h1>Create an account</h1>
 			  <hr>
 			</div>
-		  </div>
+          </div>
+          {% if error %}
+          <p><strong>Error:</strong> {{ error }}
+           {% endif %}
             <form method=POST action="{{ url_for('register') }}">
               <div class="form-group">
                 <label for="exampleInputEmail1">Username</label>
@@ -28,6 +31,15 @@
 
 
                 <button type="submit" class="btn btn-primary btn-block">Register</button>
+                {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+                    <ul>
+                    {% for message in messages %}
+                      <li>{{ message }}</li>
+                    {% endfor %}
+                      </ul>
+                  {% endif %}
+                {% endwith %}
             </form>
             <br>
         </div>

@@ -34,84 +34,57 @@ def index():
         return render_template('pages/index.html')
     
     return render_template('pages/index.html')
-        
+"""----------------------------------------------------"""      
         
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    error = None
+    
     if request.method == 'POST':
         users = mongo.db.users
         login_user = users.find_one({'name' : request.form['username']})
+        error = 'Invalid username or password. Please try again!'
 
         if login_user:
             validPasswd = bcrypt.checkpw(request.form['pass'].encode('utf-8'), login_user['password'])
             if validPasswd:
                 session['username'] = request.form['username']
-            return redirect(url_for('index'))
+               
+                return redirect(url_for('index'))
             
-        return 'Invalid username/password combination'
+        return render_template('pages/login.html', error = error)
         
-    return render_template('pages/login.html')
+    return render_template('pages/login.html', error = error)
 
 
 """----------------------------------------------------"""
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    error = None
+    
     if request.method == 'POST':
+        if request.form['pass'] != request.form['pass_confirm']:
+            error = "Passwords don't match!"
+            return render_template('pages/register.html')
+        
         users = mongo.db.users
         existing_user = users.find_one({'name' : request.form['username']})
+        
         
         if existing_user is None:
             hashpass = bcrypt.hashpw(request.form['pass'].encode('utf-8'), bcrypt.gensalt())
             users.insert({'name' : request.form['username'], 'password' : hashpass})
             session['username'] = request.form['username']
+            error = 'Invalid username or password. Please try again!'
             
-            return redirect(url_for('index'))
+            return redirect(url_for('index',error = error))
         
-        return 'That username already exists!' 
+        return render_template('pages/register.html', error = error)  
     
-    return render_template('pages/register.html') 
+    return render_template('pages/register.html', error = error) 
   
-  
-  
-  
-"""
-    username = request.form.get("username")
-    password = request.form.get("password")
-    pass_confirm = request.form.get("pass_confirm")
-    
-    if password == pass_confirm:
-        try:
-            users = mongo.db.users
-            existing_user = users.find_one({'name' : request.form['username']})
-            
-            if existing_user is None:   
-            
-                users.insert_one(registration_form())
-                session['username'] = username
-                return redirect(
-                    url_for('index', name=username))
-            else:
-                return redirect(request.referrer)
-
-        except BaseException:
-            return redirect(request.referrer)
-
-    else:
-        return redirect(request.referrer)
-            
-            
-            
-def registration_form():
-    data = {
-        "username": request.form.get('username'),
-        "email": request.form.get('email'),
-        "password": request.form.get('password')
-    }
-    return data       """    
-            
-            
-"""----------------------------------------------------"""          
+         
         
     
 """----------------------------------------------------"""       

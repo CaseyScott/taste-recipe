@@ -11,6 +11,9 @@
 						<hr>
 					</div>
 				</div>
+				{% if error %}
+         <p><strong>Error:</strong> {{ error }}
+      	{% endif %}
 				<form method=POST action="{{ url_for('login') }}">
 					<div class="form-group">
 						<label for="exampleInputEmail">Username</label>
@@ -25,6 +28,15 @@
 					<br>
 					<div>
 						Don't have an account? <a href="{{ url_for('register') }}">Sign up here</a>
+						{% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul>
+              {% for message in messages %}
+                <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          {% endwith %}
 					</div>
 				</div>
 			</div>
