@@ -1,96 +1,60 @@
 {% extends 'page-layout/base.html'%} {% block content %}
 
+<div id="form-wrapper" style="max-width:700px;margin:auto;">
+<form class="border border-light p-5" action="{{url_for('insert_recipe')}}" method="POST">
+<br>
+<br>
+<br>
+  <p class="h4 mb-4 text-center">Add Recipe</p>
+      
+    <label for="textInput">Recipe Name</label>
+      <input required type="text" id="textInput" class="form-control mb-4" placeholder="Recipe Name">
+      
+    <label for="textarea">Recipe Description</label>
+      <textarea required id="description" name="description" class="form-control mb-4" placeholder="Recipe Description"></textarea>
+      
+    <label for="textarea">Ingredients</label>
+      <textarea required id="ingredients" name="ingredients" class="form-control mb-4" placeholder="Put each ingredient on a new line."></textarea>
+      
+    <label for="textarea">Instructions</label>
+      <textarea required name="instructions"  id="instructions" class="form-control mb-4" placeholder="Put each instruction on a new line.s"></textarea>
+      
+    <label for="textInput">Image</label>
+      <input required type="url" name="image" id="image" class="form-control mb-4" placeholder="http://url">
+      
+    <select class="selectpicker" required name="cuisine" class="cuisine" id="cuisine">
+      <option value="" disabled selected>Pick a Cuisine</option>
+          {% for item in cuisine_json.cuisine|sort %}
+      <option value="{{ item }}">{{ item| title }}</option>
+          {% endfor %}
+    </select>
+      <br>
+      <br>
 
-<main class="container main-container margin-top-20">
-  <div class="row">
-    <div class="col-xs-12">
-      <p class="my-recipe-heading">Add a Recipe</p>
-    </div>
-    <div class=" center col-xs-12">
-      <form name="add_form" onSubmit="return valid_image()" class="" action="{{url_for('insert_recipe')}}" method="POST">
+    <select class="selectpicker" multiple data-live-search="true" required name="allergen"  id="allergen">
+      <option value="" disabled selected>Choose Allergen</option>
+            {% for item in allergens_json.allergen %}
+      <option value="{{ item }}">{{ item }}</option>
+            {% endfor %} 
+    </select>
+    <br>
+    <br>
 
-      <fieldset>
-          <legend>Recipe Name</legend>
-          <input required type="text" name="name" id="name" placeholder="Name" class="" />
-      </fieldset>
-          
-<!--Description-->
-      <fieldset>
-          <legend>Recipe Description</legend>
-          <textarea required name="description"  id="description" placeholder="Recipe Description" class=""></textarea>
-      </fieldset>
+    <label for="textInput">Preparation Time</label>
+      <input required type="text" name="prep_time" id="prep_time" class="form-control mb-4" placeholder="Preparation Time">
+      
+    <label for="textInput">Cooking Time</label>
+      <input required type="text" name="cook_time" id="cook_time" class="form-control mb-4" placeholder="Cooking Time">
+      
+    <label for="textInput">Servings</label>
+      <input required type="number" id="servings" name="servings" class="form-control mb-4" placeholder="Serving size">
+      
+    <button class="btn btn-info btn-block my-4" type="submit">Submit</button>
+      
+</form>
+              
+</div>
 
-<!--Ingredients-->
-      <fieldset id="ingredients_fieldset">
-        <legend>Ingredients Put each ingredient on new line.</legend>
-          <textarea required name="ingredients"  id="ingredients" placeholder="Ingredients" class=""></textarea>
-      </fieldset>
-
-<!--Instructions-->
-      <fieldset id="instructions_fieldset">
-          <legend>Instructions Put each of the Instruction on new line.</legend>
-            <textarea required name="instructions"  id="instructions" placeholder="instructions" class=""></textarea>
-      </fieldset>
-
-<!--Image-->
-      <fieldset>
-        <legend>Image</legend>
-        <input required type="url" name="image" id="image" placeholder="http://url"/>
-      </fieldset>
-
-  <!--cuisine-->
-      <fieldset id="cuisine_fieldset">
-        <legend>Cuisine</legend>
-          <div class="cuisine_container">
-            <select required name="cuisine" class="cuisine" id="cuisine">
-              <option value="" disabled selected>Cuisine</option>
-              {% for item in cuisine_json.cuisine|sort %}
-              <option value="{{ item }}">{{ item| title }}</option>
-              {% endfor %}
-            </select>
-          </div>
-      </fieldset>
-          
-<!--Allergens-->
-      <fieldset id="allergen_fieldset">
-        <legend>Allergens</legend>
-          <div class="allergens_container">
-            <select multiple>
-              <option value="" disabled selected>Allergens</option>
-                  {% for item in allergens_json.allergen %}
-              <option value="{{ item }}">{{ item }}</option>
-                  {% endfor %} 
-            </select>
-          </div>
-      </fieldset>
-         
-<!--Preperation time-->        
-      <fieldset>
-          <legend>Preperation Time</legend>
-          <input required type="text" name="prep_time" id="prep_time" placeholder="Prep Time" />
-      </fieldset>     
-
-<!--Cooking time--> 
-      <fieldset>
-          <legend>Cooking Time</legend>
-          <input required type="text" name="cook_time" id="cook_time" placeholder="Cooking Time" />
-      </fieldset>
-
-<!--Servings-->
-      <fieldset>
-          <legend>Recipe Yield</legend>
-          <input required type="number" name="recipe_yield" id="recipe_yield" placeholder="Servings" />
-      </fieldset>
-                                  
-<!--Submit Save button-->
-      <div class="input-field">
-          <button type="submit" class="btn btn-primary">Save</button>
-      </div>  
-  
-      </form>
-    </div>
-  </div>
-</main>
 
 
 
