@@ -53,23 +53,61 @@ def login():
     return render_template('pages/login.html')
 
 
-
+"""----------------------------------------------------"""
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    username = request.form.get("username")
+    password = request.form.get("password")
+    pass_confirm = request.form.get("pass_confirm")
+    
+    if password == pass_confirm:
+        try:
+            users = mongo.db.users
+            existing_user = users.find_one({'name' : request.form['username']})
+            
+            if existing_user is None:   
+            
+                users.insert_one(registration_form())
+                session['username'] = username
+                return redirect(
+                    url_for('index', name=username))
+            else:
+                return redirect(request.referrer)
+
+        except BaseException:
+            return redirect(request.referrer)
+
+    else:
+        return redirect(request.referrer)
+            
+            
+            
+def registration_form():
+    data = {
+        "username": request.form.get('username'),
+        "email": request.form.get('email'),
+        "password": request.form.get('password')
+    }
+    return data           
+            
+            
+"""----------------------------------------------------"""          
+"""         
     if request.method == 'POST':
         users = mongo.db.users
         existing_user = users.find_one({'name' : request.form['username']})
-
+        
         if existing_user is None:
             hashpass = bcrypt.hashpw(request.form['pass'].encode('utf-8'), bcrypt.gensalt())
             users.insert({'name' : request.form['username'], 'password' : hashpass})
             session['username'] = request.form['username']
+            
             return redirect(url_for('index'))
         
-        return 'That username already exists!'
+        return 'That username already exists!' 
     
-    return render_template('pages/register.html')    
-        
+    return render_template('pages/register.html')  """  
+"""----------------------------------------------------"""       
       
 
 #-------------------------------------Sign Out  
