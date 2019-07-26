@@ -25,19 +25,18 @@ else:
 mongo = PyMongo(app)
 
 
-# List of the cuisine categories
+
 cuisine_json = []
-with open("data/cuisine_category.json", "r") as file:
+with open("data/cuisine_data.json", "r") as file:
     cuisine_json = json.load(file)
 
 
-# List of the allergen categories
 allergens_json = []
-with open("data/allergen_category.json", "r") as file:
+with open("data/allergen_data.json", "r") as file:
     allergens_json = json.load(file)
     
 
-def recipe_mongodb():
+def recipe_data():
     data = {
         "name": request.form.get('name'),
         "description": request.form.get('description'),
@@ -53,7 +52,7 @@ def recipe_mongodb():
     }
     return data
 
-def registration_form():
+def registration_data():
     data = {
         "username": request.form.get('register_username'),
         "password": request.form.get('register_password')
@@ -138,10 +137,7 @@ def logout():
 @app.route("/recipes")
 def recipes():
     recipes=mongo.db.recipes.find()
-    return render_template('pages/recipes.html',
-        recipes=recipes,
-        cuisine_json = cuisine_json,
-        allergens_json = allergens_json)
+    return render_template('pages/recipes.html')
 
    
    
@@ -156,7 +152,7 @@ def add_recipe():
 
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
-    doc = recipe_mongodb()
+    doc = recipe_data()
     username=login_user(doc)
     id_num = mongo.db.recipes.find_one(
         {'name': request.form.get('name'), 'username': username})
@@ -236,35 +232,6 @@ def insert_category():
 def new_category():
     return render_template('pages/addcategory.html')
 #-----------------------------------Categories CRUD functionality
-
-#-------------------------------------------------Database
-
-
-#-------------------------------------------------Database
-
-#-------------------------------------------------My Recipes
-@app.route('/my_recipes/<username>')
-def my_recipes(username):
-    if session['username'] == username:
-        users = mongo.db.users.find_one({"username": username})
-        user_recipes = mongo.db.recipe.find({"username": session['username']})
-        recipe_count = user_recipes.count()
-
-        return render_template(
-            'pages/my_recipes.html',
-            user=user,
-            user_recipes=user_recipes,
-            cuisine_json=cuisine_json,
-            allergens_json=allergens_json)
-
-    else:
-        
-        if 'user' in session:
-            session.pop('username')
-        return redirect(url_for('index'))
-#------------------------------------------------My Recipes
-    
-    
     
 
 if __name__ == '__main__':
