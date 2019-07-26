@@ -25,6 +25,45 @@ else:
 mongo = PyMongo(app)
 
 
+# List of the cuisine categories
+cuisine_json = []
+with open("data/cuisine_category.json", "r") as file:
+    cuisine_json = json.load(file)
+
+
+# List of the allergen categories
+allergens_json = []
+with open("data/allergen_category.json", "r") as file:
+    allergens_json = json.load(file)
+    
+
+def recipe_mongodb():
+    data = {
+        "name": request.form.get('name'),
+        "description": request.form.get('description'),
+        "ingredients": request.form.getlist('ingredients'),
+        "instructions": request.form.getlist('instructions'),
+        "image": request.form.get('image'),
+        "cuisine": request.form.getlist('cuisine'),
+        "allergens": request.form.getlist('allergens'),
+        "prep": request.form.get('prep_time'),
+        "cook": request.form.get('cook_time'),
+        "servings": request.form.get('servings'),
+        "username": session['username']
+    }
+    return data
+
+def registration_form():
+    data = {
+        "username": request.form.get('register_username'),
+        "password": request.form.get('register_password')
+    }
+    return data
+
+
+
+
+
 
 @app.route('/', methods=['GET', 'POST'])
 
@@ -85,11 +124,7 @@ def register():
     return render_template('pages/register.html', error = error) 
   
          
-        
-    
-"""----------------------------------------------------"""       
-      
-
+          
 #-------------------------------------Sign Out  
 @app.route('/logout')
 def logout():
@@ -98,41 +133,41 @@ def logout():
 #---------------------------------------Sign Out
 
 #----------------------------------------Recipes CRUD functionality
+
+
 @app.route("/recipes")
 def recipes():
-    usernames = current_usernames()
-    recipes = mongo.db.recipe.find()
-
-    pop_flask_message()
-
-    return render_template(
-        'pages/recipes.html',
+    recipes=mongo.db.recipes.find()
+    return render_template('pages/recipes.html',
         recipes=recipes,
-        cuisine_json=cuisine_json,
-        allergens_json=allergens_json,
-        users=usernames)
+        cuisine_json = cuisine_json,
+        allergens_json = allergens_json)
 
-
-@app.route('/get_recipes')
-def get_recipes():
-    return render_template('pages/recipes.html', recipes=mongo.db.recipes.find())
    
    
 @app.route('/add_recipe')
 def add_recipe():
-    return render_template(
-        "pages/add_recipe.html",
+    return render_template("pages/add_recipe.html",
         cuisine_json=cuisine_json,
         allergens_json=allergens_json)
    
-   
-@app.route('/insert_recipe', methods=['POST'])
-def insert_recipe(): 
-    recipes=mongo.db.recipes
-    recipes.insert_one(request.form.to_dict())
-    return redirect(url_for('get_recipes'))
 
-  
+
+
+@app.route('/insert_recipe', methods=['POST'])
+def insert_recipe():
+    doc = recipe_mongodb()
+    username=login_user(doc)
+    id_num = mongo.db.recipes.find_one(
+        {'name': request.form.get('name'), 'username': username})
+   
+    return redirect(url_for('recipes'))
+
+
+
+
+
+
 @app.route('/edit_recipe/<recipe_id>', methods=['GET', 'POST'])
 def edit_recipe(recipe_id):
     the_recipe =  mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
@@ -152,13 +187,13 @@ def update_recipe(recipe_id):
         'category_name': request.form.get('category_name'),
         'recipe_description': request.form.get('recipe_description')
     })
-    return redirect(url_for('get_recipes'))
+    return redirect(url_for('recipes'))
     
     
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
     mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
-    return redirect(url_for('get_recipes'))
+    return redirect(url_for('recipes'))
 
 #-----------------------------------Recipes CRUD functionality
 
@@ -203,41 +238,16 @@ def new_category():
 #-----------------------------------Categories CRUD functionality
 
 #-------------------------------------------------Database
-def recipe_database():
-    data = {
-        "name": request.form.get('name'),
-        "description": request.form.get('description'),
-        "ingredients": request.form.getlist('ingredients'),
-        "instructions": request.form.getlist('instructions'),
-        "image": request.form.get('image'),
-        "cuisine": request.form.getlist('cuisine'),
-        "allergens": request.form.getlist('allergens'),
-        "prep": request.form.get('prep'),
-        "cook": request.form.get('cook'),
-        "servings": request.form.get('servings'),
-        "username": session['user']
-    }
-    return data
-
-# List of the cuisine categories
-cuisine_json = []
-with open("data/cuisine_category.json", "r") as file:
-    cuisine_json = json.load(file)
 
 
-# List of the allergen categories
-allergens_json = []
-with open("data/allergen_category.json", "r") as file:
-    allergens_json = json.load(file)
 #-------------------------------------------------Database
 
 #-------------------------------------------------My Recipes
 @app.route('/my_recipes/<username>')
 def my_recipes(username):
-    pop_flask_message() 
-    if session['user'] == username:
-        user = mongo.db.user_details.find_one({"username": username})
-        user_recipes = mongo.db.recipe.find({"username": session['user']})
+    if session['username'] == username:
+        users = mongo.db.users.find_one({"username": username})
+        user_recipes = mongo.db.recipe.find({"username": session['username']})
         recipe_count = user_recipes.count()
 
         return render_template(
@@ -245,13 +255,12 @@ def my_recipes(username):
             user=user,
             user_recipes=user_recipes,
             cuisine_json=cuisine_json,
-            allergens_json=allergens_json,
-            recipe_count=recipe_count)
+            allergens_json=allergens_json)
 
     else:
         
         if 'user' in session:
-            session.pop('user')
+            session.pop('username')
         return redirect(url_for('index'))
 #------------------------------------------------My Recipes
     

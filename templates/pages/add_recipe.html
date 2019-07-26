@@ -1,14 +1,16 @@
 {% extends 'page-layout/base.html'%} {% block content %}
 
+
+
 <div id="form-wrapper" style="max-width:700px;margin:auto;">
 <form class="border border-light p-5" action="{{url_for('insert_recipe')}}" method="POST">
 <br>
 <br>
 <br>
-  <p class="h4 mb-4 text-center">Add Recipe</p>
+  <p class="h4 mb-4 text-center">Add your own Recipe</p>
       
     <label for="textInput">Recipe Name</label>
-      <input required type="text" id="textInput" class="form-control mb-4" placeholder="Recipe Name">
+      <input required type="text" id="name" name="name" class="form-control mb-4" placeholder="Recipe Name">
       
     <label for="textarea">Recipe Description</label>
       <textarea required id="description" name="description" class="form-control mb-4" placeholder="Recipe Description"></textarea>
@@ -22,21 +24,25 @@
     <label for="textInput">Image</label>
       <input required type="url" name="image" id="image" class="form-control mb-4" placeholder="http://url">
       
-    <select class="selectpicker" required name="cuisine" class="cuisine" id="cuisine">
-      <option value="" disabled selected>Pick a Cuisine</option>
+    <div class="cuisine_input">
+      <select class="selectpicker" required name="cuisine" class="cuisine" id="cuisine">
+        <option value="" disabled selected>Pick a Cuisine</option>
           {% for item in cuisine_json.cuisine|sort %}
-      <option value="{{ item }}">{{ item| title }}</option>
+        <option value="{{ item }}">{{ item| title }}</option>
           {% endfor %}
-    </select>
+      </select>
+    </div>
       <br>
       <br>
 
-    <select class="selectpicker" multiple data-live-search="true" required name="allergen"  id="allergen">
-      <option value="" disabled selected>Choose Allergen</option>
-            {% for item in allergens_json.allergen %}
-      <option value="{{ item }}">{{ item }}</option>
-            {% endfor %} 
-    </select>
+    <div class="allergen_input">
+      <select class="selectpicker" multiple data-live-search="true"  name="allergen"  id="allergen">
+        <option value="" disabled selected>Choose Allergen</option>
+              {% for item in allergens_json.allergen %}
+        <option value="{{ item }}">{{ item }}</option>
+              {% endfor %} 
+      </select>
+    </div>
     <br>
     <br>
 
