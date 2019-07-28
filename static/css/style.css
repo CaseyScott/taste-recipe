@@ -1,10 +1,10 @@
 
-
+/* register and sign in */
   .registerform{
       margin-top:110px;
   }
 
-  /* Sticky Footer Classes */
+/* Sticky Footer Classes */
 
 html,
 body {
@@ -18,7 +18,7 @@ body {
 #sticky-footer {
   flex-shrink: none;
 }
-
+/* Sticky Footer Classes */
 /* Other Classes for Page Styling */
 
 /*body {
@@ -30,4 +30,14 @@ body {
   margin-top: 220px;
 }
 
-/* add recipe */
+/*----- add recipe -----*/
+
+/*----- recipe page -----*/
+.recipe-heading{
+  margin-top: 90px;
+  justify-content: center;
+}
+
+.card{
+  margin: 10px;
+}

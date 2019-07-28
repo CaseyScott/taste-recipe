@@ -31,14 +31,14 @@ with open("data/cuisine_data.json", "r") as file:
     cuisine_json = json.load(file)
 
 
-allergens_json = []
+allergen_json = []
 with open("data/allergen_data.json", "r") as file:
     allergens_json = json.load(file)
     
 
 def recipe_data():
     data = {
-        "name": request.form.get('name'),
+        "recipe_name": request.form.get('recipe_name'),
         "description": request.form.get('description'),
         "ingredients": request.form.getlist('ingredients'),
         "instructions": request.form.getlist('instructions'),
@@ -152,8 +152,8 @@ def add_recipe():
 
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
-    doc = recipe_data()
-    username=login_user(doc)
+    
+    
     id_num = mongo.db.recipes.find_one(
         {'name': request.form.get('name'), 'username': username})
    
@@ -181,7 +181,7 @@ def update_recipe(recipe_id):
     {
         'recipe_name': request.form.get('recipe_name'),
         'category_name': request.form.get('category_name'),
-        'recipe_description': request.form.get('recipe_description')
+        'description': request.form.get('description')
     })
     return redirect(url_for('recipes'))
     
