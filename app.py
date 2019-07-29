@@ -131,51 +131,56 @@ def logout():
 
 #----------------------------------------Recipes CRUD functionality
 
-# all the recipes #
+### all the recipes #
 @app.route("/recipes")  
 def recipes():
-    recipe=mongo.db.recipes.find_one()
+    recipes=mongo.db.recipes.find_one()
     return render_template('pages/recipes.html')
 
  
 @app.route('/add_recipe')
 def add_recipe():
+    recipes = mongo.db.recipes
     return render_template("pages/add_recipe.html",
         cuisine_json=cuisine_json,
         allergens_json=allergens_json)
    
-# single page recipe #   
-@app.route('/get_recipe/<recipe_id>', methods=['GET', 'POST'])
-def get_recipe(recipe_id):
-    recipe=mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
+   
+### single recipe #   
+@app.route('/recipe/<recipe_id>', methods=['GET', 'POST'])
+def recipe(recipe_id):
+    
+    the_recipe=mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
+    
     return render_template(
-        'pages/get_recipe.html',
-        recipe=recipe)
+        'pages/recipe.html',
+        recipe=the_recipe)
 
 
 
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
     recipes=mongo.db.recipes
-    ObjectID = recipes.insert_one(request.form.to_dict())
-    return redirect(url_for('get_recipe', ObjectID))
+    objectID=recipes.insert_one(request.form.to_dict())
+    return redirect(url_for('recipe', recipe_id=objectID))
 
 
 
 @app.route('/edit_recipe/<recipe_id>')
 def edit_recipe(recipe_id):
-    recipe=mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
+    the_recipe=mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
     return render_template(
         'pages/edit_recipe.html',
         recipe=the_recipe,
         cuisine_json=cuisine_json,
         allergens_json=allergens_json)
     
-   
+
+
 @app.route('/update_recipe/<recipe_id>', methods=['POST'])
 def update_recipe(recipe_id):
-    recipes=mongo.db.recipes
-    recipes.update({'_id': ObjectId(recipe_id)},
+    recipe=mongo.db.recipes
+    recipe.update({'_id': ObjectId(recipe_id)},
     {
         'recipe_name': request.form.get('recipe_name'),
         'category_name': request.form.get('category_name'),
@@ -184,13 +189,17 @@ def update_recipe(recipe_id):
     return redirect(url_for('recipes'))
     
     
-@app.route('/delete_recipe/<recipe_id>')
+    
+### .remove or .delete_one ### 
+@app.route('/delete_recipe/<recipe_id>', methods=['POST'])
 def delete_recipe(recipe_id):
+    recipes = mongo.db.recipes
     mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
     return redirect(url_for('recipes'))
 
-#-----------------------------------Recipes CRUD functionality
 
+#-----------------------------------Recipes CRUD functionality
+"""-------------------------------------------------------"""
 #---------------------------Categories CRUD functionality
 @app.route('/get_categories')
 def get_categories():
@@ -198,10 +207,12 @@ def get_categories():
     categories = mongo.db.categories.find())
 
 
+
 @app.route('/edit_category/<category_id>')
 def edit_category(category_id):
     return render_template('pages/editcategory.html',
     category = mongo.db.categories.find_one({'_id': ObjectId(category_id)}))
+    
     
 
 @app.route('/update_category/<category_id>', methods=['POST'])
@@ -212,10 +223,12 @@ def update_category(category_id):
     return redirect(url_for('get_categories'))
 
 
+
 @app.route('/delete_category/<category_id>')
 def delete_category(category_id):
     mongo.db.categories.remove({'_id':ObjectId(category_id)})
     return redirect(url_for('get_categories'))
+
 
 
 @app.route('/insert_category', methods=['POST'])
@@ -224,6 +237,7 @@ def insert_category():
     category_doc = {'category_name': request.form.get('category_name')}
     categories.insert_one(category_doc)
     return redirect (url_for('get_categories'))
+    
     
     
 @app.route('/new_category')
