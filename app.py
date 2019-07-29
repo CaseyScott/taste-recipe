@@ -25,32 +25,42 @@ else:
 mongo = PyMongo(app)
 
 
-
+### Data for dropdown selectors in add recipe form
 cuisine_json = []
 with open("data/cuisine_data.json", "r") as file:
     cuisine_json = json.load(file)
-
-
 allergen_json = []
 with open("data/allergen_data.json", "r") as file:
     allergens_json = json.load(file)
+    
+    
     
 
 def recipe_data():
     data = {
         "recipe_name": request.form.get('recipe_name'),
         "description": request.form.get('description'),
-        "ingredients": request.form.getlist('ingredients'),
-        "instructions": request.form.getlist('instructions'),
+        "ingredients": request.form.get('ingredients'),
+        "instructions": request.form.get('instructions'),
         "image": request.form.get('image'),
         "cuisine": request.form.getlist('cuisine'),
         "allergens": request.form.getlist('allergens'),
         "prep": request.form.get('prep_time'),
         "cook": request.form.get('cook_time'),
         "servings": request.form.get('servings'),
-        "username": session['username']
+        "username": session['user']
     }
     return data
+
+
+
+def logged_in_user():
+    username=''
+    if 'user' in session:
+        username=session['user']
+    return username
+
+
 
 def registration_data():
     data = {
@@ -59,6 +69,10 @@ def registration_data():
     }
     return data
 
+
+
+    
+    
 """----------------------------------------------------"""  
 
 @app.route('/', methods=['GET', 'POST'])
@@ -132,13 +146,13 @@ def logout():
 #----------------------------------------Recipes CRUD functionality
 
 ### all the recipes #
-@app.route("/recipes")  
+@app.route("/recipes", methods=['GET', 'POST'])  
 def recipes():
     recipes=mongo.db.recipes.find_one()
     return render_template('pages/recipes.html')
 
  
-@app.route('/add_recipe')
+@app.route('/add_recipe', methods=['GET', 'POST'])
 def add_recipe():
     recipes = mongo.db.recipes
     return render_template("pages/add_recipe.html",
@@ -147,13 +161,13 @@ def add_recipe():
    
    
 ### single recipe #   
-@app.route('/recipe/<recipe_id>', methods=['GET', 'POST'])
-def recipe(recipe_id):
+@app.route('/recipe/<recipe_id>')
+def get_recipe(recipe_id):
     
     the_recipe=mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
     
     return render_template(
-        'pages/recipe.html',
+        'pages/get_recipe.html',
         recipe=the_recipe)
 
 
@@ -161,14 +175,16 @@ def recipe(recipe_id):
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
     recipes=mongo.db.recipes
-    objectID=recipes.insert_one(request.form.to_dict())
-    return redirect(url_for('recipe', recipe_id=objectID))
+    new_recipe_id=recipes.insert_one(request.form.to_dict())
+    return redirect(url_for('get_recipe', recipe_id=new_recipe_id))
 
 
 
-@app.route('/edit_recipe/<recipe_id>')
+@app.route('/edit_recipe/<recipe_id>', methods=['GET', 'POST'])
 def edit_recipe(recipe_id):
+    
     the_recipe=mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
+    
     return render_template(
         'pages/edit_recipe.html',
         recipe=the_recipe,
@@ -179,7 +195,7 @@ def edit_recipe(recipe_id):
 
 @app.route('/update_recipe/<recipe_id>', methods=['POST'])
 def update_recipe(recipe_id):
-    recipe=mongo.db.recipes
+    recipes=mongo.db.recipes
     recipe.update({'_id': ObjectId(recipe_id)},
     {
         'recipe_name': request.form.get('recipe_name'),
