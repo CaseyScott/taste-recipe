@@ -131,42 +131,40 @@ def logout():
 
 #----------------------------------------Recipes CRUD functionality
 
-
-@app.route("/recipes")
+# all the recipes #
+@app.route("/recipes")  
 def recipes():
-    
     recipe=mongo.db.recipes.find_one()
-    
-    
     return render_template('pages/recipes.html')
 
-   
-   
+ 
 @app.route('/add_recipe')
 def add_recipe():
-    
     return render_template("pages/add_recipe.html",
         cuisine_json=cuisine_json,
         allergens_json=allergens_json)
    
+# single page recipe #   
+@app.route('/get_recipe/<recipe_id>', methods=['GET', 'POST'])
+def get_recipe(recipe_id):
+    recipe=mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
+    return render_template(
+        'pages/get_recipe.html',
+        recipe=recipe)
 
 
 
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
-    
     recipes=mongo.db.recipes
-    recipes.insert_one(request.form.to_dict())
-    return redirect(url_for('recipes'))
+    ObjectID = recipes.insert_one(request.form.to_dict())
+    return redirect(url_for('get_recipe', ObjectID))
 
 
 
-
-
-
-@app.route('/edit_recipe/<recipe_id>', methods=['GET', 'POST'])
+@app.route('/edit_recipe/<recipe_id>')
 def edit_recipe(recipe_id):
-    the_recipe =  mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
+    recipe=mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
     return render_template(
         'pages/edit_recipe.html',
         recipe=the_recipe,
