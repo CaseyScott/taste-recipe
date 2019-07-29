@@ -1,6 +1,6 @@
 import os
 import pymongo
-from flask import Flask, render_template, redirect, request, url_for,session, json, flash
+from flask import Flask, render_template, redirect, request, url_for,escape, session, json, flash
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 import bcrypt
@@ -54,24 +54,19 @@ def recipe_data():
 
 def registration_data():
     data = {
-        "username": request.form.get('register_username'),
-        "password": request.form.get('register_password')
+        "name": request.form.get('username'),
+        "password": request.form.get('pass')
     }
     return data
 
-
-
-
-
+"""----------------------------------------------------"""  
 
 @app.route('/', methods=['GET', 'POST'])
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    if 'username' in session:
-        return render_template('pages/index.html')
-    
     return render_template('pages/index.html')
+
 """----------------------------------------------------"""      
         
 @app.route('/login', methods=['GET', 'POST'])
@@ -80,14 +75,15 @@ def login():
     
     if request.method == 'POST':
         users = mongo.db.users
-        login_user = users.find_one({'name' : request.form['username']})
+        logged_in = users.find_one({'name' : request.form['username']})
         error = 'Invalid username or password. Please try again!'
 
-        if login_user:
-            validPasswd = bcrypt.checkpw(request.form['pass'].encode('utf-8'), login_user['password'])
+        if logged_in:
+            validPasswd = bcrypt.checkpw(request.form['pass'].encode('utf-8'), logged_in['password'])
             if validPasswd:
                 session['username'] = request.form['username']
-               
+                   
+                
                 return redirect(url_for('index'))
             
         return render_template('pages/login.html', error = error)
@@ -114,6 +110,8 @@ def register():
             hashpass = bcrypt.hashpw(request.form['pass'].encode('utf-8'), bcrypt.gensalt())
             users.insert({'name' : request.form['username'], 'password' : hashpass})
             session['username'] = request.form['username']
+            
+            
             error = 'Invalid username or password. Please try again!'
             
             return redirect(url_for('index',error = error))
@@ -136,13 +134,17 @@ def logout():
 
 @app.route("/recipes")
 def recipes():
-    recipes=mongo.db.recipes.find()
+    
+    recipe=mongo.db.recipes.find_one()
+    
+    
     return render_template('pages/recipes.html')
 
    
    
 @app.route('/add_recipe')
 def add_recipe():
+    
     return render_template("pages/add_recipe.html",
         cuisine_json=cuisine_json,
         allergens_json=allergens_json)
@@ -153,10 +155,8 @@ def add_recipe():
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
     
-    
-    id_num = mongo.db.recipes.find_one(
-        {'name': request.form.get('name'), 'username': username})
-   
+    recipes=mongo.db.recipes
+    recipes.insert_one(request.form.to_dict())
     return redirect(url_for('recipes'))
 
 

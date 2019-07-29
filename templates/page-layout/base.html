@@ -2,15 +2,16 @@
 <html>
 
 <head>
-   
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
 
   <title>Restaurant Chef</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
   <link href="/static/img/favicon.ico" rel="icon" type="image/x-icon" />
   <!-- Font Awesome Icons -->
   <link href="static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -18,7 +19,8 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet">
 
-  <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic'
+    rel='stylesheet' type='text/css'>
 
   <!-- Plugin CSS -->
   <link href="static/vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
@@ -32,20 +34,29 @@
 </head>
 
 
-      
 
 
-            
 <!-- Navigation -->
-{% include 'page-layout/nav.html' %} 
+{% include 'page-layout/nav.html' %}
 
 
 <!-- block content -->
-{% block content %} {% endblock %}
-          
+{% block content %} 
+<!-- flask flash messaging -->
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul>
+  {% for message in messages %}
+  <li>{{ message }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+{% endblock %}
+
 
 <!-- Footer -->
-{% include 'page-layout/footer.html' %} 
+{% include 'page-layout/footer.html' %}
 
 
 
@@ -65,6 +76,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
 
 
-    
+
 
 </html>
