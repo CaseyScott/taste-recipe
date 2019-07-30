@@ -215,51 +215,94 @@ def delete_recipe(recipe_id):
 
 #-----------------------------------Recipes CRUD functionality
 """-------------------------------------------------------"""
-#---------------------------Categories CRUD functionality
-@app.route('/get_categories')
-def get_categories():
-    return render_template('pages/categories.html',
-    categories = mongo.db.categories.find())
+
+@app.route("/ingredients_search", methods=['POST'])
+def ingredients_search():
+    session["search_title"] = 0
+    recipe_category = mongo.db.recipes.find(
+        {"ingredients": {"$regex": request.form.get("ingredient_category"), "$options": 'i'}})
+    return render_template(
+        'search_results.html',
+        recipe_category=recipe_category,
+        cuisine_json=cuisine_json,
+        allergens_json=allergens_json)
 
 
+@app.route("/cuisine_search", methods=['POST'])
+def cuisine_search():
+    session["search_title"] = 0
+    recipe_category = mongo.db.recipe.find(
+        {"cuisine": request.form.getlist("cuisine_category").title()})
+    return render_template(
+        'search_results.html',
+        recipe_category=recipe_category,
+        cuisine_json=cuisine_json,
+        allergens_json=allergens_json)
 
-@app.route('/edit_category/<category_id>')
-def edit_category(category_id):
-    return render_template('pages/editcategory.html',
-    category = mongo.db.categories.find_one({'_id': ObjectId(category_id)}))
+
+@app.route("/allergen_search", methods=['POST'])
+def allergen_search():
+    session["search_title"] = 0
+    recipe_category = mongo.db.recipe.find(
+        {"allergens": {"$nin": request.form.getlist("allergen_category")}})
+    return render_template(
+        'search_results.html',
+        recipe_category=recipe_category,
+        cuisine_json=cuisine_json,
+        allergens_json=allergens_json)
     
     
-
-@app.route('/update_category/<category_id>', methods=['POST'])
-def update_category(category_id):
-    mongo.db.categories.update(
-        {'_id': ObjectId(category_id)},
-        {'category_name': request.form.get('category_name')})
-    return redirect(url_for('get_categories'))
-
-
-
-@app.route('/delete_category/<category_id>')
-def delete_category(category_id):
-    mongo.db.categories.remove({'_id':ObjectId(category_id)})
-    return redirect(url_for('get_categories'))
-
-
-
-@app.route('/insert_category', methods=['POST'])
-def insert_category():
-    categories = mongo.db.categories
-    category_doc = {'category_name': request.form.get('category_name')}
-    categories.insert_one(category_doc)
-    return redirect (url_for('get_categories'))
+@app.route("/search_categories", methods=['POST'])
+def search_categories():
+    session["search_title"] = 0
+    ingredient = request.form.get("ingredient_search")
+    cuisine = request.form.getlist("cuisine_search").title()
+    allergens = request.form.getlist("allergen_search")
     
-    
-    
-@app.route('/new_category')
-def new_category():
-    return render_template('pages/addcategory.html')
-#-----------------------------------Categories CRUD functionality
-    
+    if ingredient and cuisine and allergens:
+        recipe_category = mongo.db.recipes.find(
+            {"$and": [{"cuisine":cuisine},
+            {"allergens": {"$nin": allergens}},
+            {"ingredients": {"$regex": ingredient, "$options": 'i'}}]})
+
+    elif ingredient and cuisine and not allergens:
+        recipe_category = mongo.db.recipes.find(
+            {"$and":[
+            {"cuisine": cuisine},
+            {"allergens": {"$nin": allergens}},
+            {"ingredients": {"$regex": ingredient, "$options": 'i'}}]})
+
+    elif ingredient and cuisine == "" and allergens:
+        recipe_category = mongo.db.recipes.find(
+            {"$and": [{"allergens": {"$nin": allergens}},
+            {"ingredients": {"$regex": ingredient, "$options": 'i'}}]})
+
+    elif not ingredient and cuisine and allergens:
+        recipe_category = mongo.db.recips.find(
+            {"$and": [
+            {"cuisine": cuisine}, {"allergens": {"$nin": allergens}}]})
+
+    elif not ingredient and not allergens:
+        recipe_category = mongo.db.recipe.find(
+            {"cuisine": cuisine}) 
+
+    elif cuisine == "" and not allergens:
+        recipe_category = mongo.db.recipe.find(
+            {"ingredients": {"$regex": ingredient, "$options": 'i'}})
+
+    elif cuisine == "" and not ingredient:
+        recipe_category = mongo.db.recipe.find(
+            {"allergens": {"$nin": allergens}})
+        
+        
+    return render_template(
+        'search_results.html',
+        recipe_category=recipe_category,
+        recipe_count=recipe_count,
+        cuisine_json=cuisine_json,
+        allergens_json=allergens_json)
+
+
 
 if __name__ == '__main__':
     app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=True)
