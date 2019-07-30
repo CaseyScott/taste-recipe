@@ -56,8 +56,8 @@ def recipe_data():
 
 def logged_in_user():
     username=''
-    if 'user' in session:
-        username=session['user']
+    if 'username' in session:
+        username=session['username']
     return username
 
 
@@ -69,9 +69,6 @@ def registration_data():
     }
     return data
 
-
-
-    
     
 """----------------------------------------------------"""  
 
@@ -80,30 +77,6 @@ def registration_data():
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     return render_template('pages/index.html')
-
-"""----------------------------------------------------"""      
-        
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    error = None
-    
-    if request.method == 'POST':
-        users = mongo.db.users
-        logged_in = users.find_one({'name' : request.form['username']})
-        error = 'Invalid username or password. Please try again!'
-
-        if logged_in:
-            validPasswd = bcrypt.checkpw(request.form['pass'].encode('utf-8'), logged_in['password'])
-            if validPasswd:
-                session['username'] = request.form['username']
-                   
-                
-                return redirect(url_for('index'))
-            
-        return render_template('pages/login.html', error = error)
-        
-    return render_template('pages/login.html', error = error)
-
 
 """----------------------------------------------------"""
 
@@ -133,17 +106,58 @@ def register():
         return render_template('pages/register.html', error = error)  
     
     return render_template('pages/register.html', error = error) 
-  
-         
-          
-#-------------------------------------Sign Out  
+
+
+"""----------------------------------------------------"""      
+        
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    
+    if request.method == 'POST':
+        users = mongo.db.users
+        logged_in = users.find_one({'name' : request.form['username']})
+        error = 'Invalid username or password. Please try again!'
+
+        if logged_in:
+            validPasswd = bcrypt.checkpw(request.form['pass'].encode('utf-8'), logged_in['password'])
+            if validPasswd:
+                session['username'] = request.form['username']
+                   
+                
+                return redirect(url_for('index'))
+            
+        return render_template('pages/login.html', error = error)
+        
+    return render_template('pages/login.html', error = error)
+
+
+"""----------------------------------------------------"""
+ 
 @app.route('/logout')
 def logout():
     session.pop('username')
     return redirect(url_for('index'))
-#---------------------------------------Sign Out
 
-#----------------------------------------Recipes CRUD functionality
+"""----------------------------------------------------"""
+
+@app.route('/add_recipe', methods=['GET', 'POST'])
+def add_recipe():
+    recipes = mongo.db.recipes
+    return render_template("pages/add_recipe.html",
+    cuisine_json=cuisine_json,
+    allergens_json=allergens_json)
+
+
+
+@app.route('/insert_recipe', methods=['POST'])
+def insert_recipe():
+    recipes=mongo.db.recipes
+    new_recipe_id=recipes.insert_one(request.form.to_dict()).inserted_id
+    return redirect(url_for('get_recipe', recipe_id=new_recipe_id))
+
+
+
 
 ### all the recipes #
 @app.route("/recipes", methods=['GET', 'POST'])  
@@ -151,33 +165,16 @@ def recipes():
     recipes=mongo.db.recipes.find_one()
     return render_template('pages/recipes.html')
 
- 
-@app.route('/add_recipe', methods=['GET', 'POST'])
-def add_recipe():
-    recipes = mongo.db.recipes
-    return render_template("pages/add_recipe.html",
-        cuisine_json=cuisine_json,
-        allergens_json=allergens_json)
    
    
-### single recipe #   
-@app.route('/recipe/<recipe_id>')
-def get_recipe(recipe_id):
-    
+   
+### single recipe users added recipes#   
+@app.route('/get_recipe/<recipe_id>')
+def get_recipe(recipe_id):    
     the_recipe=mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
+    return render_template('pages/recipes.html', recipe=the_recipe)
     
-    return render_template(
-        'pages/get_recipe.html',
-        recipe=the_recipe)
-
-
-
-@app.route('/insert_recipe', methods=['POST'])
-def insert_recipe():
-    recipes=mongo.db.recipes
-    new_recipe_id=recipes.insert_one(request.form.to_dict())
-    return redirect(url_for('get_recipe', recipe_id=new_recipe_id))
-
+    
 
 
 @app.route('/edit_recipe/<recipe_id>', methods=['GET', 'POST'])
@@ -193,6 +190,7 @@ def edit_recipe(recipe_id):
     
 
 
+
 @app.route('/update_recipe/<recipe_id>', methods=['POST'])
 def update_recipe(recipe_id):
     recipes=mongo.db.recipes
@@ -203,6 +201,7 @@ def update_recipe(recipe_id):
         'description': request.form.get('description')
     })
     return redirect(url_for('recipes'))
+    
     
     
     

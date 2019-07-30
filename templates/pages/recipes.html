@@ -22,9 +22,27 @@
       </div>
 
 
-    </div>
+  </div>
 </body>
 
-
-
 {% endblock %}
+
+
+
+"""
+def recipe_data():
+    data = {
+        "recipe_name": request.form.get('recipe_name'),
+        "description": request.form.get('description'),
+        "ingredients": request.form.get('ingredients'),
+        "instructions": request.form.get('instructions'),
+        "image": request.form.get('image'),
+        "cuisine": request.form.getlist('cuisine'),
+        "allergens": request.form.getlist('allergens'),
+        "prep": request.form.get('prep_time'),
+        "cook": request.form.get('cook_time'),
+        "servings": request.form.get('servings'),
+        "username": session['user']
+    }
+    return data
+""""

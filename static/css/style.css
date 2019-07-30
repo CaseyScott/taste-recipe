@@ -17,7 +17,12 @@ body {
 
 #sticky-footer {
   flex-shrink: none;
+  position: fixed;
+  width: 100%;
+  height: 60px;
 }
+
+
 /* Sticky Footer Classes */
 /* Other Classes for Page Styling */
 
