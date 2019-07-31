@@ -25,6 +25,12 @@ else:
 mongo = PyMongo(app)
 
 
+users = mongo.db.users
+recipes = mongo.db.recipes
+
+
+
+
 ### Data for dropdown selectors in add recipe form
 cuisine_json = []
 with open("data/cuisine_data.json", "r") as file:
@@ -38,7 +44,7 @@ with open("data/allergen_data.json", "r") as file:
 
 def recipe_data():
     data = {
-        "recipe_name": request.form.get('recipe_name'),
+        "name": request.form.get('recipe_name'),
         "description": request.form.get('description'),
         "ingredients": request.form.get('ingredients'),
         "instructions": request.form.get('instructions'),
@@ -48,7 +54,7 @@ def recipe_data():
         "prep": request.form.get('prep_time'),
         "cook": request.form.get('cook_time'),
         "servings": request.form.get('servings'),
-        "username": session['user']
+        "username": session['username']
     }
     return data
 
@@ -141,6 +147,7 @@ def logout():
 
 """----------------------------------------------------"""
 
+
 @app.route('/add_recipe', methods=['GET', 'POST'])
 def add_recipe():
     recipes = mongo.db.recipes
@@ -158,7 +165,7 @@ def insert_recipe():
 
 
 
-
+"""Getting a document back out, use the find_one() function"""
 ### all the recipes #
 @app.route("/recipes", methods=['GET', 'POST'])  
 def recipes():
@@ -215,12 +222,31 @@ def delete_recipe(recipe_id):
 
 #-----------------------------------Recipes CRUD functionality
 """-------------------------------------------------------"""
+#$regex
+"""https://docs.mongodb.com/manual/reference/operator/query-evaluation/"""
+
+#request.form.getlist
+"""https://stackoverflow.com/questions/14188451/get-multiple-request-params-of-the-same-name"""
+
+#case sensitive caseInsensitive
+"""https://stackoverflow.com/questions/10700921/case-insensitive-search-with-in"""
+
+#mongo return documents without a specific value
+"""https://docs.mongodb.com/manual/reference/operator/query/nin/"""
+
+#Query MongoDB with $and and Multiple $or
+"""https://stackoverflow.com/questions/40388657/query-mongodb-with-and-and-multiple-or"""
+
+#Validation - check to make sure at least one field is filled out
+"""https://www.sitepoint.com/community/t/validation-check-to-make-sure-at-least-one-field-is-filled-out/2329"""
+
+#Javascript - How to check if a typed image URL really exists
+"""https://stackoverflow.com/questions/24577534/javascript-how-to-check-if-a-typed-image-url-really-exists"""
 
 @app.route("/ingredients_search", methods=['POST'])
 def ingredients_search():
-    session["search_title"] = 0
     recipe_category = mongo.db.recipes.find(
-        {"ingredients": {"$regex": request.form.get("ingredient_category"), "$options": 'i'}})
+        {"ingredients": {"$regex": request.form.getlist("ingredient_category"), "$options": 'i'}})
     return render_template(
         'search_results.html',
         recipe_category=recipe_category,
@@ -230,7 +256,6 @@ def ingredients_search():
 
 @app.route("/cuisine_search", methods=['POST'])
 def cuisine_search():
-    session["search_title"] = 0
     recipe_category = mongo.db.recipe.find(
         {"cuisine": request.form.getlist("cuisine_category").title()})
     return render_template(
@@ -242,7 +267,6 @@ def cuisine_search():
 
 @app.route("/allergen_search", methods=['POST'])
 def allergen_search():
-    session["search_title"] = 0
     recipe_category = mongo.db.recipe.find(
         {"allergens": {"$nin": request.form.getlist("allergen_category")}})
     return render_template(
@@ -254,9 +278,8 @@ def allergen_search():
     
 @app.route("/search_categories", methods=['POST'])
 def search_categories():
-    session["search_title"] = 0
     ingredient = request.form.get("ingredient_search")
-    cuisine = request.form.getlist("cuisine_search").title()
+    cuisine = request.form.getlist("cuisine_search")
     allergens = request.form.getlist("allergen_search")
     
     if ingredient and cuisine and allergens:

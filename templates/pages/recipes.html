@@ -6,42 +6,53 @@
 
 
 
-   
 
-      <div class="row recipe-heading">
-        <h2>Recipes</h2>
+
+    <div class="row recipe-heading">
+      <h2>Recipes</h2>
+    </div>
+
+<!-- Button trigger modal to drop down search box for categories -->
+    <div class="row justify-content-center">
+      <div class="search_categories_btn">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+          Search by Categories:
+        </button>
       </div>
-      {% block search_categories %}
-      {% include 'search_categories.html' %}
-      {% endblock search_categories %} 
+    </div>
 
+<!-- modal for searching cuisine allergen or ingredients -->
+    {% block search_box %}
+    {% include 'pages/search_box.html' %}
+    {% endblock search_box %}
 
-      <div class="row justify-content-center">
-        <div class="column">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="https://www.themealdb.com/images/media/meals/vussxq1511882648.jpg"
-              alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
+<!--
+    <div class="row justify-content-center">
+      <div class="column">
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="https://www.themealdb.com/images/media/meals/vussxq1511882648.jpg"
+            alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+              content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
           </div>
         </div>
+      </div>-->
 
 
-      </div>
+    </div>
 </body>
 
 {% endblock %}
 
 
 
-"""
+<!--
 def recipe_data():
 data = {
-"recipe_name": request.form.get('recipe_name'),
+"name": request.form.get('recipe_name'),
 "description": request.form.get('description'),
 "ingredients": request.form.get('ingredients'),
 "instructions": request.form.get('instructions'),
@@ -51,7 +62,7 @@ data = {
 "prep": request.form.get('prep_time'),
 "cook": request.form.get('cook_time'),
 "servings": request.form.get('servings'),
-"username": session['user']
+"username": session['username']
 }
 return data
-""""
+-->
