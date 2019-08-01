@@ -161,7 +161,7 @@ def add_recipe():
 def insert_recipe():
     recipes=mongo.db.recipes
     new_recipe_id=recipes.insert_one(request.form.to_dict()).inserted_id
-    return redirect(url_for('get_recipe', recipe_id=new_recipe_id))
+    return redirect(url_for('user_recipe', recipe_id=new_recipe_id))
 
 
 
@@ -176,10 +176,10 @@ def recipes():
    
    
 ### single recipe users added recipes#   
-@app.route('/get_recipe/<recipe_id>')
-def get_recipe(recipe_id):    
+@app.route('/user_recipe/<recipe_id>')
+def user_recipe(recipe_id):    
     the_recipe=mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
-    return render_template('pages/recipes.html', recipe=the_recipe)
+    return render_template('pages/user_recipes.html', recipes=the_recipe)
     
     
 
