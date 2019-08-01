@@ -51,8 +51,8 @@ def recipe_data():
         "image": request.form.get('image'),
         "cuisine": request.form.getlist('cuisine'),
         "allergens": request.form.getlist('allergens'),
-        "prep": request.form.get('prep_time'),
-        "cook": request.form.get('cook_time'),
+        "preparation": request.form.get('preparation'),
+        "cooking": request.form.get('cooking'),
         "servings": request.form.get('servings'),
         "username": session['username']
     }
