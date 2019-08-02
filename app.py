@@ -150,7 +150,7 @@ def logout():
 
 @app.route('/add_recipe', methods=['GET', 'POST'])
 def add_recipe():
-    recipes = mongo.db.recipes
+    recipes=mongo.db.recipes
     return render_template("pages/add_recipe.html",
     cuisine_json=cuisine_json,
     allergens_json=allergens_json)
@@ -165,21 +165,24 @@ def insert_recipe():
 
 
 
-"""Getting a document back out, use the find_one() function"""
+
 ### all the recipes #
 @app.route("/recipes", methods=['GET', 'POST'])  
 def recipes():
-    recipes=mongo.db.recipes.find_one()
-    return render_template('pages/recipes.html')
+###recipes = all recipes in the mongo db###
+    recipes=mongo.db.recipes.find()
+    return render_template('pages/recipes.html',
+    recipe=recipes)
 
    
    
    
 ### single recipe users added recipes#   
-@app.route('/user_recipe/<recipe_id>')
-def user_recipe(recipe_id):    
+@app.route('/user_recipe/<recipe_id>', methods=['GET', 'POST'])
+def user_recipe(recipe_id): 
+###the_recipe = find one recipe###   
     the_recipe=mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
-    return render_template('pages/user_recipes.html', recipes=the_recipe)
+    return render_template('pages/user_recipe.html', recipe=the_recipe)
     
     
 
@@ -245,33 +248,33 @@ def delete_recipe(recipe_id):
 
 @app.route("/ingredients_search", methods=['POST'])
 def ingredients_search():
-    recipe_category = mongo.db.recipes.find(
-        {"ingredients": {"$regex": request.form.getlist("ingredient_category"), "$options": 'i'}})
+    recipesByIngredients=mongo.db.recipesByIngredients.find(
+        {"ingredients": {"$text": request.form.get("ingredient_category"), "$options": 'i'}})
     return render_template(
         'search_results.html',
-        recipe_category=recipe_category,
+        recipes=recipes_by_ingredients,
         cuisine_json=cuisine_json,
         allergens_json=allergens_json)
 
 
 @app.route("/cuisine_search", methods=['POST'])
 def cuisine_search():
-    recipe_category = mongo.db.recipe.find(
-        {"cuisine": request.form.getlist("cuisine_category").title()})
+    recipes_by_cuisine=mongo.db.recipe.find(
+        {"cuisine": request.form.get("cuisine_category").title()})
     return render_template(
         'search_results.html',
-        recipe_category=recipe_category,
+        recipes=recipes_by_cuisine,
         cuisine_json=cuisine_json,
         allergens_json=allergens_json)
 
 
 @app.route("/allergen_search", methods=['POST'])
 def allergen_search():
-    recipe_category = mongo.db.recipe.find(
-        {"allergens": {"$nin": request.form.getlist("allergen_category")}})
+    recipes_by_allergen=mongo.db.recipe.find(
+        {"allergens": {"$nin": request.form.get("allergen_category")}})
     return render_template(
         'search_results.html',
-        recipe_category=recipe_category,
+        recipes=recipes_by_allergen,
         cuisine_json=cuisine_json,
         allergens_json=allergens_json)
     
@@ -286,19 +289,19 @@ def search_categories():
         recipe_category = mongo.db.recipes.find(
             {"$and": [{"cuisine":cuisine},
             {"allergens": {"$nin": allergens}},
-            {"ingredients": {"$regex": ingredient, "$options": 'i'}}]})
+            {"ingredients": {"$text": ingredient, "$options": 'i'}}]})
 
     elif ingredient and cuisine and not allergens:
         recipe_category = mongo.db.recipes.find(
             {"$and":[
             {"cuisine": cuisine},
             {"allergens": {"$nin": allergens}},
-            {"ingredients": {"$regex": ingredient, "$options": 'i'}}]})
+            {"ingredients": {"$text": ingredient, "$options": 'i'}}]})
 
     elif ingredient and cuisine == "" and allergens:
         recipe_category = mongo.db.recipes.find(
             {"$and": [{"allergens": {"$nin": allergens}},
-            {"ingredients": {"$regex": ingredient, "$options": 'i'}}]})
+            {"ingredients": {"$text": ingredient, "$options": 'i'}}]})
 
     elif not ingredient and cuisine and allergens:
         recipe_category = mongo.db.recips.find(
@@ -311,7 +314,7 @@ def search_categories():
 
     elif cuisine == "" and not allergens:
         recipe_category = mongo.db.recipe.find(
-            {"ingredients": {"$regex": ingredient, "$options": 'i'}})
+            {"ingredients": {"$text": ingredient, "$options": 'i'}})
 
     elif cuisine == "" and not ingredient:
         recipe_category = mongo.db.recipe.find(
