@@ -44,7 +44,7 @@ with open("data/allergen_data.json", "r") as json_data:
 
 def recipe_data():
     data = {
-        "name": request.form.get('recipe_name'),
+        "name": request.form.get('name'),
         "description": request.form.get('description'),
         "ingredients": request.form.get('ingredients'),
         "instructions": request.form.get('instructions'),
@@ -94,7 +94,7 @@ def register():
         if request.form['pass'] != request.form['pass_confirm']:
             error = "Passwords don't match!"
             return render_template('pages/register.html', error=error)
-        
+        #mongo.db.users is the database of usernames
         users = mongo.db.users
         existing_user = users.find_one({'name' : request.form['username']})
         
@@ -147,7 +147,9 @@ def logout():
 
 """----------------------------------------------------"""
 
-
+"""
+Route for Add recipe page  / add_recipe.html
+"""
 @app.route('/add_recipe', methods=['GET', 'POST'])
 def add_recipe():
     recipes=mongo.db.recipes
@@ -156,17 +158,21 @@ def add_recipe():
     allergens_file=allergens_file)
 
 
-
+"""
+Add recipe form insert recipe into mongodb
+"""
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
     recipes=mongo.db.recipes
     new_recipe_id=recipes.insert_one(request.form.to_dict()).inserted_id
-    return redirect(url_for('user_recipe', recipe_id=new_recipe_id))
+    return redirect(url_for('get_user_recipe', recipe_id=new_recipe_id))
 
 
 
 
-### all the recipes #
+"""
+All recipes in mongo database
+"""
 @app.route("/recipes", methods=['GET', 'POST'])  
 def recipes():
 ###recipes = all recipes in the mongo db###
@@ -176,50 +182,55 @@ def recipes():
 
    
    
-   
-### single recipe users added recipes#
-###the_recipe = find one recipe###    
-@app.route('/user_recipe/<recipe_id>', methods=['GET', 'POST'])
-def user_recipe(recipe_id): 
+"""
+Session user recipe list they have added to the database
+"""      
+@app.route('/get_user_recipe', methods=['GET', 'POST'])
+def get_user_recipe(): 
     
-    the_recipe=mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
+    recipes=mongo.db.recipes.find()
     
-    return render_template('pages/user_recipe.html',
-        recipe=the_recipe,
+    return render_template('pages/get_user_recipe.html',
+        recipes=recipes,
         cuisine_file=cuisine_file,
         allergens_file=allergens_file)
     
     
 
-
+"""
+Edit existing recipe 
+"""
 @app.route('/edit_recipe/<recipe_id>', methods=['GET', 'POST'])
 def edit_recipe(recipe_id):
     
     the_recipe=mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
     
-    return render_template(
-        'pages/edit_recipe.html',
+    return render_template('pages/edit_recipe.html',
         recipe=the_recipe,
         cuisine_file=cuisine_file,
         allergens_file=allergens_file)
     
 
 
-
+"""
+Update existing recipe to mongodb
+"""
 @app.route('/update_recipe/<recipe_id>', methods=['POST'])
 def update_recipe(recipe_id):
+    username=logged_in_user()
+    
     recipes=mongo.db.recipes
-    recipe.update({'_id': ObjectId(recipe_id)},
-    {
-        'recipe_name': request.form.get('recipe_name'),
-        'category_name': request.form.get('category_name'),
-        'description': request.form.get('description')
-    })
-    return redirect(url_for('recipes'))
+    recipes.update_many(
+        {'_id': ObjectId(recipe_id)},
+        {"$set": recipe_data()})
+                  
+    return redirect(url_for('get_user_recipe', recipe_id=recipe_id))
     
     
     
-    
+"""
+Session user has the option to delete their own recipes they have added.
+"""   
 ### .remove or .delete_one ### 
 @app.route('/delete_recipe/<recipe_id>', methods=['POST'])
 def delete_recipe(recipe_id):
@@ -230,26 +241,6 @@ def delete_recipe(recipe_id):
 
 #-----------------------------------Recipes CRUD functionality
 """-------------------------------------------------------"""
-#$regex
-"""https://docs.mongodb.com/manual/reference/operator/query-evaluation/"""
-
-#request.form.getlist
-"""https://stackoverflow.com/questions/14188451/get-multiple-request-params-of-the-same-name"""
-
-#case sensitive caseInsensitive
-"""https://stackoverflow.com/questions/10700921/case-insensitive-search-with-in"""
-
-#mongo return documents without a specific value
-"""https://docs.mongodb.com/manual/reference/operator/query/nin/"""
-
-#Query MongoDB with $and and Multiple $or
-"""https://stackoverflow.com/questions/40388657/query-mongodb-with-and-and-multiple-or"""
-
-#Validation - check to make sure at least one field is filled out
-"""https://www.sitepoint.com/community/t/validation-check-to-make-sure-at-least-one-field-is-filled-out/2329"""
-
-#Javascript - How to check if a typed image URL really exists
-"""https://stackoverflow.com/questions/24577534/javascript-how-to-check-if-a-typed-image-url-really-exists"""
 
 @app.route("/ingredients_search", methods=['POST'])
 def ingredients_search():

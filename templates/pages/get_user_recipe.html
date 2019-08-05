@@ -5,7 +5,7 @@
     <!--sticky footer-->
 
     <div class="row recipe-heading">
-      <h2>Your added Recipes</h2>
+      <h2>Your Recipes collection</h2>
     </div>
 
 
@@ -14,7 +14,7 @@
       <li>
         <div class="collapsible-header">
           <div class="task_header col s9">
-            <strong>{{recipes.name}}</strong>
+            <strong>{{ recipe.recipe_name }}</strong>
           </div>
           <div class="col s1">
             <i class="material-icons">expand_more</i>
@@ -41,6 +41,19 @@
 
   </div>
 </body>
+
+      {% for recipe in recipes %}
+      {{ recipe.recipe_name }}
+      {{ recipe.description }}
+      {{ recipe.ingredients }}
+      {{ recipe.instructions }}
+      {{ recipe.image }}
+      {{ recipe.cuisine }}
+      {{ recipe.allergens }}
+      {{ recipe.preparation }}
+      {{ recipe.cooking }}
+      {{ recipe.servings }}
+      {% endfor %}
 
 
 

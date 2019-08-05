@@ -1,110 +1,85 @@
 {% extends 'page-layout/base.html' %} {% block content %}
 
-<main class="container main-container">
-    <div class="add-recipe-title">
-        <h3>Edit Recipe</h3>
+<div id="form-wrapper" style="max-width:700px;margin:auto;">
+
+  <form class="border border-light p-5" action="{{url_for('update_recipe', recipe_id=recipe._id)}}" method="POST">
+    <br>
+    <br>
+    <br>
+    <p class="h4 mb-4 text-center">Add your own Recipe</p>
+
+    <label for="textInput">Recipe Name</label>
+    <input required type="text" id="name" name="name" class="form-control mb-4" value="{{ recipe.name }}">
+
+    <label for="textarea">Recipe Description</label>
+    <textarea required id="description" name="description" class="form-control mb-4"
+      value="{{ recipe.description }}"></textarea>
+
+    <label for="textarea">Ingredients</label>
+    <textarea required id="ingredients" name="ingredients" class="form-control mb-4"
+      value="{{ recipe.ingredients }}"></textarea>
+
+    <label for="textarea">Instructions</label>
+    <textarea required name="instructions" id="instructions" class="form-control mb-4"
+      value="{{ recipe.instructions }}"></textarea>
+
+    <label for="textInput">Image</label>
+    <input required type="url" name="image" id="image" class="form-control mb-4" value="{{ recipe.image }}">
+
+<!----------------- cuisine category------------->
+    <div class="cuisine_input" id="cuisine_input">
+      {% if recipe.cuisine == [] %}
+      <select required class="selectpicker" name="cuisine" class="cuisine">
+        <option value="" selected>Pick a Cuisine</option>
+
+        {% for item in cuisine_file.cuisine %}
+        <option>{{ item }}</option>
+        {% endfor %}
+      </select>
+      {% endif %}
+
+      {% if recipe.cuisine != [] %}
+      {% for cuisine in recipe.cuisine %}
+      <select name="cuisine" class="cuisine">
+        <option disabled selected>{{ cuisine }}</option>
+
+        {% for item in cuisine_file.cuisine %}
+        <option>{{ item }}</option>
+        {% endfor %}
+      {% endfor %}
+      {% endif%}
     </div>
-        
-    <div class="row">
-    <form action="{{url_for('update_recipe', recipe_id=recipe._id)}}" role="form" id="form1" name="edit_recipe_form" onsubmit="return ValidateForm()" method="POST" class="col s12">
-        
-<!--recipe name--> 
-        <div class="row">     
-            <div class="input-field col s12">
-                <input id="name" name="name" type="text" class="validate">
-                <label for="name">Recipe Name</label>
-            </div>
-        </div>
+    <br>
+    <br>
+<!----------------- cuisine category------------->
+<!----------------- allergen category------------->
+    <div class="allergen_input" id="allergen_input">
+      <select class="selectpicker" multiple data-live-search="true" name="allergen" id="allergen">
+        <option value="" disabled selected>Choose Allergen</option>
+        {% for item in allergens_file.allergen %}
+        <option value="{{ item }}">{{ item }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <br>
+    <br>
+<!----------------- allergen category------------->
 
-<!--Recipe Description-->  
-        <div class="row">
-            <div class="input-field col s12">
-                <textarea id="textarea-description" class=""></textarea>
-                <label for="textarea-description">Recipe Description</label>
-            </div>
-        </div>
+    <label for="textInput">Preparation Time</label>
+    <input required type="text" name="preparation" id="preparation" class="form-control mb-4" value="{{ recipe.preparation }}">
 
-<!--Ingredients-->  
-        <div class="row">
-            <div class="input-field col s12">
-                <textarea id="textarea-ingredients" class=""></textarea>
-                <label for="textarea-ingredients">Ingredients</label>
-            </div>
-        </div>
+    <label for="textInput">Cooking Time</label>
+    <input required type="text" name="cooking" id="cooking" class="form-control mb-4" value="{{ recipe.cooking }}">
 
-<!--Instructions-->
-        <div class="row">
-            <div class="input-field col s12">
-                <textarea id="textarea-instructions" class=""></textarea>
-                <label for="textarea-instructions">Instructions</label>
-            </div>
-        </div>
-            
-<!--image-->   
-        <div class="row">     
-            <div class="input-field col s12">
-                <input id="image" name="image" type="text" class="validate">
-                <label for="image">Image URL</label>
-            </div>
-        </div>
-            
-<!--cuisine-->     
-        <div class="row">      
-            <div class="input-field col s12">
-                <div class="cuisine_container">
-                    <select>
-                    <option value="" disabled selected>Cuisine</option>                    
-                    {% for item in cuisine_file.cuisine|sort %} 
-                    <option value="{{ item }}">{{ item| title }}</option>
-                    {% endfor %}
-                    </select>
-                </div>
-            </div>
-        </div>
+    <label for="textInput">Servings</label>
+    <input required type="number" id="servings" name="servings" class="form-control mb-4" value="{{ recipe.servings }}">
 
-<!--allergen-->   
-        <div class="row">      
-            <div class="input-field col s12">
-                <select multiple>
-                    <option value="" disabled selected>Allergens</option>
-                    {% for item in allergens_file.allergen %}
-                    <option value="{{ item }}">{{ item }}</option>
-                    {% endfor %} 
-                </select>
-            </div>
-        </div>              
-            
-<!--Preperation time--> 
-        <div class="row">
-            <div class="input-field col s12">
-                <input id="prep" name="prep" type="text" class="validate">
-                <label for="prep">Preperation time</label>
-            </div>
-        </div>                       
-                                        
-<!--Cooking time-->  
-        <div class="row">    
-            <div class="input-field col s12">
-                <input id="cook" name="cook" type="text" class="validate">
-                <label for="cook">Cooking time</label>
-            </div>
-        </div>
-            
-<!--Servings-->    
-        <div class="row">
-            <div class="input-field col s12">
-                <input id="servings" name="servings" type="text" class="validate">
-                <label for="servings">Servings</label>
-            </div>
-        </div>
-                                        
-<!--Submit Save button-->
-        <div class="input-field">
-            <button type="submit" class="btn btn-primary">Save</button>
-        </div>
-    </form>
+
+    <input class="btn btn-info btn-block my-4" type="submit" value="add entry" id="add">
+
+
+  </form>
+
 </div>
-        
-</main>
 
 {% endblock %}
