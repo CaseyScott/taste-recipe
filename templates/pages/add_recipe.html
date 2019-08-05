@@ -28,7 +28,7 @@
     <div class="cuisine_input" id="cuisine_input">
       <select class="selectpicker" required name="cuisine" class="cuisine" id="cuisine">
         <option value="" disabled selected>Pick a Cuisine</option>
-          {% for item in cuisine_json.cuisine|sort %}
+          {% for item in cuisine_file.cuisine|sort %}
         <option value="{{ item }}">{{ item| title }}</option>
           {% endfor %}
       </select>
@@ -39,7 +39,7 @@
     <div class="allergen_input" id="allergen_input">
       <select class="selectpicker" multiple data-live-search="true"  name="allergen"  id="allergen">
         <option value="" disabled selected>Choose Allergen</option>
-              {% for item in allergens_json.allergen %}
+              {% for item in allergens_file.allergen %}
         <option value="{{ item }}">{{ item }}</option>
               {% endfor %} 
       </select>

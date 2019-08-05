@@ -54,7 +54,7 @@
                 <div class="cuisine_container">
                     <select>
                     <option value="" disabled selected>Cuisine</option>                    
-                    {% for item in cuisine_json.cuisine|sort %} 
+                    {% for item in cuisine_file.cuisine|sort %} 
                     <option value="{{ item }}">{{ item| title }}</option>
                     {% endfor %}
                     </select>
@@ -67,7 +67,7 @@
             <div class="input-field col s12">
                 <select multiple>
                     <option value="" disabled selected>Allergens</option>
-                    {% for item in allergens_json.allergen %}
+                    {% for item in allergens_file.allergen %}
                     <option value="{{ item }}">{{ item }}</option>
                     {% endfor %} 
                 </select>

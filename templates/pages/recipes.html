@@ -28,6 +28,19 @@
 
     <div class="row justify-content-center">
       {% for recipe in recipes %}
+      {{ recipe.recipe_name }}
+      {{ recipe.description }}
+      {{ recipe.ingredients }}
+      {{ recipe.instructions }}
+      {{ recipe.image }}
+      {{ recipe.cuisine }}
+      {{ recipe.allergens }}
+      {{ recipe.preparation }}
+      {{ recipe.cooking }}
+      {{ recipe.servings }}
+      {% endfor %}
+
+
       <div class="column">
         <div class="card" style="width: 18rem;">
 

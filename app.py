@@ -32,12 +32,12 @@ recipes = mongo.db.recipes
 
 
 ### Data for dropdown selectors in add recipe form
-cuisine_json = []
-with open("data/cuisine_data.json", "r") as file:
-    cuisine_json = json.load(file)
-allergen_json = []
-with open("data/allergen_data.json", "r") as file:
-    allergens_json = json.load(file)
+cuisine_file = []
+with open("data/cuisine_data.json", "r") as json_data:
+    cuisine_file = json.load(json_data)
+allergen_file = []
+with open("data/allergen_data.json", "r") as json_data:
+    allergens_file = json.load(json_data)
     
     
     
@@ -152,8 +152,8 @@ def logout():
 def add_recipe():
     recipes=mongo.db.recipes
     return render_template("pages/add_recipe.html",
-    cuisine_json=cuisine_json,
-    allergens_json=allergens_json)
+    cuisine_file=cuisine_file,
+    allergens_file=allergens_file)
 
 
 
@@ -177,12 +177,17 @@ def recipes():
    
    
    
-### single recipe users added recipes#   
+### single recipe users added recipes#
+###the_recipe = find one recipe###    
 @app.route('/user_recipe/<recipe_id>', methods=['GET', 'POST'])
 def user_recipe(recipe_id): 
-###the_recipe = find one recipe###   
+    
     the_recipe=mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
-    return render_template('pages/user_recipe.html', recipe=the_recipe)
+    
+    return render_template('pages/user_recipe.html',
+        recipe=the_recipe,
+        cuisine_file=cuisine_file,
+        allergens_file=allergens_file)
     
     
 
@@ -195,8 +200,8 @@ def edit_recipe(recipe_id):
     return render_template(
         'pages/edit_recipe.html',
         recipe=the_recipe,
-        cuisine_json=cuisine_json,
-        allergens_json=allergens_json)
+        cuisine_file=cuisine_file,
+        allergens_file=allergens_file)
     
 
 
@@ -253,8 +258,8 @@ def ingredients_search():
     return render_template(
         'search_results.html',
         recipes=recipes_by_ingredients,
-        cuisine_json=cuisine_json,
-        allergens_json=allergens_json)
+        cuisine_file=cuisine_file,
+        allergens_file=allergens_file)
 
 
 @app.route("/cuisine_search", methods=['POST'])
@@ -264,8 +269,8 @@ def cuisine_search():
     return render_template(
         'search_results.html',
         recipes=recipes_by_cuisine,
-        cuisine_json=cuisine_json,
-        allergens_json=allergens_json)
+        cuisine_file=cuisine_file,
+        allergens_file=allergens_file)
 
 
 @app.route("/allergen_search", methods=['POST'])
@@ -275,8 +280,8 @@ def allergen_search():
     return render_template(
         'search_results.html',
         recipes=recipes_by_allergen,
-        cuisine_json=cuisine_json,
-        allergens_json=allergens_json)
+        cuisine_file=cuisine_file,
+        allergens_file=allergens_file)
     
     
 @app.route("/search_categories", methods=['POST'])
@@ -325,8 +330,8 @@ def search_categories():
         'search_results.html',
         recipe_category=recipe_category,
         recipe_count=recipe_count,
-        cuisine_json=cuisine_json,
-        allergens_json=allergens_json)
+        cuisine_file=cuisine_file,
+        allergens_file=allergens_file)
 
 
 
