@@ -1,13 +1,9 @@
 {"allergen": [
   "dairy",
   "eggs",
-  "crustacean",
-  "tree nuts",
-  "peanuts",
+  "shellfish",
+  "tree nut",
+  "peanut",
   "wheat",
-  "soybeans",
-  "celery",
-  "mustard",
-  "sesame",
-  "fish"
+  "soybeans"
 ]}

@@ -1,12 +1,13 @@
 {% extends 'page-layout/base.html' %} {% block content %}
 
 <!--sticky footer-->
+
 <body class="d-flex flex-column">
   <div id="page-content">
 
 
     <div class="row recipe-heading">
-      <h2>Recipes</h2>
+      <h2>All Recipes</h2>
     </div>
 
     <!-- Button trigger modal to drop down search box for categories -->
@@ -18,79 +19,59 @@
       </div>
     </div>
 
-    <!-- modal for searching cuisine allergen or ingredients -->
+    <!-- modal for searching meal type allergen or ingredients -->
     {% block search_box %}
     {% include 'pages/search_box.html' %}
     {% endblock search_box %}
 
 
 
-
-    <div class="row justify-content-center">
-      {% for recipe in recipes %}
-      {{ recipe.recipe_name }}
-      {{ recipe.description }}
-      {{ recipe.ingredients }}
-      {{ recipe.instructions }}
-      {{ recipe.image }}
-      {{ recipe.cuisine }}
-      {{ recipe.allergens }}
-      {{ recipe.preparation }}
-      {{ recipe.cooking }}
-      {{ recipe.servings }}
-      {% endfor %}
-
-
+    <div class="row justify-content-around">
+      {% for recipes in recipes %}
       <div class="column">
+
         <div class="card" style="width: 18rem;">
 
-          <img class="card-img-top" src="https://www.themealdb.com/images/media/meals/vussxq1511882648.jpg"
-            alt="Card image cap">
+          <img class="card-img-top" src="{{ recipes.image }}" alt="Card image cap">
 
           <div class="card-body">
-            <h5 class="card-title">{{ recipe.name }}</h5>
+            <h5 class="card-title">{{ recipes.name }}</h5>
 
-            <p class="card-text">{{ recipe.description }}</p>
-            <!--read more button wired to single page recipe-->
-            <a href="#" class="btn btn-primary">Read more</a>
+            <p class="card-text">{{ recipes.description }}</p>
+            
+
+
+            <div class="allergen col-xs-12 center">
+              <div><b>Allergens</b></div>
+              {% for item in recipes.allergens %}
+                {% if item == "" %}
+                <p>No Allergen</p>
+              <span>{{ item | title}}</span>
+                {% endif %}
+              {% endfor %}
+
+            </div>
+
+            <div class="meal_types col-xs-12 center">
+              <div><b>Meal types</b></div>
+              {% for item in recipes.meal_types %}
+              <span>{{ item |title}}</span>
+              {% endfor %}
+            </div>
+<!--read more button wired to single page recipe-->
+            <a href="" class="btn btn-primary">Read more</a>
+
           </div>
         </div>
 
       </div>
+
+
       {% endfor %}
 
-      <!--bootstrap card unchanged-->
-      <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="https://www.themealdb.com/images/media/meals/vussxq1511882648.jpg" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
 
-<!--sticky footer-->
+      <!--sticky footer-->
     </div>
 </body>
 
 {% endblock %}
-
-
-
-<!--
-def recipe_data():
-data = {
-"name": request.form.get('recipe_name'),
-"description": request.form.get('description'),
-"ingredients": request.form.get('ingredients'),
-"instructions": request.form.get('instructions'),
-"image": request.form.get('image'),
-"cuisine": request.form.getlist('cuisine'),
-"allergens": request.form.getlist('allergens'),
-"prep": request.form.get('prep_time'),
-"cook": request.form.get('cook_time'),
-"servings": request.form.get('servings'),
-"username": session['username']
-}
-return data
--->

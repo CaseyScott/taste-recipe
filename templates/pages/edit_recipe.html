@@ -26,24 +26,24 @@
     <label for="textInput">Image</label>
     <input required type="url" name="image" id="image" class="form-control mb-4" value="{{ recipe.image }}">
 
-<!----------------- cuisine category------------->
-    <div class="cuisine_input" id="cuisine_input">
-      {% if recipe.cuisine == [] %}
-      <select required class="selectpicker" name="cuisine" class="cuisine">
-        <option value="" selected>Pick a Cuisine</option>
+<!----------------- meal_types category------------->
+    <div class="meal_types_input" id="meal_types_input">
+      {% if recipes.meal_types == [] %}
+      <select required class="selectpicker" name="meal_types" class="meal_types">
+        <option value="" selected>Pick a Meal type</option>
 
-        {% for item in cuisine_file.cuisine %}
+        {% for item in meal_types_file.meal_types %}
         <option>{{ item }}</option>
         {% endfor %}
       </select>
       {% endif %}
 
-      {% if recipe.cuisine != [] %}
-      {% for cuisine in recipe.cuisine %}
-      <select name="cuisine" class="cuisine">
-        <option disabled selected>{{ cuisine }}</option>
+      {% if recipes.meal_types != [] %}
+        {% for meal_types in recipe.meal_types %}
+      <select name="meal_types" class="meal_types">
+        <option disabled selected>{{ meal_types }}</option>
 
-        {% for item in cuisine_file.cuisine %}
+        {% for item in meal_types_file.meal_types %}
         <option>{{ item }}</option>
         {% endfor %}
       {% endfor %}
@@ -51,7 +51,7 @@
     </div>
     <br>
     <br>
-<!----------------- cuisine category------------->
+<!-----------------meal_typess category------------->
 <!----------------- allergen category------------->
     <div class="allergen_input" id="allergen_input">
       <select class="selectpicker" multiple data-live-search="true" name="allergen" id="allergen">

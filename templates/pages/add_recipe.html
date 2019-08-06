@@ -25,10 +25,10 @@
     <label for="textInput">Image</label>
       <input required type="url" name="image" id="image" class="form-control mb-4" placeholder="http://url">
       
-    <div class="cuisine_input" id="cuisine_input">
-      <select class="selectpicker" required name="cuisine" class="cuisine" id="cuisine">
-        <option value="" disabled selected>Pick a Cuisine</option>
-          {% for item in cuisine_file.cuisine|sort %}
+    <div class="meals_input" id="meals_input">
+      <select class="selectpicker" required name="meals" class="meals" id="meals">
+        <option value="" disabled selected>Pick a Meal type</option>
+          {% for item in meal_types_file.category %}
         <option value="{{ item }}">{{ item| title }}</option>
           {% endfor %}
       </select>
