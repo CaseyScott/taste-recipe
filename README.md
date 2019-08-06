@@ -25,3 +25,6 @@ https://flask.palletsprojects.com/en/1.1.x/quickstart/#rendering-templates
 
 #Javascript - How to check if a typed image URL really exists
 """https://stackoverflow.com/questions/24577534/javascript-how-to-check-if-a-typed-image-url-really-exists"""
+
+#simple sign in and sign out 
+"""https://gist.github.com/daGrevis/2427189"""

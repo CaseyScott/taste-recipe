@@ -43,22 +43,6 @@ with open("data/allergen_data.json", "r") as json_data:
     
     
 
-def recipe_data():
-    data = {
-        "name": request.form.get('name'),
-        "description": request.form.get('description'),
-        "ingredients": request.form.get('ingredients'),
-        "instructions": request.form.get('instructions'),
-        "image": request.form.get('image'),
-        "meals": request.form.getlist('meals'),
-        "allergens": request.form.getlist('allergens'),
-        "preparation": request.form.get('preparation'),
-        "cooking": request.form.get('cooking'),
-        "servings": request.form.get('servings'),
-        "username": session['username']
-    }
-    return data
-
 
 
 def logged_in_user():
@@ -86,7 +70,7 @@ def index():
     return render_template('pages/index.html')
 
 """----------------------------------------------------"""
-
+"""if request is POST and if the two given passwords match. It checks if the username already exists in database if the username doesnt already exist it hashs the password using bcrypt, this is sent to MONGODB users collection. if all worked corectly the session username variable is created for that username and the user is redirected to index/home"""
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     error = None
@@ -116,7 +100,7 @@ def register():
 
 
 """----------------------------------------------------"""      
-        
+"""if the request is POST, it looks for that user in list of usernames in MONGODB users collection, if password matches, session username variable is created for that user. Logged in user is redirected to index/home"""  
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
@@ -140,7 +124,7 @@ def login():
 
 
 """----------------------------------------------------"""
- 
+"""logout uses the pop method to release that session variable username """
 @app.route('/logout')
 def logout():
     session.pop('username')
@@ -148,9 +132,7 @@ def logout():
 
 """----------------------------------------------------"""
 
-"""
-Route for Add recipe page  / add_recipe.html
-"""
+"""User is sent to 'add recipes page' which includes data from meal_types and allergens json files."""
 @app.route('/add_recipe', methods=['GET', 'POST'])
 def add_recipe():
     recipes=mongo.db.recipes
@@ -159,9 +141,7 @@ def add_recipe():
     allergens_file=allergens_file)
 
 
-"""
-Add recipe form insert recipe into mongodb
-"""
+"""from add recipe page the user input information is stored as a dictionary in the MONGODB recipes collection, calling to_dict on the request.form object gives back a dictionary that can be used to display recipes from the recipes collection.Inserts one new recipe with an id into the recipes collection."""
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
     recipes=mongo.db.recipes
@@ -171,21 +151,16 @@ def insert_recipe():
 
 
 
-"""
-All recipes in mongo database
-"""
+"""all recipes in the MONGODB recipes collection. find()=find all"""
 @app.route("/recipes", methods=['GET', 'POST'])  
 def recipes():
-###recipes = all recipes in the mongo db###
     recipes=mongo.db.recipes.find()
     return render_template('pages/recipes.html',
     recipes=recipes)
 
    
    
-"""
-Session user recipe list they have added to the database
-"""      
+"""Session user recipe list from recipes collection that they have contributed to the database"""      
 @app.route('/get_user_recipe', methods=['GET', 'POST'])
 def get_user_recipe(): 
     
@@ -198,9 +173,7 @@ def get_user_recipe():
     
     
 
-"""
-Edit existing recipe 
-"""
+"""editing one recipe by its recipe_id as the_recipe including meal_type and allergen data display all input information in the form to be edited"""
 @app.route('/edit_recipe/<recipe_id>', methods=['GET', 'POST'])
 def edit_recipe(recipe_id):
     
@@ -211,11 +184,25 @@ def edit_recipe(recipe_id):
         meal_types_file=meal_types_file,
         allergens_file=allergens_file)
     
+    
+"""add recipe / edit recipe  input form"""    
+def recipe_data():
+    data = {
+        "name": request.form.get('name'),
+        "description": request.form.get('description'),
+        "ingredients": request.form.get('ingredients'),
+        "instructions": request.form.get('instructions'),
+        "image": request.form.get('image'),
+        "meals": request.form.getlist('meals'),
+        "allergens": request.form.getlist('allergens'),
+        "preparation": request.form.get('preparation'),
+        "cooking": request.form.get('cooking'),
+        "servings": request.form.get('servings'),
+        "username": session['username']
+    }
+    return data
 
-
-"""
-Update existing recipe to mongodb
-"""
+"""from edit recipe the edited information is sent to MONGODB recipes collection. $set:recipe_data replaces the value of a field with the specified value."""
 @app.route('/update_recipe/<recipe_id>', methods=['POST'])
 def update_recipe(recipe_id):
     username=logged_in_user()
@@ -228,10 +215,12 @@ def update_recipe(recipe_id):
     return redirect(url_for('get_user_recipe', recipe_id=recipe_id))
     
     
+
+
     
-"""
-Session user has the option to delete their own recipes they have added.
-"""   
+    
+"""delete recipe removes recipe from MONGODB recipes collection
+only the creator of that recipe can delete by matching session username"""  
 ### .remove or .delete_one ### 
 @app.route('/delete_recipe/<recipe_id>', methods=['POST'])
 def delete_recipe(recipe_id):
@@ -242,6 +231,7 @@ def delete_recipe(recipe_id):
 
 #-----------------------------------Recipes CRUD functionality
 """-------------------------------------------------------"""
+
 
 @app.route("/ingredients_search", methods=['POST'])
 def ingredients_search():
