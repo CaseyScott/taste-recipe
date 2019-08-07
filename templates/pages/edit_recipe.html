@@ -8,23 +8,35 @@
     <br>
     <p class="h4 mb-4 text-center">Edit your Recipe</p>
 
+
+
     <label for="textInput">Recipe Name</label>
     <input required type="text" id="name" name="name" class="form-control mb-4" value="{{ recipes.name }}">
 
+
+
     <label for="textarea">Recipe Description</label>
     <textarea required id="description" name="description" class="form-control mb-4"
-      value="{{ recipes.description }}"></textarea>
+    >{{ recipes.description }}</textarea>
+
+
 
     <label for="textarea">Ingredients</label>
     <textarea required id="ingredients" name="ingredients" class="form-control mb-4"
-      value="{{ recipes.ingredients }}"></textarea>
+    >{{ recipes.ingredients }}</textarea>
+
+
 
     <label for="textarea">Instructions</label>
     <textarea required name="instructions" id="instructions" class="form-control mb-4"
-      value="{{ recipes.instructions }}"></textarea>
+    >{{ recipes.instructions }}</textarea>
+
+
 
     <label for="textInput">Image</label>
     <input required type="url" name="image" id="image" class="form-control mb-4" value="{{ recipes.image }}">
+
+
 
     <!----------------- meal_types category------------->
     <div class="meals_input" id="meals_input">
@@ -57,12 +69,17 @@
     <input required type="text" name="preparation" id="preparation" class="form-control mb-4"
       value="{{ recipes.preparation }}">
 
+
+
     <label for="textInput">Cooking Time</label>
     <input required type="text" name="cooking" id="cooking" class="form-control mb-4" value="{{ recipes.cooking }}">
+
+
 
     <label for="textInput">Servings</label>
     <input required type="number" id="servings" name="servings" class="form-control mb-4"
       value="{{ recipes.servings }}">
+
 
 
     <input class="btn btn-info btn-block my-4" type="submit" value="add entry" id="add">

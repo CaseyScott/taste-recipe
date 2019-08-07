@@ -189,9 +189,9 @@ def edit_recipe(recipe_id):
 def recipe_data():
     data = {
         "name": request.form.get('name'),
-        "description": request.form.get('description'),
-        "ingredients": request.form.get('ingredients'),
-        "instructions": request.form.get('instructions'),
+        "description": request.form.getlist('description'),
+        "ingredients": request.form.getlist('ingredients'),
+        "instructions": request.form.getlist('instructions'),
         "image": request.form.get('image'),
         "meal_types": request.form.getlist('meal_types'),
         "allergens": request.form.getlist('allergens'),
