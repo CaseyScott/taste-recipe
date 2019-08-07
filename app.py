@@ -36,7 +36,7 @@ meal_types_file = []
 with open("data/meals_data.json", "r") as json_data:
     meal_types_file = json.load(json_data)
     
-allergen_file = []
+allergens_file = []
 with open("data/allergen_data.json", "r") as json_data:
     allergens_file = json.load(json_data)
     
@@ -180,7 +180,7 @@ def edit_recipe(recipe_id):
     the_recipe=mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
     
     return render_template('pages/edit_recipe.html',
-        recipe=the_recipe,
+        recipes=the_recipe,
         meal_types_file=meal_types_file,
         allergens_file=allergens_file)
     
@@ -193,7 +193,7 @@ def recipe_data():
         "ingredients": request.form.get('ingredients'),
         "instructions": request.form.get('instructions'),
         "image": request.form.get('image'),
-        "meals": request.form.getlist('meals'),
+        "meal_types": request.form.getlist('meal_types'),
         "allergens": request.form.getlist('allergens'),
         "preparation": request.form.get('preparation'),
         "cooking": request.form.get('cooking'),
@@ -205,7 +205,7 @@ def recipe_data():
 """from edit recipe the edited information is sent to MONGODB recipes collection. $set:recipe_data replaces the value of a field with the specified value."""
 @app.route('/update_recipe/<recipe_id>', methods=['POST'])
 def update_recipe(recipe_id):
-    username=logged_in_user()
+    
     
     recipes=mongo.db.recipes
     recipes.update_many(

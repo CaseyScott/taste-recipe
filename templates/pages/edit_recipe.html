@@ -2,77 +2,67 @@
 
 <div id="form-wrapper" style="max-width:700px;margin:auto;">
 
-  <form class="border border-light p-5" action="{{url_for('update_recipe', recipe_id=recipe._id)}}" method="POST">
+  <form class="border border-light p-5" action="{{url_for('update_recipe', recipe_id=recipes._id)}}" method="POST">
     <br>
     <br>
     <br>
-    <p class="h4 mb-4 text-center">Add your own Recipe</p>
+    <p class="h4 mb-4 text-center">Edit your Recipe</p>
 
     <label for="textInput">Recipe Name</label>
-    <input required type="text" id="name" name="name" class="form-control mb-4" value="{{ recipe.name }}">
+    <input required type="text" id="name" name="name" class="form-control mb-4" value="{{ recipes.name }}">
 
     <label for="textarea">Recipe Description</label>
     <textarea required id="description" name="description" class="form-control mb-4"
-      value="{{ recipe.description }}"></textarea>
+      value="{{ recipes.description }}"></textarea>
 
     <label for="textarea">Ingredients</label>
     <textarea required id="ingredients" name="ingredients" class="form-control mb-4"
-      value="{{ recipe.ingredients }}"></textarea>
+      value="{{ recipes.ingredients }}"></textarea>
 
     <label for="textarea">Instructions</label>
     <textarea required name="instructions" id="instructions" class="form-control mb-4"
-      value="{{ recipe.instructions }}"></textarea>
+      value="{{ recipes.instructions }}"></textarea>
 
     <label for="textInput">Image</label>
-    <input required type="url" name="image" id="image" class="form-control mb-4" value="{{ recipe.image }}">
+    <input required type="url" name="image" id="image" class="form-control mb-4" value="{{ recipes.image }}">
 
-<!----------------- meal_types category------------->
-    <div class="meal_types_input" id="meal_types_input">
-      {% if recipes.meal_types == [] %}
-      <select required class="selectpicker" name="meal_types" class="meal_types">
-        <option value="" selected>Pick a Meal type</option>
-
-        {% for item in meal_types_file.meal_types %}
-        <option>{{ item }}</option>
-        {% endfor %}
+    <!----------------- meal_types category------------->
+    <div class="meals_input" id="meals_input">
+      <select class="selectpicker" required name="meals" class="meals" id="meals">
+        <option value="" disabled selected>Pick a Meal type</option>
+          {% for item in meal_types_file.meals %}
+        <option>{{ item}}</option>
+          {% endfor %}
       </select>
-      {% endif %}
-
-      {% if recipes.meal_types != [] %}
-        {% for meal_types in recipe.meal_types %}
-      <select name="meal_types" class="meal_types">
-        <option disabled selected>{{ meal_types }}</option>
-
-        {% for item in meal_types_file.meal_types %}
-        <option>{{ item }}</option>
-        {% endfor %}
-      {% endfor %}
-      {% endif%}
     </div>
-    <br>
-    <br>
-<!-----------------meal_typess category------------->
-<!----------------- allergen category------------->
+      <br>
+      <br>
+
+    
+    <!-----------------meal_typess category------------->
+    <!----------------- allergen category------------->
     <div class="allergen_input" id="allergen_input">
-      <select class="selectpicker" multiple data-live-search="true" name="allergen" id="allergen">
+      <select class="selectpicker" multiple="true"  name="allergen"  id="allergen">
         <option value="" disabled selected>Choose Allergen</option>
-        {% for item in allergens_file.allergen %}
-        <option value="{{ item }}">{{ item }}</option>
-        {% endfor %}
+              {% for item in allergens_file.allergen %}
+        <option value="{{ item }}">{{ item| title }}</option>
+              {% endfor %} 
       </select>
     </div>
     <br>
     <br>
-<!----------------- allergen category------------->
+    <!----------------- allergen category------------->
 
     <label for="textInput">Preparation Time</label>
-    <input required type="text" name="preparation" id="preparation" class="form-control mb-4" value="{{ recipe.preparation }}">
+    <input required type="text" name="preparation" id="preparation" class="form-control mb-4"
+      value="{{ recipes.preparation }}">
 
     <label for="textInput">Cooking Time</label>
-    <input required type="text" name="cooking" id="cooking" class="form-control mb-4" value="{{ recipe.cooking }}">
+    <input required type="text" name="cooking" id="cooking" class="form-control mb-4" value="{{ recipes.cooking }}">
 
     <label for="textInput">Servings</label>
-    <input required type="number" id="servings" name="servings" class="form-control mb-4" value="{{ recipe.servings }}">
+    <input required type="number" id="servings" name="servings" class="form-control mb-4"
+      value="{{ recipes.servings }}">
 
 
     <input class="btn btn-info btn-block my-4" type="submit" value="add entry" id="add">
