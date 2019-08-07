@@ -131,7 +131,7 @@ def logout():
     return redirect(url_for('index'))
 
 """----------------------------------------------------"""
-
+# ADD RECIPE #
 """User is sent to 'add recipes page' which includes data from meal_types and allergens json files."""
 @app.route('/add_recipe', methods=['GET', 'POST'])
 def add_recipe():
@@ -140,7 +140,7 @@ def add_recipe():
     meal_types_file=meal_types_file,
     allergens_file=allergens_file)
 
-
+# INSERT #
 """from add recipe page the user input information is stored as a dictionary in the MONGODB recipes collection, calling to_dict on the request.form object gives back a dictionary that can be used to display recipes from the recipes collection.Inserts one new recipe with an id into the recipes collection."""
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
@@ -150,7 +150,7 @@ def insert_recipe():
 
 
 
-
+# ALL RECIPES #
 """all recipes in the MONGODB recipes collection. find()=find all"""
 @app.route("/recipes", methods=['GET', 'POST'])  
 def recipes():
@@ -159,7 +159,7 @@ def recipes():
     recipes=recipes)
 
    
-   
+# GET USER RECIPE #  
 """Session user recipe list from recipes collection that they have contributed to the database"""      
 @app.route('/get_user_recipe', methods=['GET', 'POST'])
 def get_user_recipe(): 
@@ -172,7 +172,7 @@ def get_user_recipe():
         allergens_file=allergens_file)
     
     
-
+# EDIT #
 """editing one recipe by its recipe_id as the_recipe including meal_type and allergen data display all input information in the form to be edited"""
 @app.route('/edit_recipe/<recipe_id>', methods=['GET', 'POST'])
 def edit_recipe(recipe_id):
@@ -202,6 +202,7 @@ def recipe_data():
     }
     return data
 
+# UPDATE #
 """from edit recipe the edited information is sent to MONGODB recipes collection. $set:recipe_data replaces the value of a field with the specified value."""
 @app.route('/update_recipe/<recipe_id>', methods=['POST'])
 def update_recipe(recipe_id):
@@ -218,7 +219,7 @@ def update_recipe(recipe_id):
 
 
     
-    
+# DELETE # 
 """delete recipe removes recipe from MONGODB recipes collection
 only the creator of that recipe can delete by matching session username"""  
 ### .remove or .delete_one ### 

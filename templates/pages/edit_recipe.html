@@ -16,20 +16,20 @@
 
 
     <label for="textarea">Recipe Description</label>
-    <textarea required id="description" name="description" class="form-control mb-4"
-    >{{ recipes.description }}</textarea>
+    <textarea required id="description" name="description"
+      class="form-control mb-4">{{ recipes.description }}</textarea>
 
 
 
     <label for="textarea">Ingredients</label>
-    <textarea required id="ingredients" name="ingredients" class="form-control mb-4"
-    >{{ recipes.ingredients }}</textarea>
+    <textarea required id="ingredients" name="ingredients"
+      class="form-control mb-4">{{ recipes.ingredients }}</textarea>
 
 
 
     <label for="textarea">Instructions</label>
-    <textarea required name="instructions" id="instructions" class="form-control mb-4"
-    >{{ recipes.instructions }}</textarea>
+    <textarea required name="instructions" id="instructions"
+      class="form-control mb-4">{{ recipes.instructions }}</textarea>
 
 
 
@@ -39,50 +39,61 @@
 
 
     <!----------------- meal_types category------------->
+    {% if recipes.meal_types == [] %}
     <div class="meals_input" id="meals_input">
-      <select class="selectpicker" required name="meals" class="meals" id="meals">
-        <option value="" disabled selected>Pick a Meal type</option>
-          {% for item in meal_types_file.meals %}
-        <option>{{ item}}</option>
+
+      <select required class="selectpicker" name="meals" class="meals" id="meals">
+
+          <option value="" selected>Pick a Meal type</option>
+        {% for item in meal_types_file.meals %}
+          <option>{{ item}}</option>
+        {% endfor %}
+      </select>
+    {% endif%}
+
+    {% if recipes.meal_types != [] %}
+      {% for meal_types in recipes.meal_types %}
+        <select name="meal_types" class="meal_types">
+          <option selected>{{ meal_types }}</option>
+        {% for item in meal_types_file.meal_types %}
+          <option>{{ item }}</option>
+        {% endfor %}
+        </select>
+      {% endfor %}
+    {% endif %}
+
+      <!-----------------meal_typess category------------->
+      <!----------------- allergen category------------->
+      <div class="allergen_input" id="allergen_input">
+        <select class="selectpicker" multiple="true" name="allergen" id="allergen">
+          <option value="" disabled selected>Choose Allergen</option>
+          {% for item in allergens_file.allergen %}
+          <option value="{{ item }}">{{ item| title }}</option>
           {% endfor %}
-      </select>
-    </div>
+        </select>
+      </div>
       <br>
       <br>
+      <!----------------- allergen category------------->
 
-    
-    <!-----------------meal_typess category------------->
-    <!----------------- allergen category------------->
-    <div class="allergen_input" id="allergen_input">
-      <select class="selectpicker" multiple="true"  name="allergen"  id="allergen">
-        <option value="" disabled selected>Choose Allergen</option>
-              {% for item in allergens_file.allergen %}
-        <option value="{{ item }}">{{ item| title }}</option>
-              {% endfor %} 
-      </select>
-    </div>
-    <br>
-    <br>
-    <!----------------- allergen category------------->
-
-    <label for="textInput">Preparation Time</label>
-    <input required type="text" name="preparation" id="preparation" class="form-control mb-4"
-      value="{{ recipes.preparation }}">
+      <label for="textInput">Preparation Time</label>
+      <input required type="text" name="preparation" id="preparation" class="form-control mb-4"
+        value="{{ recipes.preparation }}">
 
 
 
-    <label for="textInput">Cooking Time</label>
-    <input required type="text" name="cooking" id="cooking" class="form-control mb-4" value="{{ recipes.cooking }}">
+      <label for="textInput">Cooking Time</label>
+      <input required type="text" name="cooking" id="cooking" class="form-control mb-4" value="{{ recipes.cooking }}">
 
 
 
-    <label for="textInput">Servings</label>
-    <input required type="number" id="servings" name="servings" class="form-control mb-4"
-      value="{{ recipes.servings }}">
+      <label for="textInput">Servings</label>
+      <input required type="number" id="servings" name="servings" class="form-control mb-4"
+        value="{{ recipes.servings }}">
 
 
 
-    <input class="btn btn-info btn-block my-4" type="submit" value="add entry" id="add">
+      <input class="btn btn-info btn-block my-4" type="submit" value="add entry" id="add">
 
 
   </form>
