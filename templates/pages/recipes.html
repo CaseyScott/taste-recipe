@@ -43,7 +43,7 @@
 
             <div class="allergen col-xs-12 center">
               <div><b>Allergens</b></div>
-              {% for item in recipes.allergens %}
+              {% for item in recipes.allergen %}
                 {% if item == "" %}
                 <p>No Allergen</p>
               <span>{{ item | title}}</span>
@@ -54,8 +54,8 @@
 
             <div class="meal_types col-xs-12 center">
               <div><b>Meal types</b></div>
-              {% for item in recipes.meal_types %}
-              <span>{{ item |title}}</span>
+              {% for item in recipes.meals %}
+              <span>{{ item | title}}</span>
               {% endfor %}
             </div>
 <!--read more button wired to single page recipe-->

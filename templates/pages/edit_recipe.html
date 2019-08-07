@@ -1,4 +1,5 @@
-{% extends 'page-layout/base.html' %} {% block content %}
+{% extends 'page-layout/base.html'%} {% block content %}
+
 
 <div id="form-wrapper" style="max-width:700px;margin:auto;">
 
@@ -39,41 +40,33 @@
 
 
     <!----------------- meal_types category------------->
-    {% if recipes.meal_types == [] %}
+   
     <div class="meals_input" id="meals_input">
 
-      <select required class="selectpicker" name="meals" class="meals" id="meals">
-
-          <option value="" selected>Pick a Meal type</option>
-        {% for item in meal_types_file.meals %}
-          <option>{{ item}}</option>
-        {% endfor %}
+      <select class="selectpicker" required name="meals" class="meals" id="meals">
+        <option value="" disabled selected>Pick a Meal type</option>
+          {% for item in recipes.meals %}
+        <option value="{{ item }}">{{ item| title }}</option>
+          {% endfor %}
       </select>
-    {% endif%}
-
-    {% if recipes.meal_types != [] %}
-      {% for meal_types in recipes.meal_types %}
-        <select name="meal_types" class="meal_types">
-          <option selected>{{ meal_types }}</option>
-        {% for item in meal_types_file.meal_types %}
-          <option>{{ item }}</option>
-        {% endfor %}
-        </select>
-      {% endfor %}
-    {% endif %}
-
+    </div>
+    <br>
+    <br>
+    
       <!-----------------meal_typess category------------->
       <!----------------- allergen category------------->
+       
       <div class="allergen_input" id="allergen_input">
-        <select class="selectpicker" multiple="true" name="allergen" id="allergen">
+        <select class="selectpicker" multiple="true"  name="allergen"  id="allergen">
           <option value="" disabled selected>Choose Allergen</option>
-          {% for item in allergens_file.allergen %}
+                {% for item in recipes.allergen %}
           <option value="{{ item }}">{{ item| title }}</option>
-          {% endfor %}
+                {% endfor %} 
         </select>
       </div>
       <br>
       <br>
+
       <!----------------- allergen category------------->
 
       <label for="textInput">Preparation Time</label>
@@ -99,5 +92,6 @@
   </form>
 
 </div>
+
 
 {% endblock %}

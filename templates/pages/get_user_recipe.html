@@ -23,28 +23,28 @@
 
             <p class="card-text">{{ recipes.description }}</p>
             
+
+
             <!-- meal type drop down selector-->
             <div class="meal_types col-xs-12 center">
               <div><b>Meal types</b></div>
-              {% for item in recipes.meal_types %}
-                {% if item == "" %}
+              
                 <p>No meal type</p>
-                {% else %}
-                <span>{{ item |title}}</span>
-                {% endif %}
-              {% endfor %}
+               
+                <span>{{ item }}</span>
+                
             </div>
+
+
 
             <!-- allergen drop down selector-->
             <div class="allergen col-xs-12 center">
               <div><b>Allergens</b></div>
-              {% for item in recipes.allergens %}
-                {% if item == "" %}
+              
                 <p>No Allergen</p>
-                {% else %}
+                
               <span>{{ item }}</span>
-                {% endif %}
-              {% endfor %}
+               
             </div>
 
             

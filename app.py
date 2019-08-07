@@ -179,7 +179,8 @@ def edit_recipe(recipe_id):
     
     the_recipe=mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
     
-    return render_template('pages/edit_recipe.html',
+    return render_template(
+        'pages/edit_recipe.html',
         recipes=the_recipe,
         meal_types_file=meal_types_file,
         allergens_file=allergens_file)
@@ -193,8 +194,8 @@ def recipe_data():
         "ingredients": request.form.getlist('ingredients'),
         "instructions": request.form.getlist('instructions'),
         "image": request.form.get('image'),
-        "meal_types": request.form.getlist('meal_types'),
-        "allergens": request.form.getlist('allergens'),
+        "meals": request.form.get('meals'),
+        "allergen": request.form.get('allergen'),
         "preparation": request.form.get('preparation'),
         "cooking": request.form.get('cooking'),
         "servings": request.form.get('servings'),
