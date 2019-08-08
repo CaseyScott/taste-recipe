@@ -40,53 +40,78 @@
 
 
     <!----------------- meal_types category------------->
-   
-    <div class="meals_input" id="meals_input">
 
-      <select class="selectpicker" required name="meals" class="meals" id="meals">
+    <div class="meals_input" id="meals_input">
+      {% if recipes.meals == [] %}
+      <select class="selectpicker" required name="meals"  id="meals">
         <option value="" disabled selected>Pick a Meal type</option>
-          {% for item in recipes.meals %}
-        <option value="{{ item }}">{{ item| title }}</option>
-          {% endfor %}
+        {% for item in meal_types_file.meals %}
+        <option>{{ item }}</option>
+        {% endfor %}
       </select>
+      {% endif%}
+
+      {% if recipes.meals != [] %}
+      {% for meals in recipes.meals %}
+      <select name="meals" class="meals">
+        <option selected>{{ meals }}</option>
+        {% for item in meal_types_file.meals %}
+      <option>{{ item }}</option>
+      {% endfor %}
+      </select>
+      {% endfor %}
+      {% endif%}
     </div>
     <br>
     <br>
-    
-      <!-----------------meal_typess category------------->
-      <!----------------- allergen category------------->
-       
-      <div class="allergen_input" id="allergen_input">
-        <select class="selectpicker" multiple="true"  name="allergen"  id="allergen">
-          <option value="" disabled selected>Choose Allergen</option>
-                {% for item in recipes.allergen %}
-          <option value="{{ item }}">{{ item| title }}</option>
-                {% endfor %} 
-        </select>
-      </div>
-      <br>
-      <br>
 
-      <!----------------- allergen category------------->
+    <!-----------------meal_typess category------------->
+    <!----------------- allergen category------------->
 
-      <label for="textInput">Preparation Time</label>
-      <input required type="text" name="preparation" id="preparation" class="form-control mb-4"
-        value="{{ recipes.preparation }}">
+    <div class="allergen_input" id="allergen_input">
+      {% if recipes.allergen == [] %}
+      <select class="selectpicker" multiple="true" name="allergen" id="allergen">
+        <option value="" disabled selected>Choose Allergen</option>
+        {% for item in allergens_file.allergen %}
+        <option>{{ item }}</option>
+        {% endfor %}
+      </select>
+      {% endif%}
+
+      {% if recipes.allergen != [] %}
+      {% for allergens in recipes.allergen %}
+      <select name="allergen" class="allergen">
+          <option selected>{{ allergens }}</option>
+          {% for item in allergens_file.allergen %}
+      <option>{{ item }}</option>
+      {% endfor %}
+      </select>
+      {% endfor %}
+      {% endif%}
+    </div>
+    <br>
+    <br>
+
+    <!----------------- allergen category------------->
+
+    <label for="textInput">Preparation Time</label>
+    <input required type="text" name="preparation" id="preparation" class="form-control mb-4"
+      value="{{ recipes.preparation }}">
 
 
 
-      <label for="textInput">Cooking Time</label>
-      <input required type="text" name="cooking" id="cooking" class="form-control mb-4" value="{{ recipes.cooking }}">
+    <label for="textInput">Cooking Time</label>
+    <input required type="text" name="cooking" id="cooking" class="form-control mb-4" value="{{ recipes.cooking }}">
 
 
 
-      <label for="textInput">Servings</label>
-      <input required type="number" id="servings" name="servings" class="form-control mb-4"
-        value="{{ recipes.servings }}">
+    <label for="textInput">Servings</label>
+    <input required type="number" id="servings" name="servings" class="form-control mb-4"
+      value="{{ recipes.servings }}">
 
 
 
-      <input class="btn btn-info btn-block my-4" type="submit" value="add entry" id="add">
+    <input class="btn btn-info btn-block my-4" type="submit" value="add entry" id="add">
 
 
   </form>

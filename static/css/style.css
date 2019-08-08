@@ -23,13 +23,7 @@ body {
 }
 
 
-/* Sticky Footer Classes */
-/* Other Classes for Page Styling */
 
-/*body {
-  background: #007bff;
-  background: linear-gradient(to right, #0062E6, #33AEFF);
-}*/
 
 .maincontainer{
   margin-top: 220px;
@@ -37,7 +31,7 @@ body {
 
 /*----- add recipe -----*/
 
-/*----- recipe page -----*/
+/*-----all recipes and get user recipes page cards -----*/
 .recipe-heading{
   margin-top: 90px;
   justify-content: center;
@@ -45,7 +39,11 @@ body {
 
 .card{
   margin: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
 }
+
+
+
 
 /*----- search box on recipe page -----*/
 .active-cyan-4 input[type=text]:focus:not([readonly]) {
@@ -65,3 +63,8 @@ body {
   justify-content: center;
   
   }
+
+
+
+
+  

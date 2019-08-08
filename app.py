@@ -167,9 +167,7 @@ def get_user_recipe():
     recipes=mongo.db.recipes.find()
     
     return render_template('pages/get_user_recipe.html',
-        recipes=recipes,
-        meal_types_file=meal_types_file,
-        allergens_file=allergens_file)
+        recipes=recipes,)
     
     
 # EDIT #
