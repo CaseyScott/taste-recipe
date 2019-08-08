@@ -43,7 +43,7 @@
 
     <div class="meals_input" id="meals_input">
       {% if recipes.meals == [] %}
-      <select class="selectpicker" required name="meals"  id="meals">
+      <select class="selectpicker" required name="meals" id="meals">
         <option value="" disabled selected>Pick a Meal type</option>
         {% for item in meal_types_file.meals %}
         <option>{{ item }}</option>
@@ -56,8 +56,8 @@
       <select name="meals" class="meals">
         <option selected>{{ meals }}</option>
         {% for item in meal_types_file.meals %}
-      <option>{{ item }}</option>
-      {% endfor %}
+        <option>{{ item }}</option>
+        {% endfor %}
       </select>
       {% endfor %}
       {% endif%}
@@ -81,10 +81,10 @@
       {% if recipes.allergen != [] %}
       {% for allergens in recipes.allergen %}
       <select name="allergen" class="allergen">
-          <option selected>{{ allergens }}</option>
-          {% for item in allergens_file.allergen %}
-      <option>{{ item }}</option>
-      {% endfor %}
+        <option selected>{{ allergens }}</option>
+        {% for item in allergens_file.allergen %}
+        <option>{{ item }}</option>
+        {% endfor %}
       </select>
       {% endfor %}
       {% endif%}

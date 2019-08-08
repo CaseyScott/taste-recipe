@@ -33,12 +33,12 @@ recipes = mongo.db.recipes
 
 ### Data for dropdown selectors in add recipe form
 meal_types_file = []
-with open("data/meals_data.json", "r") as json_data:
-    meal_types_file = json.load(json_data)
+with open("data/meals_data.json", "r") as f:
+    meal_types_file = json.load(f)
     
 allergens_file = []
-with open("data/allergen_data.json", "r") as json_data:
-    allergens_file = json.load(json_data)
+with open("data/allergen_data.json", "r") as f:
+    allergens_file = json.load(f)
     
     
     
@@ -192,8 +192,8 @@ def recipe_data():
         "ingredients": request.form.getlist('ingredients'),
         "instructions": request.form.getlist('instructions'),
         "image": request.form.get('image'),
-        "meals": request.form.get('meals'),
-        "allergen": request.form.get('allergen'),
+        "meals": request.form.getlist('meals'),
+        "allergen": request.form.getlist('allergen'),
         "preparation": request.form.get('preparation'),
         "cooking": request.form.get('cooking'),
         "servings": request.form.get('servings'),
