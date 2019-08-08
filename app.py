@@ -40,7 +40,22 @@ allergens_file = []
 with open("data/allergen_data.json", "r") as f:
     allergens_file = json.load(f)
     
-    
+"""add recipe / edit recipe  input form"""    
+def recipe_data():
+    data = {
+        "name": request.form.get('name'),
+        "description": request.form.getlist('description'),
+        "ingredients": request.form.getlist('ingredients'),
+        "instructions": request.form.getlist('instructions'),
+        "image": request.form.get('image'),
+        "meals": request.form.getlist('meals'),
+        "allergen": request.form.getlist('allergen'),
+        "preparation": request.form.get('preparation'),
+        "cooking": request.form.get('cooking'),
+        "servings": request.form.get('servings'),
+        "username": session['username']
+    }
+    return data 
     
 
 
@@ -184,22 +199,7 @@ def edit_recipe(recipe_id):
         allergens_file=allergens_file)
     
     
-"""add recipe / edit recipe  input form"""    
-def recipe_data():
-    data = {
-        "name": request.form.get('name'),
-        "description": request.form.getlist('description'),
-        "ingredients": request.form.getlist('ingredients'),
-        "instructions": request.form.getlist('instructions'),
-        "image": request.form.get('image'),
-        "meals": request.form.getlist('meals'),
-        "allergen": request.form.getlist('allergen'),
-        "preparation": request.form.get('preparation'),
-        "cooking": request.form.get('cooking'),
-        "servings": request.form.get('servings'),
-        "username": session['username']
-    }
-    return data
+
 
 # UPDATE #
 """from edit recipe the edited information is sent to MONGODB recipes collection. $set:recipe_data replaces the value of a field with the specified value."""
