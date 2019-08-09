@@ -18,23 +18,28 @@
         <!-- Search box for ingredients -->
         <input class=" form-control" type="text" placeholder="Search by Ingredients" aria-label="Search"
           name="ingredient_search" id="ingredient_search">
-          <br>
+        <br>
 
 
 
 
         <!-- meals selector -->
+
         <div class="row justify-content-around">
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            Meal Types
-          </button>
-          <!--dynalically generated data insert-->
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
+          <div class="dropdown">
+            <form class="center" action="{{url_for('meals_search')}}" method="POST">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Meal Types
+              </button>
+              <!--dynalically generated data insert-->
+              <select class="selectpicker" required name="meals_search" class="meals_search" id="meals_search">
+                <option value="" disabled selected>Pick a Meal type</option>
+<!--
+                
+-->
+              </select>
+            </form>
           </div>
         </div>
 
@@ -58,14 +63,14 @@
 
 
 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <!--button to send selected and display results-->
-        <button type="button" class="btn btn-primary-search">Search</button>
-      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      <!--button to send selected and display results-->
+      <button type="button" class="btn btn-primary-search">Search</button>
     </div>
   </div>
+</div>
 </div>
 
 

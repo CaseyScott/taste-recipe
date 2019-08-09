@@ -245,12 +245,12 @@ def ingredients_search():
 
 
 @app.route("/meals_search", methods=['POST'])
-def category_search():
-    recipes_by_meals=mongo.db.recipe.find(
-        {"meals": request.form.get("meals").title()})
+def meals_search():
+    recipes_by_meals=mongo.db.recipes.find(
+        {"meal_types": request.form.getlist("meal_types_file").title()})
     return render_template(
         'search_results.html',
-        recipes=recipes_by_cuisine,
+        recipes=recipes_by_meals,
         meal_types_file=meal_types_file,
         allergens_file=allergens_file)
 
@@ -258,7 +258,7 @@ def category_search():
 @app.route("/allergen_search", methods=['POST'])
 def allergen_search():
     recipes_by_allergen=mongo.db.recipe.find(
-        {"allergens": {"$nin": request.form.get("allergen_category")}})
+        {"allergens": request.form.getlist("allergen_category")})
     return render_template(
         'search_results.html',
         recipes=recipes_by_allergen,
