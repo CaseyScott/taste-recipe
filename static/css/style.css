@@ -90,3 +90,7 @@ body {
   line-height: 1.5;
   border-radius: 0.25rem;
 }
+
+.modal-content {
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.9);
+}
