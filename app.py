@@ -94,6 +94,7 @@ def register():
     return render_template('pages/register.html', error = error) 
 
 
+
 """----------------------------------------------------"""      
 """if the request is POST, it looks for that user in list of usernames in MONGODB users collection, if password matches, session username variable is created for that user. Logged in user is redirected to index/home"""  
 @app.route('/login', methods=['GET', 'POST'])
@@ -117,6 +118,15 @@ def login():
         
     return render_template('pages/login.html', error = error)
 
+
+def existing_user():
+    item=[]
+    usernames=mongodb.users.find()
+    for item in usernames:
+        for key, value in item.items():
+            if key == "username":
+                items.append(value)
+    return items
 
 """----------------------------------------------------"""
 """logout uses the pop method to release that session variable username """
@@ -145,14 +155,18 @@ def insert_recipe():
 
 
 
+
 # ALL RECIPES #
 """all recipes in the MONGODB recipes collection. find()=find all"""
 @app.route("/recipes", methods=['GET', 'POST'])  
 def recipes():
     recipes=mongo.db.recipes.find()
+    
     return render_template('pages/recipes.html',
     recipes=recipes)
 
+   
+   
    
 # GET USER RECIPE #  
 """Session user recipe list from recipes collection that they have contributed to the database"""      
@@ -162,7 +176,7 @@ def get_user_recipe():
     recipes=mongo.db.recipes.find()
     
     return render_template('pages/get_user_recipe.html',
-        recipes=recipes,)
+        recipes=recipes)
     
     
     
@@ -179,7 +193,6 @@ def single_recipe(recipe_id):
     {'_id':ObjectId(recipe_id)
     })
     username=logged_in_user()
-    
     
     return render_template(
     'single_recipe_page.html',
