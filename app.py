@@ -193,7 +193,6 @@ def single_recipe(recipe_id):
     the_recipe=mongo.db.recipes.find_one(
     {'_id':ObjectId(recipe_id)
     })
-    username=logged_in_user()
     
     return render_template(
     'single_recipe_page.html',
