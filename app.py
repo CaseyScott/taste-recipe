@@ -185,12 +185,35 @@ def get_user_recipe():
         recipes=recipes,)
     
     
+    
+#single page recipe
+@app.route('/single_recipe/<recipe_id>')
+def single_recipe(recipe_id):
+    recipe_title=mongo.db.recipes.find_one(
+    {'_id': ObjectId(recipe_id)},{'name'})
+    
+    the_recipe=mongo.db.recipes.find_one(
+    {'_id':ObjectId(recipe_id)
+    })
+    username=logged_in_user()
+    
+    
+    return render_template(
+    'single_recipe_page.html',
+    recipes=the_recipe,
+    meal_types_file=meal_types_file,
+    allergens_file=allergens_file)
+    
+    
+    
+    
 # EDIT #
 """editing one recipe by its recipe_id as the_recipe including meal_type and allergen data display all input information in the form to be edited"""
 @app.route('/edit_recipe/<recipe_id>', methods=['GET', 'POST'])
 def edit_recipe(recipe_id):
     
-    the_recipe=mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
+    the_recipe=mongo.db.recipes.find_one(
+        {"_id": ObjectId(recipe_id)})
     
     return render_template(
         'pages/edit_recipe.html',

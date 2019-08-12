@@ -31,9 +31,9 @@
       {% for recipes in recipes %}
       <div class="column">
         <div class="card h-100" style="width: 18rem;">
-
-          <img class="card-img-top" src="{{ recipes.image }}" alt="Card image cap">
-
+          <a href="{{ url_for('single_recipe', recipe_id=recipes._id)}}">
+            <img class="card-img-top" src="{{ recipes.image }}" alt="Card image cap">
+          </a>
           <div class="card-body">
             <h5 class="card-title">{{ recipes.name }}</h5>
 
@@ -62,13 +62,13 @@
 
 
             <!--read more button wired to single page recipe-->
-            <a href="" class="btn-readmore">Read more</a>
+            <a href="{{ url_for('single_recipe', recipe_id=recipes._id)}}" class="btn-readmore">Read more</a>
           </div>
         </div>
       </div>
       {% endfor %}
     </div>
-    
+
 
     <!--sticky footer-->
   </div>
