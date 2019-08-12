@@ -35,24 +35,25 @@ with open("data/meals_data.json", "r") as f:
 allergens_file = []
 with open("data/allergen_data.json", "r") as f:
     allergens_file = json.load(f)
-    
-"""add recipe / edit recipe  input form"""    
+
+  
+"""add recipe / edit recipe  input form """
 def recipe_data():
     data = {
         "name": request.form.get('name'),
-        "description": request.form.getlist('description'),
-        "ingredients": request.form.getlist('ingredients'),
-        "instructions": request.form.getlist('instructions'),
+        "description": request.form.get('description'),
+        "ingredients": request.form.get('ingredients'),
+        "instructions": request.form.get('instructions'),
         "image": request.form.get('image'),
-        "meals": request.form.getlist('meals'),
-        "allergen": request.form.getlist('allergen'),
+        "meals": request.form.get('meals'),
+        "allergen": request.form.get('allergen'),
         "preparation": request.form.get('preparation'),
         "cooking": request.form.get('cooking'),
         "servings": request.form.get('servings'),
         "username": session['username']
     }
     return data 
-    
+ 
 
 
     
@@ -243,7 +244,7 @@ def update_recipe(recipe_id):
 """delete recipe removes recipe from MONGODB recipes collection
 only the creator of that recipe can delete by matching session username"""  
 ### .remove or .delete_one ### 
-@app.route('/delete_recipe/<recipe_id>', methods=['POST'])
+@app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
     recipes = mongo.db.recipes
     mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})

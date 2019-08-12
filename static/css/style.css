@@ -94,7 +94,7 @@ body {
 .modal-content {
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.9);
 }
-/*my recipe cards buttons*/
+/*my recipe cards and buttons*/
 .delrecipe {
   position: absolute;
   right: 10px;
@@ -113,10 +113,12 @@ body {
   margin-top: 15px;
 }
 .wrapper {
-  margin-bottom: -35px;
-  margin-top: 30px;
+  margin-bottom: -40px;
+  
 }
-
 .card-text{
-  min-height: 100px;
+  min-height: 60px;
+}
+.card-title{
+  min-height: 48px;
 }

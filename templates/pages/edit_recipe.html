@@ -45,7 +45,7 @@
       <select class="selectpicker" required name="meals" class="meals" id="meals">
         <option value="" disabled selected>Pick a Meal type</option>
         {% for item in meal_types_file.meals %}
-        <option value="{{ item }}">{{ item| title }}</option>
+        <option value="{{ item }}">{{ item }}</option>
         {% endfor %}
       </select>
     </div>
@@ -59,7 +59,7 @@
       <select class="selectpicker" multiple="true" name="allergen" id="allergen">
         <option value="" disabled selected>Choose Allergen</option>
         {% for item in allergens_file.allergen %}
-        <option value="{{ item }}">{{ item| title }}</option>
+        <option value="{{ item }}">{{ item }}</option>
         {% endfor %}
       </select>
     </div>

@@ -19,7 +19,7 @@
           <div class="card-body">
             <h5 class="card-title">{{ recipe.name }}</h5>
 
-            <p class="card-text">{{ recipe.description|truncate(9) }}</p>
+            <p class="card-text">{{ recipe.description|truncate(45) }}</p>
 
             <div class="wrapper">
               <!-- meal type drop down selector-->
@@ -34,18 +34,9 @@
               <div class="allergen col-xs-12 center">
                 <div><b>Allergens</b></div>
                 {% for item in recipe.allergen %}
-                {% if item == "" %}
-                <p>No Allergen</p>
-                {% else %}
                 <span>{{ item }}</span>
-                {% endif %}
                 {% endfor %}
               </div>
-
-
-              <!--read more button wire up to single page recipe-->
-
-              <!--jobs to do: style and shape buttons space correctly rather than br-->
 
               <div class="readmore">
                 <a href="" class="btn btn-primary readmore">Read more</a>
