@@ -169,10 +169,8 @@ def get_user_recipe():
 #single page recipe
 @app.route('/single_recipe/<recipe_id>')
 def single_recipe(recipe_id):
-    
-    if 'user' in session:
-            username = session['user']
-    return username
+        
+   
     
     recipe_title=mongo.db.recipes.find_one(
     {'_id': ObjectId(recipe_id)},{'name'})
