@@ -25,10 +25,6 @@ else:
 mongo = PyMongo(app)
 
 
-users = mongo.db.users
-recipes = mongo.db.recipes
-
-
 
 
 ### Data for dropdown selectors in add recipe form
@@ -58,22 +54,6 @@ def recipe_data():
     return data 
     
 
-
-
-def logged_in_user():
-    username=''
-    if 'username' in session:
-        username=session['username']
-    return username
-
-
-
-def registration_data():
-    data = {
-        "name": request.form.get('username'),
-        "password": request.form.get('pass')
-    }
-    return data
 
     
 """----------------------------------------------------"""  
@@ -189,6 +169,11 @@ def get_user_recipe():
 #single page recipe
 @app.route('/single_recipe/<recipe_id>')
 def single_recipe(recipe_id):
+    
+    if 'user' in session:
+            username = session['user']
+    return username
+    
     recipe_title=mongo.db.recipes.find_one(
     {'_id': ObjectId(recipe_id)},{'name'})
     
@@ -200,9 +185,10 @@ def single_recipe(recipe_id):
     
     return render_template(
     'single_recipe_page.html',
-    recipes=the_recipe,
+    recipe=the_recipe,
     meal_types_file=meal_types_file,
-    allergens_file=allergens_file)
+    allergens_file=allergens_file,
+    username=username)
     
     
     
@@ -217,7 +203,7 @@ def edit_recipe(recipe_id):
     
     return render_template(
         'pages/edit_recipe.html',
-        recipes=the_recipe,
+        recipe=the_recipe,
         meal_types_file=meal_types_file,
         allergens_file=allergens_file)
     
@@ -235,7 +221,8 @@ def update_recipe(recipe_id):
         {'_id': ObjectId(recipe_id)},
         {"$set": recipe_data()})
                   
-    return redirect(url_for('get_user_recipe', recipe_id=recipe_id))
+    return redirect(
+        url_for('get_user_recipe', recipe_id=recipe_id))
     
     
 

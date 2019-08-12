@@ -28,22 +28,22 @@
 
 
     <div class="row justify-content-center">
-      {% for recipes in recipes %}
+      {% for recipe in recipes %}
       <div class="column">
         <div class="card h-100" style="width: 18rem;">
-          <a href="{{ url_for('single_recipe', recipe_id=recipes._id)}}">
-            <img class="card-img-top" src="{{ recipes.image }}" alt="Card image cap">
+          <a href="{{ url_for('single_recipe', recipe_id=recipe._id)}}">
+            <img class="card-img-top" src="{{ recipe.image }}" alt="Card image cap">
           </a>
           <div class="card-body">
-            <h5 class="card-title">{{ recipes.name }}</h5>
+            <h5 class="card-title">{{ recipe.name }}</h5>
 
-            <p class="card-text">{{ recipes.description }}</p>
+            <p class="card-text">{{ recipe.description |truncate(25) }}</p>
 
 
             <!-- meal type drop down selector-->
             <div class="meal_types col-xs-12 center">
               <div><b>Meal types</b></div>
-              {% for item in recipes.meals %}
+              {% for item in recipe.meals %}
               <span>{{ item }}</span>
               {% endfor %}
             </div>
@@ -51,7 +51,7 @@
             <!-- allergen drop down selector-->
             <div class="allergen col-xs-12 center">
               <div><b>Allergens</b></div>
-              {% for item in recipes.allergen %}
+              {% for item in recipe.allergen %}
               {% if loop.index == 0 or item == "" %}
               <p>No Allergen</p>
               {% else %}
@@ -62,7 +62,7 @@
 
 
             <!--read more button wired to single page recipe-->
-            <a href="{{ url_for('single_recipe', recipe_id=recipes._id)}}" class="btn-readmore">Read more</a>
+            <a href="{{ url_for('single_recipe', recipe_id=recipe._id)}}" class="btn-readmore">Read more</a>
           </div>
         </div>
       </div>

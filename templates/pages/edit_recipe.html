@@ -3,7 +3,7 @@
 
 <div id="form-wrapper" style="max-width:700px;margin:auto;">
 
-  <form class="border border-light p-5" action="{{url_for('update_recipe', recipe_id=recipes._id)}}" method="POST">
+  <form class="border border-light p-5" action="{{url_for('update_recipe', recipe_id=recipe._id)}}" method="POST">
     <br>
     <br>
     <br>
@@ -12,30 +12,30 @@
 
 
     <label for="textInput">Recipe Name</label>
-    <input required type="text" id="name" name="name" class="form-control mb-4" value="{{ recipes.name }}">
+    <input required type="text" id="name" name="name" class="form-control mb-4" value="{{ recipe.name }}">
 
 
 
     <label for="textarea">Recipe Description</label>
     <textarea required id="description" name="description"
-      class="form-control mb-4">{{ recipes.description }}</textarea>
+      class="form-control mb-4">{{ recipe.description }}</textarea>
 
 
 
     <label for="textarea">Ingredients</label>
     <textarea required id="ingredients" name="ingredients"
-      class="form-control mb-4">{{ recipes.ingredients }}</textarea>
+      class="form-control mb-4">{{ recipe.ingredients }}</textarea>
 
 
 
     <label for="textarea">Instructions</label>
     <textarea required name="instructions" id="instructions"
-      class="form-control mb-4">{{ recipes.instructions }}</textarea>
+      class="form-control mb-4">{{ recipe.instructions }}</textarea>
 
 
 
     <label for="textInput">Image</label>
-    <input required type="url" name="image" id="image" class="form-control mb-4" value="{{ recipes.image }}">
+    <input required type="url" name="image" id="image" class="form-control mb-4" value="{{ recipe.image }}">
 
 
 
@@ -70,18 +70,18 @@
 
     <label for="textInput">Preparation Time</label>
     <input required type="text" name="preparation" id="preparation" class="form-control mb-4"
-      value="{{ recipes.preparation }}">
+      value="{{ recipe.preparation }}">
 
 
 
     <label for="textInput">Cooking Time</label>
-    <input required type="text" name="cooking" id="cooking" class="form-control mb-4" value="{{ recipes.cooking }}">
+    <input required type="text" name="cooking" id="cooking" class="form-control mb-4" value="{{ recipe.cooking }}">
 
 
 
     <label for="textInput">Servings</label>
     <input required type="number" id="servings" name="servings" class="form-control mb-4"
-      value="{{ recipes.servings }}">
+      value="{{ recipe.servings }}">
 
 
 
