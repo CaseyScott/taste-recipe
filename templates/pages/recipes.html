@@ -35,11 +35,11 @@
             <div class="card-body">
               <h5 class="card-title">{{ recipe.name }}</h5>
 
-              <p class="card-text">{{ recipe.description |truncate(25) }}</p>
+              <p class="card-text">{{ recipe.description |truncate(60) }}</p>
 
 
               <!-- meal type drop down selector-->
-              <div class="meal_types col-xs-12 center">
+              <div class="meal_types-card">
                 <div><b>Meal types</b></div>
                 {% for item in recipe.meals %}
                 <span>{{ item }}</span>
@@ -47,7 +47,7 @@
               </div>
 
               <!-- allergen drop down selector-->
-              <div class="allergen col-xs-12 center">
+              <div class="allergen-card">
                 <div><b>Allergens</b></div>
                 {% for item in recipe.allergen %}
                 {% if loop.index == 0 or item == "" %}

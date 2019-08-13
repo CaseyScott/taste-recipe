@@ -21,7 +21,7 @@
 
           <div class="wrapper">
             <!-- meal type drop down selector-->
-            <div class="meal_types col-xs-12 center">
+            <div class="meal_types-card">
               <div><b>Meal types</b></div>
               {% for item in recipe.meals %}
               <span>{{ item }}</span>
@@ -29,7 +29,7 @@
             </div>
 
             <!-- allergen drop down selector-->
-            <div class="allergen col-xs-12 center">
+            <div class="allergen-card">
               <div><b>Allergens</b></div>
               {% for item in recipe.allergen %}
               <span>{{ item }}</span>
