@@ -1,105 +1,88 @@
 {% extends 'page-layout/base.html'%} {% block content %}
 
+<div class="content-inside">
+  <div class="row recipe-heading">
+    <h1>{{ recipe.name }}</h1>
+  </div>
 
-<body class="d-flex flex-column">
-  <div id="page-content">
-    <!--sticky footer-->
+  <!-- Page Layout -->
+  <div class="page-container section">
+    <div class="row">
 
-
-    <div class="container-fluid">
-      <div class="row col-xs-12 justify-content-center">
-        <h2 class="single-recipe-title"> {{ recipe.name }}</h2>
+      <!--Image-->
+      <div class="col-md-5">
+        <img class="featurette-image img-responsive" src="{{ recipe.image }}" alt="Picture of {{ recipe.name }}">
       </div>
-      <div class="col-xs-offset-1 col-xs-10 center">
-        <p><b>{{ recipes.description }}</b></p>
-      </div>
 
-      <!-- Image section -->
-      <div class="col-xs-12 col-sm-12 col-md-6">
-        <div class="row recipe_image">
-          <img class="single_page_image" src="{{ recipe.image }}" alt="{{ recipe.name }}">
-        </div>
-        <div class="col-xs-12 selector-container">
-          <div class="col-xs-6 center ">
-            <h4>Type of meal</h4>
-            {% for item in recipe.meals %}
-            <p class="meal-type">{{ item|title }}</p>
-            {% endfor %}
-          </div>
-          <div class="col-xs-6 center">
-            <h4>Allergens</h4>
-            {% for item in recipe.allergen %}
-            <p class="allergen">{{ item|title }}</p>
-            {% endfor %}
-          </div>
+      <div class="col-md-7">
+        <div class="description">
+          <h4>{{ recipe.description }}</h4>
         </div>
 
-        <!-- Ingredients section -->
-
-        <div class="row margin-bottom-10">
-          <div class="col-xs-12 flex-box">
-            <div class="flex1 center">
+        <div class="line-divider"></div>
+        <!----------------------------------------------------------->
+        <div class="row-cook-serve-prep">
+          <div class="column-single-recipe">
+            <!--preparation-->
+            <div class="prep">
               <h4 class="inline">Prep Time :</h4> {{ recipe.preparation }}
             </div>
-            <div class="flex1 center"><i class="far fa-clock"></i>
-              <h4 class="inline"> Cook Time :</h4> {{ recipe.cooking }}
+
+            <!--cooking-->
+
+            <div class="clock"><i class="far fa-clock"></i>
+              <h4 class="cooktime-title"> Cook Time :</h4> {{ recipe.cooking }}
             </div>
-            <div class="flex1 center"><i class="fas fa-utensils"></i>
+
+            <!--servings-->
+            <div class="servings"><i class="fas fa-utensils"></i>
               <h4 class="inline">Servings :</h4> {{ recipe.servings }}
             </div>
+            <div class="selector-container">
+              <!-- meal type drop down selector-->
+              <div class="meal_types">
+                <div>
+                  <h3>Meal types</h3>
+                </div>
+                {% for item in recipe.meals %}
+                <span>{{ item }}</span>
+                {% endfor %}
+              </div>
+
+              <!-- allergen drop down selector-->
+              <div class="allergen">
+                <div>
+                  <h3>Allergens</h3>
+                </div>
+                {% for item in recipe.allergen %}
+                <span>{{ item }}</span>
+                {% endfor %}
+              </div>
+            </div>
           </div>
         </div>
-
-
-        <div class="row margin-bottom-10">
-          <div class="col-xs-12">
-            <h3 class="">Ingredients</h3>
-            <ul class="no-padding">
-              {% for ingredient in recipe.ingredients %} {% if ingredient != ""%}
-              <li>{{ ingredient }}</li>
-              {% endif %} {% endfor %}
-            </ul>
-          </div>
-        </div>
-        <!-- Instructions section -->
-        <div class="row margin-bottom-10 recipe_image_container">
-          <div class="col-xs-12 single-recipe-instructions">
-            <h3 class="">Instructions</h3>
-            <ol class="no-padding">
-              {% for instruction in recipe.instructions %}
-              <li>
-                <p>{{ instruction }}</p>
-              </li>
-              {% endfor %}
-            </ol>
+      
+        <!----------------------------------------------------------->
+        <!--ingredients-->
+        <div class="column-single-recipe">
+          <div class="section">
+            <h4 class="left-align ingredients-section">Ingredients</h4>
+            <p class="section recipe-ingredients" style="white-space: pre-wrap;">{{ recipe.ingredients }}</p>
           </div>
         </div>
       </div>
-
-      {% if 'user' in session %} {% if username == recipe.username or username == 'admin' %}
-      <div class="col-xs-12 center margin-bottom-10">
-        <a class="edit-btn" href="{{ url_for('edit_recipe', recipe_id=recipe._id)}}">Edit Recipe</a>
-
-        <p class="signin-btn delete-btn">Delete Recipe</p>
-        <div class="comfirmation">
-          <div class="inner-comfirmation center">
-            <p><b>Are you sure you want to delete this recipe?</b></p><br>
-
-            <a class="comfirmation-yes signin-btn " href="{{ url_for('delete_recipe', recipe_id=recipe._id)}}">Yes</a>
-
-            <p class=" signin-btn comfirmation-no">No</p>
-          </div>
-        </div>
-        {% endif %} {% else %}
-
-      </div>
-
     </div>
+    <!----------------------------------------------------------->
 
-
+    <!--instructions-->
+    <div class="container">
+    <div class="row-instructions ">
+      <h4 class="instructions_heading">Instructions</h4>
+      <p class="section recipe-instructions">{{ recipe.instructions }}</p>
+    </div>
+  </div>
 
   </div>
-</body>
-
+</div>
 
 {% endblock %}

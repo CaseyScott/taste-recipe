@@ -110,7 +110,7 @@ with open("data/allergen_data.json", "r") as f:
 """add recipe / edit recipe  input form """
 def recipe_data():
     data = {
-        "recipe_name": request.form.get('recipe_name'),
+        "name": request.form.get('name'),
         "description": request.form.get('description'),
         "ingredients": request.form.get('ingredients'),
         "instructions": request.form.get('instructions'),
@@ -120,8 +120,8 @@ def recipe_data():
         "preparation": request.form.get('preparation'),
         "cooking": request.form.get('cooking'),
         "servings": request.form.get('servings'),
+        "author": request.form.get('author'),
         "username": session['username'],
-        'created_by': {'_id': user['_id'],'name': user['name']}
     }
     return data 
 
@@ -180,16 +180,15 @@ def get_user_recipe():
 @app.route('/single_recipe/<recipe_id>')
 def single_recipe(recipe_id):
     
-    single_recipe=mongo.db.recipe.find_one({"_id": ObjectId(recipe_id)})    
-    current_user=mongo.db.users.find_one({"_id": ObjectId(user_id)})
-    recipes=mongo.db.recipes.find({'username': current_user['name']})
+    recipe_name = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)}, {"recipe_name"})
+        
+    the_recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
     
     return render_template(
-    'single_recipe_page.html',
+    'pages/single_recipe_page.html',
     recipe=the_recipe,
     meal_types_file=meal_types_file,
-    allergens_file=allergens_file,
-    username=username)
+    allergens_file=allergens_file)
     
     
     

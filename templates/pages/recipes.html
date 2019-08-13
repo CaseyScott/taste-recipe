@@ -3,75 +3,73 @@
 <!--sticky footer-->
 
 
-<body class="d-flex flex-column">
-  <div id="page-content">
+    <div class="content-inside">
 
-
-    <div class="row recipe-heading">
-      <h2>All Recipes</h2>
-    </div>
-
-    <!-- Button trigger modal to drop down search box for categories -->
-    <div class="row justify-content-center">
-      <div class="search_categories_btn">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-          Search by Categories:
-        </button>
+      <div class="row recipe-heading">
+        <h2>All Recipes</h2>
       </div>
-    </div>
 
-    <!-- modal for searching meal type allergen or ingredients -->
-    {% block search_box %}
-    {% include 'pages/search_box.html' %}
-    {% endblock search_box %}
-
-
-
-    <div class="row justify-content-center">
-      {% for recipe in recipes %}
-      <div class="column">
-        <div class="card h-100" style="width: 18rem;">
-          <a href="{{ url_for('single_recipe', recipe_id=recipe._id)}}">
-            <img class="card-img-top" src="{{ recipe.image }}" alt="Card image cap">
-          </a>
-          <div class="card-body">
-            <h5 class="card-title">{{ recipe.name }}</h5>
-
-            <p class="card-text">{{ recipe.description |truncate(25) }}</p>
-
-
-            <!-- meal type drop down selector-->
-            <div class="meal_types col-xs-12 center">
-              <div><b>Meal types</b></div>
-              {% for item in recipe.meals %}
-              <span>{{ item }}</span>
-              {% endfor %}
-            </div>
-
-            <!-- allergen drop down selector-->
-            <div class="allergen col-xs-12 center">
-              <div><b>Allergens</b></div>
-              {% for item in recipe.allergen %}
-              {% if loop.index == 0 or item == "" %}
-              <p>No Allergen</p>
-              {% else %}
-              <span>{{ item }}</span>
-              {% endif %}
-              {% endfor %}
-            </div>
-
-
-            <!--read more button wired to single page recipe-->
-            <a href="{{ url_for('single_recipe', recipe_id=recipe._id)}}" class="btn-readmore">Read more</a>
-          </div>
+      <!-- Button trigger modal to drop down search box for categories -->
+      <div class="row justify-content-center">
+        <div class="search_categories_btn">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Search by Categories:
+          </button>
         </div>
       </div>
-      {% endfor %}
+
+      <!-- modal for searching meal type allergen or ingredients -->
+      {% block search_box %}
+      {% include 'pages/search_box.html' %}
+      {% endblock search_box %}
+
+
+
+      <div class="row justify-content-center">
+        {% for recipe in recipes %}
+        <div class="column">
+          <div class="card h-100" style="width: 18rem;">
+            <a href="{{ url_for('single_recipe', recipe_id=recipe._id)}}">
+              <img class="card-img-top" src="{{ recipe.image }}" alt="Card image cap">
+            </a>
+            <div class="card-body">
+              <h5 class="card-title">{{ recipe.name }}</h5>
+
+              <p class="card-text">{{ recipe.description |truncate(25) }}</p>
+
+
+              <!-- meal type drop down selector-->
+              <div class="meal_types col-xs-12 center">
+                <div><b>Meal types</b></div>
+                {% for item in recipe.meals %}
+                <span>{{ item }}</span>
+                {% endfor %}
+              </div>
+
+              <!-- allergen drop down selector-->
+              <div class="allergen col-xs-12 center">
+                <div><b>Allergens</b></div>
+                {% for item in recipe.allergen %}
+                {% if loop.index == 0 or item == "" %}
+                <p>No Allergen</p>
+                {% else %}
+                <span>{{ item }}</span>
+                {% endif %}
+                {% endfor %}
+              </div>
+
+
+              <!--read more button wired to single page recipe-->
+              <a href="{{ url_for('single_recipe', recipe_id=recipe._id)}}" class="btn-readmore">Read more</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+
+      <!--sticky footer-->
     </div>
-
-
-    <!--sticky footer-->
-  </div>
-</body>
+  
 
 {% endblock %}
