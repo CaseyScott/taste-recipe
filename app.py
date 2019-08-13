@@ -24,38 +24,6 @@ else:
 
 mongo = PyMongo(app)
 
-
-
-
-### Data for dropdown selectors in add recipe form
-meal_types_file = []
-with open("data/meals_data.json", "r") as f:
-    meal_types_file = json.load(f)
-    
-allergens_file = []
-with open("data/allergen_data.json", "r") as f:
-    allergens_file = json.load(f)
-
-  
-"""add recipe / edit recipe  input form """
-def recipe_data():
-    data = {
-        "name": request.form.get('name'),
-        "description": request.form.get('description'),
-        "ingredients": request.form.get('ingredients'),
-        "instructions": request.form.get('instructions'),
-        "image": request.form.get('image'),
-        "meals": request.form.get('meals'),
-        "allergen": request.form.get('allergen'),
-        "preparation": request.form.get('preparation'),
-        "cooking": request.form.get('cooking'),
-        "servings": request.form.get('servings'),
-        "username": session['username']
-    }
-    return data 
- 
-
-
     
 """----------------------------------------------------"""  
 
@@ -66,7 +34,7 @@ def index():
     return render_template('pages/index.html')
 
 """----------------------------------------------------"""
-"""if request is POST and if the two given passwords match. It checks if the username already exists in database if the username doesnt already exist it hashs the password using bcrypt, this is sent to MONGODB users collection. if all worked corectly the session username variable is created for that username and the user is redirected to index/home"""
+"""if request is POST and if the two given passwords match. It checks if the username already exists in database if the username doesnt already exist it hashs the password using bcrypt, this is sent to MONGODB users collection. if all worked correctly the session username variable is created for that username and the user is redirected to index/home"""
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     error = None
@@ -76,15 +44,15 @@ def register():
             error = "Passwords don't match!"
             return render_template('pages/register.html', error=error)
         #mongo.db.users is the database of usernames
-        users = mongo.db.users
-        existing_user = users.find_one({'name' : request.form['username']})
+        user=mongo.db.user
+        existing_user=user.find_one({'name' : request.form['username']})
         
         
         if existing_user is None:
             hashpass = bcrypt.hashpw(request.form['pass'].encode('utf-8'), bcrypt.gensalt())
-            users.insert({'name' : request.form['username'], 'password' : hashpass})
+            user.insert({'name' : request.form['username'], 'password' : hashpass})
             session['username'] = request.form['username']
-            
+            session['logged_in']=True
             
             error = 'Invalid username or password. Please try again!'
             
@@ -103,15 +71,15 @@ def login():
     error = None
     
     if request.method == 'POST':
-        users = mongo.db.users
-        logged_in = users.find_one({'name' : request.form['username']})
+        user = mongo.db.users
+        logged_in = user.find_one({'name' : request.form['username']})
         error = 'Invalid username or password. Please try again!'
 
         if logged_in:
             validPasswd = bcrypt.checkpw(request.form['pass'].encode('utf-8'), logged_in['password'])
             if validPasswd:
                 session['username'] = request.form['username']
-                   
+                session['logged_in']=True   
                 
                 return redirect(url_for('index'))
             
@@ -120,14 +88,6 @@ def login():
     return render_template('pages/login.html', error = error)
 
 
-def existing_user():
-    item=[]
-    usernames=mongodb.users.find()
-    for item in usernames:
-        for key, value in item.items():
-            if key == "username":
-                items.append(value)
-    return items
 
 """----------------------------------------------------"""
 """logout uses the pop method to release that session variable username """
@@ -137,14 +97,48 @@ def logout():
     return redirect(url_for('index'))
 
 """----------------------------------------------------"""
+### Data for dropdown selectors in add recipe form
+meal_types_file = []
+with open("data/meals_data.json", "r") as f:
+    meal_types_file = json.load(f)
+    
+allergens_file = []
+with open("data/allergen_data.json", "r") as f:
+    allergens_file = json.load(f)
+
+
+"""add recipe / edit recipe  input form """
+def recipe_data():
+    data = {
+        "recipe_name": request.form.get('recipe_name'),
+        "description": request.form.get('description'),
+        "ingredients": request.form.get('ingredients'),
+        "instructions": request.form.get('instructions'),
+        "image": request.form.get('image'),
+        "meals": request.form.get('meals'),
+        "allergen": request.form.get('allergen'),
+        "preparation": request.form.get('preparation'),
+        "cooking": request.form.get('cooking'),
+        "servings": request.form.get('servings'),
+        "username": session['username'],
+        'created_by': {'_id': user['_id'],'name': user['name']}
+    }
+    return data 
+
+
 # ADD RECIPE #
 """User is sent to 'add recipes page' which includes data from meal_types and allergens json files."""
 @app.route('/add_recipe', methods=['GET', 'POST'])
 def add_recipe():
+    
+    user=mongo.db.users.find_one({"name": session['username']})
     recipes=mongo.db.recipes
+    
     return render_template("pages/add_recipe.html",
     meal_types_file=meal_types_file,
     allergens_file=allergens_file)
+
+
 
 # INSERT #
 """from add recipe page the user input information is stored as a dictionary in the MONGODB recipes collection, calling to_dict on the request.form object gives back a dictionary that can be used to display recipes from the recipes collection.Inserts one new recipe with an id into the recipes collection."""
@@ -152,6 +146,7 @@ def add_recipe():
 def insert_recipe():
     recipes=mongo.db.recipes
     new_recipe_id=recipes.insert_one(request.form.to_dict()).inserted_id
+    flash('Recipe Added!')
     return redirect(url_for('get_user_recipe', recipe_id=new_recipe_id))
 
 
@@ -184,15 +179,10 @@ def get_user_recipe():
 #single page recipe
 @app.route('/single_recipe/<recipe_id>')
 def single_recipe(recipe_id):
-        
-   
     
-    recipe_title=mongo.db.recipes.find_one(
-    {'_id': ObjectId(recipe_id)},{'name'})
-    
-    the_recipe=mongo.db.recipes.find_one(
-    {'_id':ObjectId(recipe_id)
-    })
+    single_recipe=mongo.db.recipe.find_one({"_id": ObjectId(recipe_id)})    
+    current_user=mongo.db.users.find_one({"_id": ObjectId(user_id)})
+    recipes=mongo.db.recipes.find({'username': current_user['name']})
     
     return render_template(
     'single_recipe_page.html',
@@ -247,6 +237,7 @@ only the creator of that recipe can delete by matching session username"""
 def delete_recipe(recipe_id):
     recipes = mongo.db.recipes
     mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
+    flash('Recipe deleted')
     return redirect(url_for('recipes'))
 
 

@@ -147,3 +147,6 @@ https://flask.palletsprojects.com/en/1.1.x/quickstart/#rendering-templates
 
 #simple sign in and sign out 
 """https://gist.github.com/daGrevis/2427189"""
+
+#sccess session variables in jinja 2
+https://stackoverflow.com/questions/42013067/how-to-access-session-variables-in-jinja-2-flask
