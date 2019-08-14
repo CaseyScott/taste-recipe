@@ -1,66 +1,72 @@
 {% block search_box %}
 
 <!-- Modal -->
+
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Search by Ingredient, Category or Allergen</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
+    <form method="POST" action="{{ url_for('ingredients_search') }}">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Search by Ingredient, Category or Allergen</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
 
 
 
-        <!-- Search box for ingredients -->
-        <input class=" form-control" type="text" placeholder="Search by Ingredients" aria-label="Search"
-          name="ingredient_search" id="ingredient_search">
-        <br>
+          <!-- Search box for ingredients -->
 
-        <!-- meals selector -->
-        <div class="row selectors">
-          <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Meal Types
-            </button>
-            <!--dynalically generated data insert-->
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
+          <input class=" form-control" type="text" placeholder="Search by Ingredients" aria-label="Search"
+            name="ingredient_search" id="ingredient_search">
+
+          <br>
+
+          <!-- meals selector -->
+          <div class="row selectors">
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Meal Types
+              </button>
+              <!--dynalically generated data insert-->
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </div>
+
+            <!-- Allergen selector -->
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Allergens
+              </button>
+              <!--dynalically generated data insert-->
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
             </div>
           </div>
 
-          <!-- Allergen selector -->
-          <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Allergens
-            </button>
-            <!--dynalically generated data insert-->
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
+
+
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <!--button to send selected and display results-->
+            <button type="button" class="btn btn-primary">Search</button>
           </div>
+
         </div>
-
-
-
-        <div class="modal-footer justify-content-center">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <!--button to send selected and display results-->
-          <button type="button" class="btn btn-primary">Search</button>
-        </div>
-      </div>
-    </div>
+    </form>
   </div>
+</div>
 
 
 
-  {% endblock search_box %}
+{% endblock search_box %}
