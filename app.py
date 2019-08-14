@@ -249,14 +249,20 @@ def delete_recipe(recipe_id):
 @app.route("/ingredients_search", methods=['POST'])
 def ingredients_search():
     
+    regex = re.compile(r'.*{0}.*'.format(request.form.get("ingredient_search")), re.IGNORECASE)
     recipesByIngredients=mongo.db.recipes.find(
-        {"ingredients": {"$text": request.form.get("ingredients")}})
-    
+        {"ingredients": {"$regex": regex}})
+
+    # Show result of the search
+    for recipe in recipesByIngredients:
+        print(str(recipe))
+
     return render_template(
-        'search_results.html',
-        recipes=recipes_by_ingredients,
+        'pages/search_results.html',
+        recipes=recipesByIngredients,
         meal_types_file=meal_types_file,
         allergens_file=allergens_file)
+
 
 
 

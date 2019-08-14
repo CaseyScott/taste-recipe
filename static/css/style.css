@@ -97,6 +97,11 @@ body {
 .modal-content {
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.9);
 }
+.row.selectors{
+  justify-content: space-around;
+  margin-bottom:10px;
+}
+
 /*my recipe cards and buttons*/
 .delrecipe {
   position: absolute;
