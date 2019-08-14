@@ -9,7 +9,12 @@
     <h2>All Recipes</h2>
   </div>
 
-  <!-- Button trigger modal to drop down search box for categories -->
+
+
+<!-- Modal causing all page content to be hidden in the modals pop up function removed brackets and % signs from block content. search by button does nothing at the moment. on the index page searchby button/modal is working as it should-->
+
+
+<!-- modal button and connection to search box html -->
   <div class="row justify-content-center">
     <div class="search_categories_btn">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
@@ -17,12 +22,14 @@
       </button>
     </div>
   </div>
+<!--
+   block search_box 
+   include 'pages/search_box.html' 
+   endblock search_box 
+-->
+<!-- modal button and connection to search box html -->
 
-  <!-- modal for searching meal type allergen or ingredients -->
 
-  {% block search_box %}
-  {% include 'pages/search_box.html' %}
-  {% endblock search_box %}
 
 
 
