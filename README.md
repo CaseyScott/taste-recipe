@@ -39,9 +39,9 @@ Milestone Project Three:
 In this project, I have built a data-driven web application using the technologies that I have learned throughout Data Centric Development. I have choosen to follow the example brief, A recipe webapp with C.R.U.D funcitionality. ( create, read, update and delete )
 
 
-## **The Given Brief and Requirements
+## **The Given Brief and Requirements**
 - **CREATE AN ONLINE COOKBOOK**
-- **Create a web application that allows users to store and easily access cooking recipes
+- Create a web application that allows users to store and easily access cooking recipes
 - design a database schema based on recipes, and any other related properties and entities (e.g. views, upvotes, ingredients, recipe authors, allergens, author’s country of origin, cuisine etc…).
 - Create the backend code and frontend form to allow users to add new recipes to the site.
 - Create the backend code to group and summarise the recipes on the site, based on their attributes such as cuisine, country of origin, allergens, ingredients, etc. and a frontend page to show this summary, and make the categories clickable to drill down into a filtered view based on that category. This frontend page can be as simple or as complex as you’d like; you can use a Python library such as matplotlib, or a JS library such as d3/dc (that you learned about if you took the frontend modules) for visualisation
@@ -55,10 +55,11 @@ In this project, I have built a data-driven web application using the technologi
 
 ## **UX**
 I aimed for simple and moden interface with plan easy to use forms for registration, sign in, add recipe and edit recipe.
-Having not used a recipes website before I spent some time looking at other sites to get an idea, most seeming to busy lots of black and white squares and to many options. With the speed and access to information I aimed to keep it simple and easy to use.
+
+## **User Stories**
 
 
-
+## Wireframes
 
 #### Database
 
@@ -80,6 +81,14 @@ Having not used a recipes website before I spent some time looking at other site
 [**To top**](#Table-of-Contents)
 
 ## **Technologies used**
+- Python 3
+- Flask 1.0.3
+- HTML5
+- CSS3
+- Bootstrap 4.3.1
+- JavaScript
+- jQuery
+- MongoDB atlas
 
 ### Front End
 
