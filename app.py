@@ -44,7 +44,7 @@ def register():
             error = "Passwords don't match!"
             return render_template('pages/register.html', error=error)
         #mongo.db.users is the database of usernames
-        user=mongo.db.user
+        user=mongo.db.users
         existing_user=user.find_one({'name' : request.form['username']})
         
         
@@ -98,11 +98,11 @@ def logout():
 
 """----------------------------------------------------"""
 ### Data for dropdown selectors in add recipe form
-meal_types_file = []
+meal_types_file = ""
 with open("data/meals_data.json", "r") as f:
     meal_types_file = json.load(f)
     
-allergens_file = []
+allergens_file = ""
 with open("data/allergen_data.json", "r") as f:
     allergens_file = json.load(f)
 
@@ -158,8 +158,9 @@ def insert_recipe():
 def recipes():
     recipes=mongo.db.recipes.find()
     
-    return render_template('pages/recipes.html',
-    recipes=recipes)
+    return render_template(
+        'pages/recipes.html',
+        recipes=recipes)
 
    
    
@@ -171,7 +172,8 @@ def get_user_recipe():
     
     recipes=mongo.db.recipes.find()
     
-    return render_template('pages/get_user_recipe.html',
+    return render_template(
+        'pages/get_user_recipe.html',
         recipes=recipes)
     
     

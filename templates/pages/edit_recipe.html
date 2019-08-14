@@ -17,14 +17,12 @@
 
 
     <label for="textarea">Recipe Description</label>
-    <textarea required id="description" name="description"
-      class="form-control mb-4">{{ recipe.description }}</textarea>
+    <textarea required id="description" name="description" class="form-control mb-4">{{ recipe.description }}</textarea>
 
 
 
     <label for="textarea">Ingredients</label>
-    <textarea required id="ingredients" name="ingredients"
-      class="form-control mb-4">{{ recipe.ingredients }}</textarea>
+    <textarea required id="ingredients" name="ingredients" class="form-control mb-4">{{ recipe.ingredients }}</textarea>
 
 
 
@@ -41,14 +39,19 @@
 
     <!----------------- meal_types category------------->
     <!-- Required selection -->
+    
+    
     <div class="meals_input" id="meals_input">
       <select class="selectpicker" required name="meals" class="meals" id="meals">
-        <option value="" disabled selected>Pick a Meal type</option>
+        <option selected>{{ recipe.meals }}</option>
+
         {% for item in meal_types_file.meals %}
-        <option value="{{ item }}">{{ item }}</option>
+        <option>{{ item }}</option>
         {% endfor %}
       </select>
     </div>
+    
+    
     <br>
     <br>
 
@@ -57,9 +60,10 @@
     <!--optional selection -->
     <div class="allergen_input" id="allergen_input">
       <select class="selectpicker" multiple="true" name="allergen" id="allergen">
-        <option value="" disabled selected>Choose Allergen</option>
+        <option selected>{{ recipe.allergen }}</option>
+        
         {% for item in allergens_file.allergen %}
-        <option value="{{ item }}">{{ item }}</option>
+        <option>{{ item }}</option>
         {% endfor %}
       </select>
     </div>
@@ -80,9 +84,11 @@
 
 
     <label for="textInput">Servings</label>
-    <input required type="number" id="servings" name="servings" class="form-control mb-4"
-      value="{{ recipe.servings }}">
+    <input required type="number" id="servings" name="servings" class="form-control mb-4" value="{{ recipe.servings }}">
 
+
+    <label for="textInput">Author</label>
+    <input required type="text" name="auther" id="author" class="form-control mb-4" value="{{ recipe.author }}">
 
 
     <input class="btn btn-info btn-block my-4" type="submit" value="add entry" id="add">
