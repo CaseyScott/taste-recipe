@@ -48,7 +48,7 @@ def recipe_data():
         "cooking": request.form.get('cooking'),
         "servings": request.form.get('servings'),
         "author": request.form.get('author'),
-        "username": session['username'],
+        "username": session['user'],
     }
     return data 
 
@@ -151,10 +151,17 @@ def add_recipe():
 
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
-    recipes=mongo.db.recipes
-    new_recipe_id=recipes.insert_one(request.form.to_dict()).inserted_id
-    flash('Recipe Added!')
-    return redirect(url_for('get_user_recipe', recipe_id=new_recipe_id))
+    
+    if 'username' in session:
+        user=mongo.db.users.find_one({"name": session['username']})
+                                             
+        recipes=mongo.db.recipes
+        new_recipe_id=recipes.insert_one(request.form.to_dict()).inserted_id
+        flash('Recipe Added!')
+    
+    return redirect(
+        url_for('get_user_recipe', 
+                recipe_id=new_recipe_id))
 
 
 
@@ -178,15 +185,16 @@ def recipes():
 # GET USER RECIPE #  
 """Session user recipe list from recipes collection that they have contributed to the database""" 
      
-@app.route('/get_user_recipe', methods=['GET', 'POST'])
-def get_user_recipe(): 
+@app.route('/get_user_recipe/<username>', methods=['GET', 'POST'])
+def get_user_recipe(username):
+    
     if session['username'] == username:
-        user = mongo.db.users.find_one({"username": username})
-        user_recipes = mongo.db.recipe.find({"username": session['username']})
+        username = mongo.db.users.find_one({"username": username})
+        user_recipes = mongo.db.recipes.find({"username": session['username']})
     
     return render_template(
         'pages/get_user_recipe.html',
-        user=user,
+        username=username,
         user_recipes=user_recipes,
         meal_types_file=meal_types_file,
         allergens_file=allergens_file)
