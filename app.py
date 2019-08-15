@@ -63,6 +63,7 @@ def index():
 
 """----------------------------------------------------"""
 """if request is POST and if the two given passwords match. It checks if the username already exists in database if the username doesnt already exist it hashs the password using bcrypt, this is sent to MONGODB users collection. if all worked correctly the session username variable is created for that username and the user is redirected to index/home"""
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     error = None
@@ -94,6 +95,7 @@ def register():
 
 """----------------------------------------------------"""      
 """if the request is POST, it looks for that user in list of usernames in MONGODB users collection, if password matches, session username variable is created for that user. Logged in user is redirected to index/home"""  
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
@@ -165,7 +167,9 @@ def recipes():
     
     return render_template(
         'pages/recipes.html',
-        recipes=recipes)
+        recipes=recipes,
+        meal_types_file=meal_types_file,
+        allergens_file=allergens_file)
 
    
    
