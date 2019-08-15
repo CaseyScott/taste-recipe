@@ -1,10 +1,58 @@
 {% extends 'page-layout/base.html' %} {% block content %}
 
 
+<div class="content-inside">
 
-{% block search_box %}
-{% include 'pages/search_box.html' %}
-{% endblock search_box %}
+    <div class="row recipe-heading">
+      <h2>Search Results</h2>
+    </div>
+    
+  
+    <div class="row justify-content-center">
+      {% for recipe in recipes %}
+      <div class="column">
+        <div class="card h-100" style="width: 18rem;">
+  
+          <img class="card-img-top" src="{{ recipe.image }}" alt="Card image cap">
+  
+          <div class="card-body">
+            <h5 class="card-title">{{ recipe.name }}</h5>
+  
+            <p class="card-text">{{ recipe.description|truncate(60) }}</p>
+  
+            <div class="wrapper">
+              <!-- meal type drop down selector-->
+              <div class="meal_types-card">
+                <div><b>Meal types</b></div>
+                {% for item in recipe.meals %}
+                <span>{{ item }}</span>
+                {% endfor %}
+              </div>
+  
+              <!-- allergen drop down selector-->
+              <div class="allergen-card">
+                <div><b>Allergens</b></div>
+                {% for item in recipe.allergen %}
+                <span>{{ item }}</span>
+                {% endfor %}
+              </div>
+  
+              <div class="readmore">
+                <a href="{{ url_for('single_recipe', recipe_id = recipe._id) }}" class="btn btn-primary readmore">Read
+                  more</a>
+              </div>
+              <br>
+              <br>
+  
+            </div>
+  
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  
+  </div>
 
 
 

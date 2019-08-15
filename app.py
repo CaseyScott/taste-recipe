@@ -24,7 +24,33 @@ else:
 
 mongo = PyMongo(app)
 
+### Data for dropdown selectors in add recipe form
+meal_types_file = []
+with open("data/meals_data.json", "r") as f:
+    meal_types_file = json.load(f)
     
+allergens_file = []
+with open("data/allergen_data.json", "r") as f:
+    allergens_file = json.load(f) 
+    
+"""add recipe / edit recipe  input form """
+def recipe_data():
+    data = {
+        "name": request.form.get('name'),
+        "description": request.form.get('description'),
+        "ingredients": request.form.get('ingredients'),
+        "instructions": request.form.get('instructions'),
+        "image": request.form.get('image'),
+        "meals": request.form.get('meals'),
+        "allergen": request.form.get('allergen'),
+        "preparation": request.form.get('preparation'),
+        "cooking": request.form.get('cooking'),
+        "servings": request.form.get('servings'),
+        "author": request.form.get('author'),
+        "username": session['username'],
+    }
+    return data 
+
 """----------------------------------------------------"""  
 
 @app.route('/', methods=['GET', 'POST'])
@@ -97,37 +123,12 @@ def logout():
     return redirect(url_for('index'))
 
 """----------------------------------------------------"""
-### Data for dropdown selectors in add recipe form
-meal_types_file = ""
-with open("data/meals_data.json", "r") as f:
-    meal_types_file = json.load(f)
-    
-allergens_file = ""
-with open("data/allergen_data.json", "r") as f:
-    allergens_file = json.load(f)
 
-
-"""add recipe / edit recipe  input form """
-def recipe_data():
-    data = {
-        "name": request.form.get('name'),
-        "description": request.form.get('description'),
-        "ingredients": request.form.get('ingredients'),
-        "instructions": request.form.get('instructions'),
-        "image": request.form.get('image'),
-        "meals": request.form.get('meals'),
-        "allergen": request.form.get('allergen'),
-        "preparation": request.form.get('preparation'),
-        "cooking": request.form.get('cooking'),
-        "servings": request.form.get('servings'),
-        "author": request.form.get('author'),
-        "username": session['username'],
-    }
-    return data 
 
 
 # ADD RECIPE #
 """User is sent to 'add recipes page' which includes data from meal_types and allergens json files."""
+
 @app.route('/add_recipe', methods=['GET', 'POST'])
 def add_recipe():
     
@@ -142,6 +143,7 @@ def add_recipe():
 
 # INSERT #
 """from add recipe page the user input information is stored as a dictionary in the MONGODB recipes collection, calling to_dict on the request.form object gives back a dictionary that can be used to display recipes from the recipes collection.Inserts one new recipe with an id into the recipes collection."""
+
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
     recipes=mongo.db.recipes
@@ -154,6 +156,7 @@ def insert_recipe():
 
 # ALL RECIPES #
 """all recipes in the MONGODB recipes collection. find()=find all"""
+
 @app.route("/recipes", methods=['GET', 'POST'])  
 def recipes():
     recipes=mongo.db.recipes.find()
@@ -166,7 +169,8 @@ def recipes():
    
    
 # GET USER RECIPE #  
-"""Session user recipe list from recipes collection that they have contributed to the database"""      
+"""Session user recipe list from recipes collection that they have contributed to the database""" 
+     
 @app.route('/get_user_recipe', methods=['GET', 'POST'])
 def get_user_recipe(): 
     if session['username'] == username:
@@ -201,6 +205,7 @@ def single_recipe(recipe_id):
     
 # EDIT #
 """editing one recipe by its recipe_id as the_recipe including meal_type and allergen data display all input information in the form to be edited"""
+
 @app.route('/edit_recipe/<recipe_id>', methods=['GET', 'POST'])
 def edit_recipe(recipe_id):
     
@@ -218,6 +223,7 @@ def edit_recipe(recipe_id):
 
 # UPDATE #
 """from edit recipe the edited information is sent to MONGODB recipes collection. $set:recipe_data replaces the value of a field with the specified value."""
+
 @app.route('/update_recipe/<recipe_id>', methods=['POST'])
 def update_recipe(recipe_id):
     
@@ -237,6 +243,7 @@ def update_recipe(recipe_id):
 # DELETE # 
 """delete recipe removes recipe from MONGODB recipes collection
 only the creator of that recipe can delete by matching session username"""  
+
 ### .remove or .delete_one ### 
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
@@ -272,7 +279,7 @@ def ingredients_search():
 
 
 
-@app.route("/meals_search", methods=['POST'])
+@app.route("/meals_search", methods=['GET','POST'])
 def meals_search():
     
     recipes_by_meals=mongo.db.recipes.find(
