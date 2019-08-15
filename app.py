@@ -169,12 +169,16 @@ def recipes():
 """Session user recipe list from recipes collection that they have contributed to the database"""      
 @app.route('/get_user_recipe', methods=['GET', 'POST'])
 def get_user_recipe(): 
-    
-    recipes=mongo.db.recipes.find()
+    if session['username'] == username:
+        user = mongo.db.users.find_one({"username": username})
+        user_recipes = mongo.db.recipe.find({"username": session['username']})
     
     return render_template(
         'pages/get_user_recipe.html',
-        recipes=recipes)
+        user=user,
+        user_recipes=user_recipes,
+        meal_types_file=meal_types_file,
+        allergens_file=allergens_file)
     
     
     
@@ -276,7 +280,7 @@ def meals_search():
     
     return render_template(
         'search_results.html',
-        recipes=recipes_by_meals,
+        recipes_by_meals=recipes_by_meals,
         meal_types_file=meal_types_file,
         allergens_file=allergens_file)
 
@@ -332,7 +336,7 @@ def search_categories():
         recipe_category = mongo.db.recips.find(
             {"$and": [
                 {"meals": meals},
-                {"allergen": {"$nin": allergen}}]})
+                {"allergen": {"$text": allergen}}]})
 
     elif not ingredients and not allergen:
         recipe_category = mongo.db.recipe.find(
@@ -356,4 +360,6 @@ def search_categories():
 
 
 if __name__ == '__main__':
-    app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=True)
+    app.run(host=os.getenv('IP'), 
+            port=int(os.getenv('PORT')), 
+            debug=True)

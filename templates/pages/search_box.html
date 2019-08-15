@@ -24,15 +24,15 @@
           <!-- meals selector -->
           <div class="row selectors">
             <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Meal Types
-              </button>
               <!--dynalically generated data insert-->
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+              <div class="meals_input" id="meals_input">
+                  <form method="POST" action="{{ url_for('meals_search') }}">
+                <select class="selectpicker" required name="meals" class="meals" id="meals">
+                  <option value="" disabled selected>Pick a Meal type</option>
+                  {% for item in meal_types_file.meals %}
+                  <option value="{{ item }}">{{ item }}</option>
+                  {% endfor %}
+                </select>
               </div>
             </div>
 
@@ -43,11 +43,15 @@
                 Allergens
               </button>
               <!--dynalically generated data insert-->
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
+              <div class="allergen_input" id="allergen_input">
+                  <form method="POST" action="{{ url_for('allergen_search') }}">
+                  <select class="selectpicker" multiple="true" name="allergen" id="allergen">
+                    <option value="" disabled selected>Search Allergen</option>
+                    {% for item in allergens_file.allergen %}
+                    <option value="{{ item }}">{{ item }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
             </div>
           </div>
 

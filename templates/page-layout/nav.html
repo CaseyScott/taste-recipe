@@ -34,8 +34,9 @@
 
                 {% else %}
 
+<!--only signed in user see these 3 nav bar options excluding general users from a user profile of recipes they have contributed, the option to add their own recipes and to log out-->
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="{{url_for('get_user_recipe') }}">My Recipe</a>
+                    <a class="nav-link js-scroll-trigger" href="{{url_for('get_user_recipe', username = session['username'])}}">My Recipe</a>
                 </li>
 
                 <li class="nav-item">
