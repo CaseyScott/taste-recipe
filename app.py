@@ -57,7 +57,9 @@ def recipe_data():
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    return render_template('pages/index.html')
+    return render_template('pages/index.html',
+    meal_types_file=meal_types_file,
+    allergens_file=allergens_file)
 
 """----------------------------------------------------"""
 """if request is POST and if the two given passwords match. It checks if the username already exists in database if the username doesnt already exist it hashs the password using bcrypt, this is sent to MONGODB users collection. if all worked correctly the session username variable is created for that username and the user is redirected to index/home"""
@@ -259,7 +261,7 @@ def delete_recipe(recipe_id):
 """--------------Search box modal --------------------"""
 
 
-@app.route("/ingredients_search", methods=['POST'])
+@app.route("/ingredients_search", methods=['GET','POST'])
 def ingredients_search():
     
     regex = re.compile(r'.*{0}.*'.format(request.form.get("ingredient_search")), re.IGNORECASE)
