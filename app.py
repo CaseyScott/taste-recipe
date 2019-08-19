@@ -157,7 +157,9 @@ def insert_recipe():
         user=mongo.db.users.find_one({"name": session['username']})
                                              
         recipes=mongo.db.recipes
-        new_recipe_id=recipes.insert_one(request.form.to_dict()).inserted_id
+        recipe_dict=request.form.to_dict()
+        recipe_dict['user_id']=user['_id']
+        new_recipe_id=recipes.insert_one(recipe_dict).inserted_id
         flash('Recipe Added!')
     
     return redirect(
@@ -186,16 +188,18 @@ def recipes():
 # GET USER RECIPE #  
 """Session user recipe list from recipes collection that they have contributed to the database""" 
      
-@app.route('/get_user_recipe/<username>', methods=['GET', 'POST'])
-def get_user_recipe(username):
+@app.route('/get_user_recipe', methods=['GET', 'POST'])
+def get_user_recipe():
     
-    if 'username' is session:
-        username = mongo.db.users.find_one({"username": session['username']})
-        user_recipes = mongo.db.recipes.find({"username": session['username']})
+    if 'username' in session:
+        user=mongo.db.users.find_one({"name": session['username']})
+        
+        
+        user_recipes = mongo.db.recipes.find({"user_id": user['_id']})
     
     return render_template(
         'pages/get_user_recipe.html',
-        username=username,
+        
         user_recipes=user_recipes,
         meal_types_file=meal_types_file,
         allergens_file=allergens_file)
