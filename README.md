@@ -4,7 +4,7 @@
 
 - [**Table of Contents**](#table-of-contents)
 	- [**Restaurant Chef**](#restaurant-chef)
-	- [**Given Brief**](#brief)
+	- [**Given Brief**](#The-Given-Brief-and-Requirements)
 	- [**UX**](#ux)
 		- [**Requirements**](#requirements)
 			- [Database](#database)
@@ -57,26 +57,64 @@ In this project, I have built a data-driven web application using the technologi
 I aimed for simple and moden interface with plan easy to use forms for registration, sign in, add recipe and edit recipe.
 
 ## **User Stories**
+- As a user I want an easy to use application that I can use on all devices. Weather using my Tablet or laptop in the kitchen or preparing earlier on desktop or mobile to find new family meal ideas.
+- As a user I want access to a list of good reicpes with the correct information for me to replicate the meal.
+- As a user I want to be able to deselect recipes by allergens as I an allergic to ______.
+- As a user I want to be able to contribute to the page with my own recipes.
+- As a user I want to sign into my own account to have access to my own recipes that I can edit or delete as I please.
+- As a user I want to choose meals to search by a given ingredient. 
+- As a user I want to search for a meal type like dinner to be shown all the meals categorised as dinner meals.
+
+## Existing Features
+### Create account and log in
+- A user is able to create and account and log in which changes the Navigation bar to show 'add recipe' and 'my recipes page' which shows that users recipes they have added, giving only them the ability to edit each entry or hard delete that recipe from the database.
+
+### Home page
+- Home page gives information about the applications functionality, has links to my linkedin and github pages. If the user wants to get straight to the point they can open the search modal and search by ingredient, type of meal or deselect an allergen they do not want included this will take them directly to the recipes in the database.
+- Home page has button link to create and account or user can use Nav bar.
+- log in and log out in Nav bar.
+
+### Recipes page
+- recipe page displays all recipes as they have been added. no order. if the user wants to find something specific they can search by type of meal they are looking for e.g Dinner, Breakfast, Dessert or they can search by Ingredient eg. beef or if the user has allergens they do not want included in their search they can choose which allergen they do not want included.
+
+### single Recipe page
+- from the recipes page or results from the search by: selector the user is able to open a single page for that one recipe which gives all the needed details to make the meal. including prep time, cooking time, serving size, ingredients, insructions and the author who contributed the recipe to the database.
+
+### My recipes
+- Once the user has logged in the Navigation bar is changed to show my recipes and add recipe buttons, the my recipes page shows all the recipes that user has contributed to the database. they also have the ability to edit or delete their recipes. recipes cards have a read more button linking that recipe to a single full page descripion of that recipe.
+
+### Navigation bar and footer
+- navigation for non signed in user (Home, Recipes, Create Account, Log in)
+- navigation for signed in user (Home, Recipes, My Recipes, Add Recipe, Log out)
+- main Title on top left of Nav goes back to home page from any page.
+- footer has My name and my current email address.
+
+### Features left to implement
+- home page images would link to there recipes.
+- up voting on favourite recipes.
+- user comments on the recipes so people have feedback.
+- delete function opens modal to confirm before hard delete.
+- Recipes added direct by api
+
+### Users
+- users of the application can use all search functionality and leave with no registration or log in
+- users can create an account and log in / log out.
+- users that have created an account and are logged in. can add / edit / delete any of their recipes they have contributed.
 
 
 ## Wireframes
 
-#### Database
-
-#### Users
-
-
-#### Pages
+### Database
+The database I have used Is MongoDB, Mongo DB is a document-oriented NoSQL database.
+Each database contains collections which in turn contains documents. Each document can be different with a varying number of fields. The Schema doesn't need to be defined beforehand as the fields can be created on the fly.
 
 
-### **Design**
 
 
-## **Features**
 
 [**To top**](#Table-of-Contents)
 
-### Features left to implement
+
 
 [**To top**](#Table-of-Contents)
 
@@ -112,7 +150,54 @@ I aimed for simple and moden interface with plan easy to use forms for registrat
 
 ## **Testing**
 
-### Tools used for testing
+### Testing
+#### Manual Testings
+- Home page
+   - Text, controls and images are aligned properly
+   - Color, shading, and gradient are consistent
+   - Font size, style and color are consistent for each type of text
+   - Text, images, controls, and frames do not run into the edges of the screen.
+   - Typed text (data entry) scrolls and displays properly
+   - Pages are readable on all resolutions.
+   - Search by: button opens modal and searches each selector properly.
+   - linkedin and githubs redirect correctly.
+   - Title link goes to home page.
+
+- Recipes page
+   - Cards are displaying correct data.
+   - Read more button connects to single recipe page.
+   - Search by: button opens modal and searches each selector properly.
+
+- My Recipes page
+   - Displays that signed in users recipes only.
+   - Edit button connects to edit page and updates information correctly.
+   - Delete button deletes that recipe from the collection.
+
+- Add Recipe page
+   - form requires all fields to be infilled.
+   - add entry button submits to the collection in mongoDB
+   - Dropdown selectors function correctly.
+
+- Log in and Log out
+   - log in signs that user into there account enabling that user to see their 'my recipes' section and the option to add recipes.
+   - log out pops the session removing the option to add recipes and see their 'my recipes section'
+   - Sign up here link sends user without and account to create account page.
+- Register / Create and Account
+   - warns users if that username is already taken
+   - warns users if password is not the same after entering password in both input fields
+   - register button submits that entry into the MongoDB collections
+
+#### Browser Testing 
+All testing on the list of Browers below.
+- Google Chrome
+- Apple Safari
+- Firefox
+- Internet Explorer & Edge
+- Opera
+
+#### Responsive-Design testing
+Responsive testing done on Google DevTools – Device Mode.
+
 
 ## **Deployment**
 - **Heroku**
@@ -153,10 +238,10 @@ I aimed for simple and moden interface with plan easy to use forms for registrat
 <hr />
 
 ## **How to run the project locally?**
-To run this project these instructions are given for a code editor I am using [Visual Studio Code](https://code.visualstudio.com/)on a windows machine.
+To run this project these instructions are given for a code editor I am using [Visual Studio Code](https://code.visualstudio.com/) on a windows machine.
 
 You will need:
-- A MongoDB account [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) 
 - [Python 3](https://www.python.org/downloads/)
 - [Git](https://www.atlassian.com/git/tutorials/install-git)
 - [Pip](https://www.liquidweb.com/kb/install-pip-windows/)
@@ -205,6 +290,24 @@ In app.py, set the app.config variables to the variables set in the config.py fi
 [**To top**](#Table-of-Contents)
 
 ### Code Used
+- search by ingredients route was written by my Tutor:
+@app.route("/ingredients_search", methods=['GET','POST'])
+def ingredients_search():
+    
+    regex = re.compile(r'.*{0}.*'.format(request.form.get("ingredient_search")), re.IGNORECASE)
+    recipesByIngredients=mongo.db.recipes.find(
+        {"ingredients": {"$regex": regex}})
+
+    # Show result of the search
+    for recipe in recipesByIngredients:
+        print(str(recipe))
+
+    return render_template(
+        'pages/search_results.html',
+        recipes=recipesByIngredients,
+        meal_types_file=meal_types_file,
+        allergens_file=allergens_file)
+
 - code templates used for [cards](https://coreui.io/docs/components/cards/) 
 - index page layout theme [bootstrap theme](https://startbootstrap.com/themes/)
 - code templates used for [modals](https://getbootstrap.com/docs/4.0/components/modal/)
@@ -226,6 +329,9 @@ In app.py, set the app.config variables to the variables set in the config.py fi
 ## **Credits**
 
 ### Special thanks to
+My Tutor and Mentor, Dick Vlaanderen for helping me Throughout this project.
+
+
 ## helpful pages I used
 
 - Rendering Templates 

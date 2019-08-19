@@ -183,3 +183,9 @@ body {
   border-color: #ee3e0d;
   margin-bottom: 30px;
 }
+
+/* single page recipe */
+.recipe-heading{
+  margin:20px;
+  margin-top: 90px;
+}
