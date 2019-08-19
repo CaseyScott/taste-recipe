@@ -48,7 +48,7 @@ def recipe_data():
         "cooking": request.form.get('cooking'),
         "servings": request.form.get('servings'),
         "author": request.form.get('author'),
-        "username": session['user'],
+        "username": session['username'],
     }
     return data 
 
