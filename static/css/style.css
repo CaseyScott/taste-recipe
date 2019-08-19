@@ -12,18 +12,16 @@ body {
 
 #page-content {
   flex: 1 0 auto;
-  
+
   height: 100%;
 }
-.content-inside{
-  
+.content-inside {
   padding-bottom: 80px;
 }
 
-
 .footer {
-  height:60px;
-  margin-top:-60px;
+  height: 60px;
+  margin-top: -60px;
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
   z-index: 1030;
@@ -97,9 +95,9 @@ body {
 .modal-content {
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.9);
 }
-.row.selectors{
+.row.selectors {
   justify-content: space-around;
-  margin-bottom:10px;
+  margin-bottom: 10px;
 }
 
 /*my recipe cards and buttons*/
@@ -157,7 +155,7 @@ body {
   max-width: 60%;
   margin-top: 20px;
 }
-.container-instructions{
+.container-instructions {
   text-align: -webkit-center;
 }
 .prep,
@@ -168,7 +166,7 @@ body {
   margin-left: 10px;
   margin-bottom: 20px;
 }
-.description{
+.description {
   margin-top: 18px;
   margin-bottom: 25px;
 }
@@ -176,4 +174,12 @@ body {
 .allergen-card {
   margin-left: 10px;
   margin-bottom: 5px;
+}
+
+/*add recipe submit button*/
+.btn-info {
+  color: #fff;
+  background-color: #f24516;
+  border-color: #ee3e0d;
+  margin-bottom: 30px;
 }

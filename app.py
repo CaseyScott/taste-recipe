@@ -125,6 +125,7 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('username')
+    flash("Successfully logged out ...")
     return redirect(url_for('index'))
 
 """----------------------------------------------------"""
@@ -188,8 +189,8 @@ def recipes():
 @app.route('/get_user_recipe/<username>', methods=['GET', 'POST'])
 def get_user_recipe(username):
     
-    if session['username'] == username:
-        username = mongo.db.users.find_one({"username": username})
+    if 'username' is session:
+        username = mongo.db.users.find_one({"username": session['username']})
         user_recipes = mongo.db.recipes.find({"username": session['username']})
     
     return render_template(

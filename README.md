@@ -3,7 +3,7 @@
 # **Table of Contents**
 
 - [**Table of Contents**](#table-of-contents)
-	- [**Restaurant Chef**](#restaurantchef)
+	- [**Restaurant Chef**](#restaurant-chef)
 	- [**Given Brief**](#brief)
 	- [**UX**](#ux)
 		- [**Requirements**](#requirements)
@@ -33,7 +33,7 @@
 
 <hr />
 
-## **Restaurant Chef**
+## **Restaurant-Chef**
 
 Milestone Project Three:
 In this project, I have built a data-driven web application using the technologies that I have learned throughout Data Centric Development. I have choosen to follow the example brief, A recipe webapp with C.R.U.D funcitionality. ( create, read, update and delete )
