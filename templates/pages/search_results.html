@@ -7,6 +7,29 @@
     <h2>Search Results</h2>
   </div>
 
+  <!--Results from search-->
+  {% if ingredientResults == 0 %}
+    <div>
+      <p class="results-ingredients">No results found by ingredients!</p>
+    </div>
+  {% endif %}
+<!-- elif mealTypeResults == 0-->
+  {% if mealTypeResults ==0 %}
+    <div>
+      <p class="results-ingredients">No results found by that Meal type!</p>
+    </div>
+    {% endif %}
+
+  {% if allergenResults == 0%}
+    <div>
+      <p class="results-ingredients">No results found to exclude that allergen!</p>
+    </div>
+  {% endif %}
+  
+  
+
+
+
 
   <div class="row justify-content-center">
     {% for recipe in recipesByIngredients %}
@@ -57,7 +80,8 @@
   </div>
 
 </div>
-</div> <!--extra div for sticky footer-->
+</div>
+<!--extra div for sticky footer-->
 
 
 {% endblock %}

@@ -286,6 +286,9 @@ def ingredients_search():
     recipesByIngredients=mongo.db.recipes.find(
         {"ingredients": {"$regex": regex}})
 
+    ingredientResults=recipesByIngredients.count()
+
+
     # Show result of the search
     for recipe in recipesByIngredients:
         print(str(recipe))
@@ -294,7 +297,8 @@ def ingredients_search():
         'pages/search_results.html',
         recipes=recipesByIngredients,
         meal_types_file=meal_types_file,
-        allergens_file=allergens_file)
+        allergens_file=allergens_file,
+        ingredientResults=ingredientResults)
 
 
 
@@ -304,6 +308,8 @@ def meals_search():
     
     recipes_by_meals=mongo.db.recipes.find(
         {"meals": request.form.get("meals_data")})
+    
+    mealTypeResults=recipes_by_meals.count()
     
     return render_template(
         'search_results.html',
@@ -316,8 +322,10 @@ def meals_search():
 @app.route("/allergen_search", methods=['POST'])
 def allergen_search():
     
-    recipes_by_allergen=mongo.db.recipe.find(
+    recipes_by_allergen=mongo.db.recipes.find(
         {"allergen": request.form.get("allergen_data")})
+    
+    allergenResults=recipes_by_allergen.count()
     
     return render_template(
         'search_results.html',
@@ -363,7 +371,7 @@ def search_categories():
         recipe_category = mongo.db.recips.find(
             {"$and": [
                 {"meals": meals},
-                {"allergen": {"$text": allergen}}]})
+                {"allergen":  allergen}]})
 
     elif not ingredients and not allergen:
         recipe_category = mongo.db.recipe.find(
