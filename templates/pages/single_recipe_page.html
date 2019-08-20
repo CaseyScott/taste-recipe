@@ -1,6 +1,7 @@
 {% extends 'page-layout/base.html'%} {% block content %}
 
 <div class="content-inside">
+
   <div class="row recipe-heading">
     <h1>{{ recipe.name }}</h1>
   </div>
@@ -61,7 +62,7 @@
             </div>
           </div>
         </div>
-      
+
         <!----------------------------------------------------------->
         <!--ingredients-->
         <div class="column-single-recipe">
@@ -76,13 +77,15 @@
 
     <!--instructions-->
     <div class="container-instructions">
-    <div class="row-instructions ">
-      <h4 class="instructions_heading">Instructions</h4>
-      <p class="section recipe-instructions">{{ recipe.instructions }}</p>
+      <div class="row-instructions ">
+        <h4 class="instructions_heading">Instructions</h4>
+        <p class="section recipe-instructions">{{ recipe.instructions }}</p>
+      </div>
     </div>
+    <span><b>Added By: {{ recipe.author }}</b></span>
   </div>
-  <span><b>Added By: {{ recipe.author }}</b></span>
-  </div>
+  
 </div>
+
 
 {% endblock %}

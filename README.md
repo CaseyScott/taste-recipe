@@ -6,23 +6,19 @@
 	- [**Restaurant Chef**](#restaurant-chef)
 	- [**Given Brief**](#The-Given-Brief-and-Requirements)
 	- [**UX**](#ux)
-		- [**Requirements**](#requirements)
-			- [Database](#database)
-			- [Users](#users)
-			- [Pages](#pages)
-		- [**General Design**](#general-design)
-	- [**Features**](#features)
+	   - [**User Stories**](#user-stories)	
+	   - [**Features**](#features)
 		- [Existing features](#existing-features)
-			- [Database existing features](#database-existing-features)
-			- [Existing pages](#existing-pages)
-			- [Helper](#helper)
+			- [Create account and log in](#Create-account-and-log-in)
+			- [Home page](#home-page)
+			- [Recipes page](#recipes-page)
+         - [Single Recipe page](#single-recipe-page)
+         - [My recipes](#my-recipes)
+         - [Navigation bar and footer](#navigation-barand-footer)
 		- [Features left to implement](#features-left-to-implement)
 	- [**Technologies used**](#technologies-used)
-		- [Front End](#front-end)
-		- [Back End](#back-end)
 	- [**Testing**](#testing)
-		- [Tools used for testing](#tools-used-for-testing)
-	- [**Changelog and Fixes**](#changelog-and-fixes)
+		- [Manual Testing](#manual-testing)
 	- [**Deployment**](#deployment)
 	- [**How to run the project locally?**](#how-to-run-the-project-locally)
 	- [**What could be done better?**](#what-could-be-done-better)
@@ -54,7 +50,8 @@ In this project, I have built a data-driven web application using the technologi
 [**To top**](#Table-of-Contents)
 
 ## **UX**
-I aimed for simple and moden interface with plan easy to use forms for registration, sign in, add recipe and edit recipe.
+I aimed for simple and moden interface with plan easy to use forms for registration, sign in, add recipe and edit recipe. When a user looks for a recipes application they want quick easy access that gets straight to the point. If the users likes the flow of the webapp and its usability they may be interested in contributing their own content to the database to make the application they enjoy using better for others to use to.
+
 
 ## **User Stories**
 - As a user I want an easy to use application that I can use on all devices. Weather using my Tablet or laptop in the kitchen or preparing earlier on desktop or mobile to find new family meal ideas.
@@ -64,6 +61,10 @@ I aimed for simple and moden interface with plan easy to use forms for registrat
 - As a user I want to sign into my own account to have access to my own recipes that I can edit or delete as I please.
 - As a user I want to choose meals to search by a given ingredient. 
 - As a user I want to search for a meal type like dinner to be shown all the meals categorised as dinner meals.
+### Users
+- users of the application can use all search functionality and leave with no registration or log in
+- users can create an account and log in / log out.
+- users that have created an account and are logged in. can add / edit / delete any of their recipes they have contributed.
 
 ## Existing Features
 ### Create account and log in
@@ -77,7 +78,7 @@ I aimed for simple and moden interface with plan easy to use forms for registrat
 ### Recipes page
 - recipe page displays all recipes as they have been added. no order. if the user wants to find something specific they can search by type of meal they are looking for e.g Dinner, Breakfast, Dessert or they can search by Ingredient eg. beef or if the user has allergens they do not want included in their search they can choose which allergen they do not want included.
 
-### single Recipe page
+### Single Recipe page
 - from the recipes page or results from the search by: selector the user is able to open a single page for that one recipe which gives all the needed details to make the meal. including prep time, cooking time, serving size, ingredients, insructions and the author who contributed the recipe to the database.
 
 ### My recipes
@@ -89,17 +90,12 @@ I aimed for simple and moden interface with plan easy to use forms for registrat
 - main Title on top left of Nav goes back to home page from any page.
 - footer has My name and my current email address.
 
-### Features left to implement
+## Features left to implement
 - home page images would link to there recipes.
 - up voting on favourite recipes.
 - user comments on the recipes so people have feedback.
 - delete function opens modal to confirm before hard delete.
 - Recipes added direct by api
-
-### Users
-- users of the application can use all search functionality and leave with no registration or log in
-- users can create an account and log in / log out.
-- users that have created an account and are logged in. can add / edit / delete any of their recipes they have contributed.
 
 
 ## Wireframes
@@ -141,17 +137,11 @@ Each database contains collections which in turn contains documents. Each docume
 - [Google Fonts](https://fonts.google.com/) font styling
 
 
-
-### Front End
-
-
-### Back End
 [**To top**](#Table-of-Contents)
 
 ## **Testing**
 
-### Testing
-#### Manual Testings
+### Manual Testing
 - Home page
    - Text, controls and images are aligned properly
    - Color, shading, and gradient are consistent
