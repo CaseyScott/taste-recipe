@@ -83,9 +83,9 @@ def register():
             user.insert({'name' : request.form['username'], 'password' : hashpass})
             session['username'] = request.form['username']
             session['logged_in']=True
-            
             error = 'Invalid username or password. Please try again!'
             
+            flash('You have successfully registed')
             return redirect(url_for('index',error = error))
         
         return render_template('pages/register.html', error = error)  
@@ -112,6 +112,7 @@ def login():
                 session['username'] = request.form['username']
                 session['logged_in']=True   
                 
+                flash('You were successfully logged in')
                 return redirect(url_for('index'))
             
         return render_template('pages/login.html', error = error)

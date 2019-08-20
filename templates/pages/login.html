@@ -11,13 +11,19 @@
 							<hr>
 						</div>
 					</div>
-					{% if error %}
+
+					
+
+					{% block body %}
+					<form method=POST action="{{ url_for('login') }}">
+						
+
+						{% if error %}
 					<p><strong>Error:</strong> {{ error }}
 						{% endif %}
-						<form method=POST action="{{ url_for('login') }}">
 							<div class="form-group">
 								<label for="exampleInputEmail">Username</label>
-								<input type="text" class="form-control" name="username" id="username"placeholder="Username">
+								<input type="text" class="form-control" name="username" id="username" placeholder="Username">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputPassword1">Password</label>
@@ -25,11 +31,12 @@
 							</div>
 							<button type="submit" class="btn btn-primary btn-block">Sign in</button>
 						</form>
+						{% endblock %}
 						<br>
 						<div>
 							Don't have an account? <a href="{{ url_for('register') }}">Sign up here</a>
 						</div>
-						
+
 				</div>
 			</div>
 		</div>
