@@ -251,7 +251,7 @@ Activate the virtual environment
 
 3. install all requirements needed to run this app using
 ```
-pip -r requirements.txt.
+pip install -r requirements.txt.
 ```
 
 4. Create a file called config.py 
