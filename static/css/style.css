@@ -15,7 +15,7 @@ body {
   height: 100%;
 }
 .content-inside {
-  
+  min-height: 100vh;
   padding-bottom: 80px;
 }
 

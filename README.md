@@ -99,16 +99,12 @@ I aimed for simple and moden interface with plan easy to use forms for registrat
 
 
 ## Wireframes
+[wireframe images](https://github.com/CaseyScott/taste-recipe/tree/master/static/img/wireframes)
+
 
 ### Database
 The database I have used Is MongoDB, Mongo DB is a document-oriented NoSQL database.
 Each database contains collections which in turn contains documents. Each document can be different with a varying number of fields. The Schema doesn't need to be defined beforehand as the fields can be created on the fly.
-
-
-
-
-
-[**To top**](#Table-of-Contents)
 
 
 
@@ -130,7 +126,7 @@ Each database contains collections which in turn contains documents. Each docume
 
 ## Libraries
 - [JQuery](https://jquery.com) to simplify DOM manipulation.
-- [Flask](https://flask.palletsprojects.com/en/1.0.x/) to construct and render pages.
+- [Flask](https://flask.palletsprojects.com/en/1.0.x/) to redirect and render pages.
 - [Bootstrap](https://www.bootstrapcdn.com/) Simplify the structure of the website and make the website responsive easily.
 - [Jinja](http://jinja.pocoo.org/docs/2.10/) displaying data from the backend
 - [FontAwesome](https://www.bootstrapcdn.com/fontawesome/) icons
@@ -140,7 +136,6 @@ Each database contains collections which in turn contains documents. Each docume
 [**To top**](#Table-of-Contents)
 
 ## **Testing**
-
 ### Manual Testing
 - Home page
    - Text, controls and images are aligned properly
@@ -186,7 +181,7 @@ All testing on the list of Browers below.
 - Opera
 
 #### Responsive-Design testing
-Responsive testing done on Google DevTools – Device Mode.
+Responsive testing done on Google DevTools – Device Mode and Browserstack.
 
 
 ## **Deployment**
@@ -225,7 +220,6 @@ Responsive testing done on Google DevTools – Device Mode.
 
 [**To top**](#Table-of-Contents)
 
-<hr />
 
 ## **How to run the project locally?**
 To run this project these instructions are given for a code editor I am using [Visual Studio Code](https://code.visualstudio.com/) on a windows machine.
