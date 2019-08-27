@@ -175,10 +175,13 @@ def insert_recipe():
 
 @app.route("/recipes", methods=['GET', 'POST'])  
 def recipes():
+    
     recipes=mongo.db.recipes.find()
+    recipe_count = None
     
     return render_template(
         'pages/recipes.html',
+        recipe_count=recipe_count,
         recipes=recipes,
         meal_types_file=meal_types_file,
         allergens_file=allergens_file)
@@ -197,10 +200,11 @@ def get_user_recipe():
         
         
         user_recipes = mongo.db.recipes.find({"user_id": user['_id']})
-    
+        recipe_count = user_recipes.count()
+        
     return render_template(
         'pages/get_user_recipe.html',
-        
+        recipe_count=recipe_count,
         user_recipes=user_recipes,
         meal_types_file=meal_types_file,
         allergens_file=allergens_file)
@@ -211,8 +215,6 @@ def get_user_recipe():
 @app.route('/single_recipe/<recipe_id>')
 def single_recipe(recipe_id):
     
-    recipe_name = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)}, {"recipe_name"})
-        
     the_recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
     
     return render_template(
@@ -233,11 +235,13 @@ def edit_recipe(recipe_id):
     the_recipe=mongo.db.recipes.find_one(
         {"_id": ObjectId(recipe_id)})
     
+    flash("Your recipe has been updated")
     return render_template(
         'pages/edit_recipe.html',
         recipe=the_recipe,
         meal_types_file=meal_types_file,
-        allergens_file=allergens_file)
+        allergens_file=allergens_file,
+        recipe_id=recipe_id)
     
     
 
@@ -248,14 +252,14 @@ def edit_recipe(recipe_id):
 @app.route('/update_recipe/<recipe_id>', methods=['POST'])
 def update_recipe(recipe_id):
     
-    
-    recipes=mongo.db.recipes
-    recipes.update_many(
+    mongo.db.recipes.update_many(
         {'_id': ObjectId(recipe_id)},
         {"$set": recipe_data()})
-                  
+    
+               
     return redirect(
-        url_for('get_user_recipe', recipe_id=recipe_id))
+        url_for('get_user_recipe',
+                recipe_id=recipe_id))
     
     
 
@@ -271,7 +275,7 @@ def delete_recipe(recipe_id):
     recipes = mongo.db.recipes
     mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
     flash('Recipe deleted')
-    return redirect(url_for('recipes'))
+    return redirect(url_for('get_user_recipe'))
 
 
 #-----------------------------------Recipes CRUD functionality
@@ -284,22 +288,22 @@ def delete_recipe(recipe_id):
 def ingredients_search():
     
     regex = re.compile(r'.*{0}.*'.format(request.form.get("ingredient_search")), re.IGNORECASE)
-    recipesByIngredients=mongo.db.recipes.find(
+    recipeSearchCategory=mongo.db.recipes.find(
         {"ingredients": {"$regex": regex}})
 
-    ingredientResults=recipesByIngredients.count()
+    numberOfRecipes=recipeSearchCategory.count()
 
 
     # Show result of the search
-    for recipe in recipesByIngredients:
+    for recipe in recipeSearchCategory:
         print(str(recipe))
 
     return render_template(
         'pages/search_results.html',
-        recipes=recipesByIngredients,
+        numberOfRecipes=numberOfRecipes,
+        recipeSearchCategory=recipeSearchCategory,
         meal_types_file=meal_types_file,
-        allergens_file=allergens_file,
-        ingredientResults=ingredientResults)
+        allergens_file=allergens_file)
 
 
 
@@ -307,14 +311,15 @@ def ingredients_search():
 @app.route("/meals_search", methods=['GET','POST'])
 def meals_search():
     
-    recipes_by_meals=mongo.db.recipes.find(
+    recipeSearchCategory=mongo.db.recipes.find(
         {"meals": request.form.get("meals_data")})
     
-    mealTypeResults=recipes_by_meals.count()
+    numberOfRecipes=recipeSearchCategory.count()
     
     return render_template(
         'search_results.html',
-        recipes_by_meals=recipes_by_meals,
+        numberOfRecipes=numberOfRecipes,
+        recipeSearchCategory=recipeSearchCategory,
         meal_types_file=meal_types_file,
         allergens_file=allergens_file)
 
@@ -323,14 +328,15 @@ def meals_search():
 @app.route("/allergen_search", methods=['POST'])
 def allergen_search():
     
-    recipes_by_allergen=mongo.db.recipes.find(
+    recipeSearchCategory=mongo.db.recipes.find(
         {"allergen": request.form.get("allergen_data")})
     
-    allergenResults=recipes_by_allergen.count()
+    numberOfRecipes=recipeSearchCategory.count()
     
     return render_template(
         'search_results.html',
-        recipes=recipes_by_allergen,
+        numberOfRecipes=numberOfRecipes,
+        recipeSearchCategory=recipeSearchCategory,
         meal_types_file=meal_types_file,
         allergens_file=allergens_file)
     

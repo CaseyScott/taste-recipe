@@ -8,33 +8,31 @@
   </div>
 
   <!--Results from search-->
-  {% if ingredientResults == 0 %}
-    <div>
-      <p class="results-ingredients">No results found by ingredients!</p>
-    </div>
-  {% endif %}
-<!-- elif mealTypeResults == 0
-  {% if mealTypeResults ==0 %}
-    <div>
-      <p class="results-ingredients">No results found by that Meal type!</p>
-    </div>
-    {% endif %}
+  <div class="row justify-content-around">
+    <div class="col-xs-12">
 
-  {% if allergenResults == 0%}
-    <div>
-      <p class="results-ingredients">No results found to exclude that allergen!</p>
+      {% if recipe_count != None %}
+      {% if recipe_count == 0 %}
+      <div>
+        <p class="results-found">No results found please try another search</p>
+      </div>
+      {% else %}
+      <div>
+        <p class="results-found">-{{ recipe_count}}- results found!</p>
+      </div>
+      {% endif %}
+      {% endif %}
     </div>
-  {% endif %}-->
-  
-  
+  </div>
+
+
 
 
 
 
   <div class="row justify-content-center">
-    {% for recipe in recipesByIngredients %}
-    {% for recipe in recipes_by_meals %}
-    {% for recipe in recipes_by_allergen %}
+    {% for recipe in recipeSearchCategory %}
+
     <div class="column">
       <div class="card h-100" style="width: 18rem;">
 
@@ -75,13 +73,12 @@
       </div>
     </div>
     {% endfor %}
-    {% endfor %}
-    {% endfor %}
+   
   </div>
 
 </div>
-</div>
-<!--extra div for sticky footer-->
+
+
 
 
 {% endblock %}

@@ -15,7 +15,7 @@ body {
   height: 100%;
 }
 .content-inside {
-  min-height: 100vh;
+  min-height: 100vh;/*causing footer to lift on search results page */
   padding-bottom: 80px;
 }
 

@@ -241,7 +241,7 @@ Create the virtual environment
 - virtualenv mypython
 
 Activate the virtual environment
-- mypthon\Scripts\activate
+- mypython\Scripts\activate
 
 3. install all requirements needed to run this app using
 ```
