@@ -177,11 +177,11 @@ def insert_recipe():
 def recipes():
     
     recipes=mongo.db.recipes.find()
-    recipe_count = None
+    numberOfRecipes = None
     
     return render_template(
         'pages/recipes.html',
-        recipe_count=recipe_count,
+        numberOfRecipes=numberOfRecipes,
         recipes=recipes,
         meal_types_file=meal_types_file,
         allergens_file=allergens_file)

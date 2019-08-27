@@ -11,14 +11,14 @@
   <div class="row justify-content-around">
     <div class="col-xs-12">
 
-      {% if recipe_count != None %}
-      {% if recipe_count == 0 %}
+      {% if numberOfRecipes != None %}
+      {% if numberOfRecipes == 0 %}
       <div>
         <p class="results-found">No results found please try another search</p>
       </div>
       {% else %}
       <div>
-        <p class="results-found">-{{ recipe_count}}- results found!</p>
+        <p class="results-found">-{{ numberOfRecipes }}- results found!</p>
       </div>
       {% endif %}
       {% endif %}
