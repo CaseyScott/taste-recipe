@@ -325,7 +325,7 @@ def meals_search():
 def allergen_search():
     
     recipeSearchCategory=mongo.db.recipes.find(
-        {"allergens": {"$nin": request.form.get("allergen_data")}})
+        {"allergen": {"$nin": request.form.get("allergen_data")}})
     
     numberOfRecipes=recipeSearchCategory.count()
     
@@ -341,57 +341,57 @@ def allergen_search():
     
 @app.route("/search_categories", methods=['POST'])
 def search_categories():
-    ingredients = request.form.get("ingredient_search")
+    ingredients = request.form.get("ingredients_search")
     meals = request.form.get("meals_search")
     allergen = request.form.get("allergen_search")
     
     
     #if all 3 search boxes are used to search for ingreditents, meal type and allergens $text performs a text search on the content of the input fields"""
     if ingredients and meal_types and allergen:
-        recipe_category = mongo.db.recipes.find(
+        recipeSearchCategory = mongo.db.recipes.find(
             {"$and": [
                 {"meals": meals},
                 {"allergen": {"$nin": allergen}},
-                {"ingredients": {"$text": ingredients}}]})
+                {"ingredients": {"$regex": regex}}]})
 
 
     #if ingredients and meal type are searched"""
     elif ingredients and meals and not allergen:
-        recipe_category = mongo.db.recipes.find(
+        recipeSearchCategory = mongo.db.recipes.find(
             {"$and":[
                 {"meals": meals},
-                {"ingredients": {"$text": ingredients}}]})
+                {"ingredients": {"$regex": regex}}]})
 
 
      #if ingredients and allergen are searched but meal type is left empty
     elif ingredients and meals == "" and allergen:
-        recipe_category = mongo.db.recipes.find(
+        recipeSearchCategory = mongo.db.recipes.find(
             {"$and": [
                 {"allergen": {"$nin": allergen}},
-                {"ingredients": {"$text": ingredient}}]})
+                {"ingredients": {"$regex": regex}}]})
 
     elif not ingredients and meals and allergen:
-        recipe_category = mongo.db.recips.find(
+        recipeSearchCategory = mongo.db.recips.find(
             {"$and": [
                 {"meals": meals},
                 {"allergen": {"$nin": allergen}}]})
 
     elif not ingredients and not allergen:
-        recipe_category = mongo.db.recipe.find(
+        recipeSearchCategory = mongo.db.recipe.find(
             {"meals": meals}) 
 
     elif meals == "" and not allergen:
-        recipe_category = mongo.db.recipe.find(
-            {"ingredients": {"$text": ingredients}})
+        recipeSearchCategory = mongo.db.recipe.find(
+            {"ingredients": {"$regex": regex}})
 
     elif meals == "" and not ingredients:
-        recipe_category = mongo.db.recipe.find(
+        recipeSearchCategory = mongo.db.recipe.find(
             {"allergen": {"$nin": allergen}})
         
         
     return render_template(
         'search_results.html',
-        recipe_category=recipe_category,
+        recipeSearchCategory=recipeSearchCategory,
         meal_types_file=meal_types_file,
         allergens_file=allergens_file)
 
