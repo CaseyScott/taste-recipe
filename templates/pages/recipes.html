@@ -41,21 +41,13 @@
           <!-- meal type drop down selector-->
           <div class="meal_types-card">
             <div><b>Meal types</b></div>
-            {% for item in recipe.meals %}
-            <span>{{ item }}</span>
-            {% endfor %}
+            <span>{{ recipe.meals }}</span>
           </div>
 
           <!-- allergen drop down selector-->
           <div class="allergen-card">
             <div><b>Allergens</b></div>
-            {% for item in recipe.allergen %}
-            {% if loop.index == 0 or item == "" %}
-            <p>No Allergen</p>
-            {% else %}
-            <span>{{ item }}</span>
-            {% endif %}
-            {% endfor %}
+            <span>{{ recipe.allergen }}</span>
           </div>
 
 

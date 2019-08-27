@@ -45,9 +45,7 @@
                 <div>
                   <h3>Meal types</h3>
                 </div>
-                {% for item in recipe.meals %}
-                <span>{{ item }}</span>
-                {% endfor %}
+                <span>{{ recipe.meals }}</span>
               </div>
 
               <!-- allergen drop down selector-->
@@ -55,9 +53,7 @@
                 <div>
                   <h3>Allergens</h3>
                 </div>
-                {% for item in recipe.allergen %}
-                <span>{{ item }}</span>
-                {% endfor %}
+                <span>{{ recipe.allergen }}</span>
               </div>
             </div>
           </div>
