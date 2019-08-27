@@ -294,10 +294,6 @@ def ingredients_search():
     numberOfRecipes=recipeSearchCategory.count()
 
 
-    # Show result of the search
-    for recipe in recipeSearchCategory:
-        print(str(recipe))
-
     return render_template(
         'pages/search_results.html',
         numberOfRecipes=numberOfRecipes,
