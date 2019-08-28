@@ -308,7 +308,7 @@ def ingredients_search():
 
 
 
-@app.route("/meals_search", methods=['GET','POST'])
+@app.route("/meals_search", methods=['POST'])
 def meals_search():
     
     recipeSearchCategory=mongo.db.recipes.find(
@@ -337,7 +337,8 @@ def allergen_search():
         'search_results.html',
         numberOfRecipes=numberOfRecipes,
         recipeSearchCategory=recipeSearchCategory,
-        meal_types_file=meal_types_file)
+        meal_types_file=meal_types_file,
+        allergens_file=allergens_file)
     
     
     

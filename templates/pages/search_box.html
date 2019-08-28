@@ -27,7 +27,7 @@
               <!--dynalically generated data insert-->
               <div class="meals_input" id="meals_input">
                   <form method="POST" action="{{ url_for('meals_search') }}">
-                <select class="selectpicker" name="meals" class="meals" id="meals">
+                <select class="selectpicker" name="meals_data" id="meals_data">
                   <option value="" disabled selected>Pick a Meal type</option>
                   {% for item in meal_types_file.meals %}
                   <option value="{{ item }}">{{ item }}</option>
@@ -41,7 +41,7 @@
               <!--dynalically generated data insert-->
               <div class="allergen_input" id="allergen_input">
                   <form method="POST" action="{{ url_for('allergen_search') }}">
-                  <select class="selectpicker" name="allergen" id="allergen">
+                  <select class="selectpicker" name="allergen_data" id="allergen_data">
                     <option value="" disabled selected>Search Allergen</option>
                     {% for item in allergens_file.allergen %}
                     <option value="{{ item }}">{{ item }}</option>
