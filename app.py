@@ -144,7 +144,9 @@ def add_recipe():
     
     return render_template("pages/add_recipe.html",
     meal_types_file=meal_types_file,
-    allergens_file=allergens_file)
+    allergens_file=allergens_file,
+    user=user,
+    recipes=recipes)
 
 
 
@@ -275,7 +277,9 @@ def delete_recipe(recipe_id):
     recipes = mongo.db.recipes
     mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
     flash('Recipe deleted')
-    return redirect(url_for('get_user_recipe'))
+    return redirect(
+        url_for('get_user_recipe',
+                recipes=recipes))
 
 
 #-----------------------------------Recipes CRUD functionality
@@ -334,7 +338,6 @@ def allergen_search():
         numberOfRecipes=numberOfRecipes,
         recipeSearchCategory=recipeSearchCategory,
         meal_types_file=meal_types_file,
-        allergens_file=allergens_file)
     
     
     
@@ -347,12 +350,12 @@ def search_categories():
     
     
     #if all 3 search boxes are used to search for ingreditents, meal type and allergens $text performs a text search on the content of the input fields"""
-    if ingredients and meal_types and allergen:
+    if ingredients and meals and allergen:
         recipeSearchCategory = mongo.db.recipes.find(
             {"$and": [
                 {"meals": meals},
                 {"allergen": {"$nin": allergen}},
-                {"ingredients": {"$regex": regex}}]})
+                {"ingredients": {"$regex": request.form.get("ingredient_search")}}]})
 
 
     #if ingredients and meal type are searched"""
@@ -360,7 +363,7 @@ def search_categories():
         recipeSearchCategory = mongo.db.recipes.find(
             {"$and":[
                 {"meals": meals},
-                {"ingredients": {"$regex": regex}}]})
+                {"ingredients": {"$regex": request.form.get("ingredient_search")}}]})
 
 
      #if ingredients and allergen are searched but meal type is left empty
@@ -368,7 +371,7 @@ def search_categories():
         recipeSearchCategory = mongo.db.recipes.find(
             {"$and": [
                 {"allergen": {"$nin": allergen}},
-                {"ingredients": {"$regex": regex}}]})
+                {"ingredients": {"$regex": request.form.get("ingredient_search")}}]})
 
     elif not ingredients and meals and allergen:
         recipeSearchCategory = mongo.db.recips.find(
@@ -382,7 +385,7 @@ def search_categories():
 
     elif meals == "" and not allergen:
         recipeSearchCategory = mongo.db.recipe.find(
-            {"ingredients": {"$regex": regex}})
+            {"ingredients": {"$regex": request.form.get("ingredient_search")}})
 
     elif meals == "" and not ingredients:
         recipeSearchCategory = mongo.db.recipe.find(

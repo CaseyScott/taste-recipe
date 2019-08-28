@@ -27,7 +27,7 @@
 		- [Recipes](#recipes)
 		- [Media](#media)
 
-<hr />
+
 
 ## **Restaurant-Chef**
 
@@ -95,7 +95,7 @@ I aimed for simple and moden interface with plan easy to use forms for registrat
 - up voting on favourite recipes.
 - user comments on the recipes so people have feedback.
 - delete function opens modal to confirm before hard delete.
-- Recipes added direct by api
+- Recipes added by api
 
 
 ## Wireframes
