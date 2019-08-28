@@ -99,7 +99,8 @@ If I had more time to spend on this project I would like to add:
 - user comments on the recipes so people have feedback.
 - delete function opens modal to confirm before hard delete.
 - Recipes added by api
-
+- A back button for Iphone users
+- pagination
 
 ## Wireframes
 [wireframe images](https://github.com/CaseyScott/taste-recipe/tree/master/static/img/wireframes)

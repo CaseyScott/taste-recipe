@@ -193,11 +193,12 @@ body {
   margin-top: 90px;
 }
 
-/* flash messages */
+/* flash messages on dark back ground*/
 ul.flashes{
   font-size: xx-large;
   color: white;
 }
+/* flash messages on light bsck ground*/
 ul.flashesOnWhiteBG{
   color: black;
   font-size: xx-large;
