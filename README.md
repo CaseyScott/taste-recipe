@@ -253,7 +253,8 @@ pip install -r requirements.txt.
 
 4. Create a file called config.py 
 In the terminal line enter `echo 'config.py' > gitignore` to hide the `config.py` file.
-In this file you will need to emter the following:
+In this file you will need to enter the following:
+```
 DB_CONFIG = {   
     "MONGO_DBNAME": |yourdatabasename|,
     "MONGO_URI": "mongodb+srv://|yourusername|:|yourpassword|r@cluster0-uoefk.mongodb.net/data?retryWrites=true&w=majority",
@@ -261,10 +262,11 @@ DB_CONFIG = {
     "IP": "0.0.0.0",
     "PORT": 5000
 }
-
+```
 5. Create app.py file
 In app.py, set the app.config variables to the variables set in the config.py file
     import config
+    ```
     app.config["MONGO_DBNAME"] = config.DB_CONFIG['MONGO_DBNAME']
     app.config["MONGO_URI"] = config.DB_CONFIG['MONGO_URI']
     app.secret_key = config.DB_CONFIG['SECRET_KEY']
