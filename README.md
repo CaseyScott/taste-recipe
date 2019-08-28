@@ -296,8 +296,11 @@ def ingredients_search():
         recipes=recipesByIngredients,
         meal_types_file=meal_types_file,
         allergens_file=allergens_file)
-        ```
+```
 
+## **Credits**
+### Special thanks to
+My Tutor and Mentor, Dick Vlaanderen for helping me Throughout this project.
 
 ### Recipes
 - The recipes used are from [The Meal DB](https://https://www.themealdb.com/api.php) 
@@ -306,10 +309,3 @@ def ingredients_search():
 ### Media
 - Font Awesome for icons
 - main index picture from [The Meal DB](https://https://www.themealdb.com/api.php)
-
-[**To top**](#Table-of-Contents)
-
-## **Credits**
-
-### Special thanks to
-My Tutor and Mentor, Dick Vlaanderen for helping me Throughout this project.
