@@ -279,30 +279,24 @@ In app.py, set the app.config variables to the variables set in the config.py fi
 [**To top**](#Table-of-Contents)
 
 ### Code Used
-- search by ingredients route was written by my Tutor:
-@app.route("/ingredients_search", methods=['GET','POST'])
-def ingredients_search():
-    
-    regex = re.compile(r'.*{0}.*'.format(request.form.get("ingredient_search")), re.IGNORECASE)
-    recipesByIngredients=mongo.db.recipes.find(
-        {"ingredients": {"$regex": regex}})
-
-    # Show result of the search
-    for recipe in recipesByIngredients:
-        print(str(recipe))
-
-    return render_template(
-        'pages/search_results.html',
-        recipes=recipesByIngredients,
-        meal_types_file=meal_types_file,
-        allergens_file=allergens_file)
-
 - code templates used for [cards](https://coreui.io/docs/components/cards/) 
 - index page layout theme [bootstrap theme](https://startbootstrap.com/themes/)
 - code templates used for [modals](https://getbootstrap.com/docs/4.0/components/modal/)
 - code templates used for [dropdowns](https://getbootstrap.com/docs/4.0/components/dropdowns/)
 - code templates for [sign in and registration](https://bootsnipp.com/tags/login)
-
+- search by ingredients route was written by my Tutor:
+```
+@app.route("/ingredients_search", methods=['GET','POST'])
+def ingredients_search():
+    regex = re.compile(r'.*{0}.*'.format(request.form.get("ingredient_search")), re.IGNORECASE)
+    recipesByIngredients=mongo.db.recipes.find(
+        {"ingredients": {"$regex": regex}})
+    return render_template(
+        'pages/search_results.html',
+        recipes=recipesByIngredients,
+        meal_types_file=meal_types_file,
+        allergens_file=allergens_file)
+        ```
 
 
 ### Recipes
