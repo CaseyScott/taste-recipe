@@ -337,7 +337,7 @@ def allergen_search():
         'search_results.html',
         numberOfRecipes=numberOfRecipes,
         recipeSearchCategory=recipeSearchCategory,
-        meal_types_file=meal_types_file,
+        meal_types_file=meal_types_file)
     
     
     
