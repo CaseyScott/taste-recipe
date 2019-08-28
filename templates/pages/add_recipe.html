@@ -3,7 +3,11 @@
 
 
 <div id="form-wrapper" style="max-width:700px;margin:auto;">
-
+    {% block body %}
+    <h1>Login</h1>
+    {% if error %}
+      <p class=error><strong>Error:</strong> {{ error }}
+    {% endif %}
   <form class="border border-light p-5" action="{{url_for('insert_recipe')}}" method="POST">
     <br>
     <br>
@@ -86,7 +90,7 @@
 
 
   </form>
-
+  {% endblock %}
 </div>
 
 

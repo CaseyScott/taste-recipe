@@ -6,6 +6,17 @@
     <h2>My Recipes collection</h2>
   </div>
   
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <ul class=flashesOnWhiteBG>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  {% endwith %}
+  {% block body %}{% endblock %}
+
 
   <div class="row justify-content-center">
     {% for recipe in user_recipes %}

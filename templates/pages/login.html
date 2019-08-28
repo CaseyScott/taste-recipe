@@ -12,30 +12,42 @@
 						</div>
 					</div>
 
-					
 
+
+					<!-- flask flash messages -->
+					{% with messages = get_flashed_messages() %}
+					{% if messages %}
+					<ul class=flashes>
+						{% for message in messages %}
+						<li>{{ message }}</li>
+						{% endfor %}
+					</ul>
+					{% endif %}
+					{% endwith %}
 					{% block body %}
+					<!-- flask flash messages -->
+
+					{% if error %}
+					<p><strong>Error:</strong> {{ error }}
+					{% endif %}
 					<form method=POST action="{{ url_for('login') }}">
 						
-
-						{% if error %}
-					<p><strong>Error:</strong> {{ error }}
-						{% endif %}
 							<div class="form-group">
 								<label for="exampleInputEmail">Username</label>
-								<input type="text" class="form-control" name="username" id="username" placeholder="Username">
+								<input type="text" class="form-control" name="username" value="{{
+									request.form.username }}" id="username" placeholder="Username">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputPassword1">Password</label>
 								<input type="password" class="form-control" name="pass" placeholder="Password">
 							</div>
 							<button type="submit" class="btn btn-primary btn-block">Sign in</button>
-						</form>
-						{% endblock %}
-						<br>
-						<div>
-							Don't have an account? <a href="{{ url_for('register') }}">Sign up here</a>
-						</div>
+					</form>
+					{% endblock %}
+					<br>
+					<div>
+						Don't have an account? <a href="{{ url_for('register') }}">Sign up here</a>
+					</div>
 
 				</div>
 			</div>

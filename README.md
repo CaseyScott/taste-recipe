@@ -1,6 +1,6 @@
 [Restaurant Chef](https://taste-recipe.herokuapp.com/)
 
-# **Table of Contents** test push to github
+# **Table of Contents**
 
 - [**Table of Contents**](#table-of-contents)
 	- [**Restaurant Chef**](#restaurant-chef)
@@ -20,7 +20,6 @@
    - [**Database**](#database)
 	- [**Technologies used**](#technologies-used)
 	- [**Testing**](#testing)
-		- [Manual Testing](#manual-testing)
 	- [**Deployment**](#deployment)
 	- [**How to run the project locally?**](#how-to-run-the-project-locally)
 	- [**How to get started**](#how-to-get-started)
@@ -94,6 +93,7 @@ I aimed for simple and moden interface with plan easy to use forms for registrat
 - footer has My name and my current email address.
 
 ## Features left to implement
+If I had more time to spend on this project I would like to add:
 - home page images would link to there recipes.
 - up voting on favourite recipes.
 - user comments on the recipes so people have feedback.

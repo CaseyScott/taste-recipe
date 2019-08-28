@@ -192,3 +192,13 @@ body {
   margin: 20px;
   margin-top: 90px;
 }
+
+/* flash messages */
+ul.flashes{
+  font-size: xx-large;
+  color: white;
+}
+ul.flashesOnWhiteBG{
+  color: black;
+  font-size: xx-large;
+}

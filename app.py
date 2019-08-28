@@ -341,7 +341,6 @@ def allergen_search():
     
     
     
-    
 @app.route("/search_categories", methods=['POST'])
 def search_categories():
     ingredients = request.form.get("ingredients_search")
