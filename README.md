@@ -109,7 +109,35 @@ If I had more time to spend on this project I would like to add:
 ### Database
 The database I have used Is MongoDB, Mongo DB is a document-oriented NoSQL database.
 Each database contains collections which in turn contains documents. Each document can be different with a varying number of fields. The Schema doesn't need to be defined beforehand as the fields can be created on the fly.
+Schema for recipe:
+```
+_id:ObjectId("5d54556e67e08a48fa08c77d")
+name:"Bitterballen (Dutch meatballs)"
+description:"Bread crumbed Beef meatballs"
+ingredients:
+"100g butter
+150g flour
+700ml beef stock
+30g onion
+1tbs parsley
+40..."
+instructions:
+"Melt the butter in a skillet or pan. When melted, add the flour little..."
+image:"https://www.themealdb.com/images/media/meals/lhqev81565090111.jpg"
+meals:"Snack"
+allergen:"eggs"
+preparation:"10 minutes"
+cooking:"15 minutes"
+servings:"4"
+author:"Admin"
+```
 
+Schema for Users:
+```
+_id:ObjectId("5d55c2b6c4972d7a816b9233")
+name:"admin"
+password:Binary('JDJiJDEyJFFjRS45VlkyNkt2ZFpGdjRoS1dXSS5HQzd5d1V5NHlYTzJ0cmFRaUovd0QyRGhkV24ubUVt')
+```
 
 
 [**To top**](#Table-of-Contents)
