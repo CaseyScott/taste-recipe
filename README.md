@@ -58,7 +58,7 @@ I aimed for simple and moden interface with plan easy to use forms for registrat
 ## **User Stories**
 - As a user I want an easy to use application that I can use on all devices. Weather using my Tablet or laptop in the kitchen or preparing earlier on desktop or mobile to find new family meal ideas.
 - As a user I want access to a list of good reicpes with the correct information for me to replicate the meal.
-- As a user I want to be able to deselect recipes by allergens as I an allergic to ______.
+- As a user I want to be able to deselect recipes by allergens as I am allergic to ______.
 - As a user I want to be able to contribute to the page with my own recipes.
 - As a user I want to sign into my own account to have access to my own recipes that I can edit or delete as I please.
 - As a user I want to choose meals to search by a given ingredient. 
@@ -109,8 +109,9 @@ If I had more time to spend on this project I would like to add:
 ### Database
 The database I have used Is MongoDB, Mongo DB is a document-oriented NoSQL database.
 Each database contains collections which in turn contains documents. Each document can be different with a varying number of fields. The Schema doesn't need to be defined beforehand as the fields can be created on the fly.
-Schema for recipe:
-```
+
+[Example of Schema for recipe:]
+(```
 _id:ObjectId("5d54556e67e08a48fa08c77d")
 name:"Bitterballen (Dutch meatballs)"
 description:"Bread crumbed Beef meatballs"
@@ -130,14 +131,14 @@ preparation:"10 minutes"
 cooking:"15 minutes"
 servings:"4"
 author:"Admin"
-```
+```)
 
-Schema for Users:
-```
+[Example of Schema for Users:]
+(```
 _id:ObjectId("5d55c2b6c4972d7a816b9233")
 name:"admin"
 password:Binary('JDJiJDEyJFFjRS45VlkyNkt2ZFpGdjRoS1dXSS5HQzd5d1V5NHlYTzJ0cmFRaUovd0QyRGhkV24ubUVt')
-```
+```)
 
 
 [**To top**](#Table-of-Contents)
