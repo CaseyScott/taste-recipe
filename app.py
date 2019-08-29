@@ -54,15 +54,17 @@ def recipe_data():
 
 """----------------------------------------------------"""  
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 
-@app.route('/index', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET'])
 def index():
     return render_template('pages/index.html',
-    meal_types_file=meal_types_file,
-    allergens_file=allergens_file)
+                            meal_types_file=meal_types_file,
+                            allergens_file=allergens_file)
 
 """----------------------------------------------------"""
+
+
 """if request is POST and if the two given passwords match. It checks if the username already exists in database if the username doesnt already exist it hashs the password using bcrypt, this is sent to MONGODB users collection. if all worked correctly the session username variable is created for that username and the user is redirected to index/home"""
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -136,17 +138,17 @@ def logout():
 # ADD RECIPE #
 """User is sent to 'add recipes page' which includes data from meal_types and allergens json files."""
 
-@app.route('/add_recipe', methods=['GET', 'POST'])
+@app.route('/add_recipe', methods=['GET'])
 def add_recipe():
     
     user=mongo.db.users.find_one({"name": session['username']})
     recipes=mongo.db.recipes
     
     return render_template("pages/add_recipe.html",
-    meal_types_file=meal_types_file,
-    allergens_file=allergens_file,
-    user=user,
-    recipes=recipes)
+                            meal_types_file=meal_types_file,
+                            allergens_file=allergens_file,
+                            user=user,
+                            recipes=recipes)
 
 
 
@@ -162,12 +164,13 @@ def insert_recipe():
         recipes=mongo.db.recipes
         recipe_dict=request.form.to_dict()
         recipe_dict['user_id']=user['_id']
-        new_recipe_id=recipes.insert_one(recipe_dict).inserted_id
+        
+        new_recipe_id = recipes.insert_one(recipe_dict)
+        new_recipe_id = new_recipe_id.inserted_id
+        
         flash('Recipe Added!')
     
-    return redirect(
-        url_for('get_user_recipe', 
-                recipe_id=new_recipe_id))
+    return redirect(url_for('get_user_recipe', recipe_id=new_recipe_id))
 
 
 
@@ -181,12 +184,11 @@ def recipes():
     recipes=mongo.db.recipes.find()
     numberOfRecipes = None
     
-    return render_template(
-        'pages/recipes.html',
-        numberOfRecipes=numberOfRecipes,
-        recipes=recipes,
-        meal_types_file=meal_types_file,
-        allergens_file=allergens_file)
+    return render_template('pages/recipes.html',
+                            numberOfRecipes=numberOfRecipes,
+                            recipes=recipes,
+                            meal_types_file=meal_types_file,
+                            allergens_file=allergens_file)
 
    
    
@@ -204,12 +206,11 @@ def get_user_recipe():
         user_recipes = mongo.db.recipes.find({"user_id": user['_id']})
         recipe_count = user_recipes.count()
         
-    return render_template(
-        'pages/get_user_recipe.html',
-        recipe_count=recipe_count,
-        user_recipes=user_recipes,
-        meal_types_file=meal_types_file,
-        allergens_file=allergens_file)
+    return render_template('pages/get_user_recipe.html',
+                            recipe_count=recipe_count,
+                            user_recipes=user_recipes,
+                            meal_types_file=meal_types_file,
+                            allergens_file=allergens_file)
     
     
     
@@ -219,11 +220,10 @@ def single_recipe(recipe_id):
     
     the_recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
     
-    return render_template(
-    'pages/single_recipe_page.html',
-    recipe=the_recipe,
-    meal_types_file=meal_types_file,
-    allergens_file=allergens_file)
+    return render_template('pages/single_recipe_page.html',
+                            recipe=the_recipe,
+                            meal_types_file=meal_types_file,
+                            allergens_file=allergens_file)
     
     
     
@@ -238,12 +238,11 @@ def edit_recipe(recipe_id):
         {"_id": ObjectId(recipe_id)})
     
     flash("Your recipe has been updated")
-    return render_template(
-        'pages/edit_recipe.html',
-        recipe=the_recipe,
-        meal_types_file=meal_types_file,
-        allergens_file=allergens_file,
-        recipe_id=recipe_id)
+    return render_template('pages/edit_recipe.html',
+                            recipe=the_recipe,
+                            meal_types_file=meal_types_file,
+                            allergens_file=allergens_file,
+                            recipe_id=recipe_id)
     
     
 
@@ -258,10 +257,7 @@ def update_recipe(recipe_id):
         {'_id': ObjectId(recipe_id)},
         {"$set": recipe_data()})
     
-               
-    return redirect(
-        url_for('get_user_recipe',
-                recipe_id=recipe_id))
+    return redirect(url_for('get_user_recipe', recipe_id=recipe_id))
     
     
 
@@ -277,9 +273,9 @@ def delete_recipe(recipe_id):
     recipes = mongo.db.recipes
     mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
     flash('Recipe deleted')
-    return redirect(
-        url_for('get_user_recipe',
-                recipes=recipes))
+    
+    return redirect(url_for('get_user_recipe',
+                            recipes=recipes))
 
 
 #-----------------------------------Recipes CRUD functionality
@@ -298,12 +294,11 @@ def ingredients_search():
     numberOfRecipes=recipeSearchCategory.count()
 
 
-    return render_template(
-        'pages/search_results.html',
-        numberOfRecipes=numberOfRecipes,
-        recipeSearchCategory=recipeSearchCategory,
-        meal_types_file=meal_types_file,
-        allergens_file=allergens_file)
+    return render_template('pages/search_results.html',
+                            numberOfRecipes=numberOfRecipes,
+                            recipeSearchCategory=recipeSearchCategory,
+                            meal_types_file=meal_types_file,
+                            allergens_file=allergens_file)
 
 
 
@@ -316,12 +311,11 @@ def meals_search():
     
     numberOfRecipes=recipeSearchCategory.count()
     
-    return render_template(
-        'search_results.html',
-        numberOfRecipes=numberOfRecipes,
-        recipeSearchCategory=recipeSearchCategory,
-        meal_types_file=meal_types_file,
-        allergens_file=allergens_file)
+    return render_template('search_results.html',
+                            numberOfRecipes=numberOfRecipes,
+                            recipeSearchCategory=recipeSearchCategory,
+                            meal_types_file=meal_types_file,
+                            allergens_file=allergens_file)
 
 
 
@@ -333,12 +327,11 @@ def allergen_search():
     
     numberOfRecipes=recipeSearchCategory.count()
     
-    return render_template(
-        'search_results.html',
-        numberOfRecipes=numberOfRecipes,
-        recipeSearchCategory=recipeSearchCategory,
-        meal_types_file=meal_types_file,
-        allergens_file=allergens_file)
+    return render_template('search_results.html',
+                            numberOfRecipes=numberOfRecipes,
+                            recipeSearchCategory=recipeSearchCategory,
+                            meal_types_file=meal_types_file,
+                            allergens_file=allergens_file)
     
     
     
@@ -392,11 +385,10 @@ def search_categories():
             {"allergen": {"$nin": allergen}})
         
         
-    return render_template(
-        'search_results.html',
-        recipeSearchCategory=recipeSearchCategory,
-        meal_types_file=meal_types_file,
-        allergens_file=allergens_file)
+    return render_template('search_results.html',
+                            recipeSearchCategory=recipeSearchCategory,
+                            meal_types_file=meal_types_file,
+                            allergens_file=allergens_file)
 
 
 
