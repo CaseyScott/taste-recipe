@@ -393,8 +393,8 @@ def search_categories():
     elif meals == "" and not ingredients:
         recipeSearchCategory = mongo.db.recipe.find({"allergen": {"$nin": allergen}})
         
-    numberOfRecipes=recipeSearchCategory.count()
     
+    numberOfRecipes=recipeSearchCategory.count()
     return render_template('search_results.html',
                             numberOfRecipes=numberOfRecipes,
                             recipeSearchCategory=recipeSearchCategory,
