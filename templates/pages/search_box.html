@@ -5,7 +5,8 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <form method="POST" action="{{ url_for('ingredients_search') }}">
+    <!-- all three search options in one form linking to one url search categories -->
+    <form method="POST" action="{{ url_for('search_categories') }}"> <!--search by all three -->
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Search by Ingredient, Meal Type or Allergen</h5>
@@ -13,14 +14,13 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-    </form>
+
 
         <div class="modal-body">
-
           <!-- Search box for ingredients -->
           <div class=search_bar>
-          <input class="search_bar" type="text" placeholder="Search by Ingredients" aria-label="Search"
-            name="ingredient_search" id="ingredient_search">
+            <input class="search_bar" type="text" placeholder="Search by Ingredients" aria-label="Search"
+              name="ingredients_search" id="ingredients_search">
           </div>
           <br>
 
@@ -29,14 +29,12 @@
             <div class="dropdown">
               <!--dynalically generated data insert-->
               <div class="meals_input" id="meals_input">
-                  <form method="POST" action="{{ url_for('meals_search') }}">
-                    <select class="selectpicker" name="meals_data" id="meals_data">
-                      <option value="" disabled selected>Pick a Meal type</option>
-                        {% for item in meal_types_file.meals %}
-                      <option value="{{ item }}">{{ item }}</option>
-                        {% endfor %}
-                    </select>
-                  </form>
+                <select class="selectpicker" name="meals_search" id="meals_search">
+                  <option value="" disabled selected>Pick a Meal type</option>
+                  {% for item in meal_types_file.meals %}
+                  <option value="{{ item }}">{{ item }}</option>
+                  {% endfor %}
+                </select>
               </div>
             </div>
 
@@ -44,19 +42,15 @@
             <div class="dropdown">
               <!--dynalically generated data insert-->
               <div class="allergen_input" id="allergen_input">
-                  <form method="POST" action="{{ url_for('allergen_search') }}">
-                  <select class="selectpicker" multiple="true" name="allergen_data" id="allergen_data">
-                    <option value="" disabled selected>Search Allergen</option>
-                    {% for item in allergens_file.allergen %}
-                    <option value="{{ item }}">{{ item }}</option>
-                    {% endfor %}
-                  </select>
-                  </form>
-                </div>
+                <select class="selectpicker" multiple="true" name="allergen_search" id="allergen_search">
+                  <option value="" disabled selected>Search Allergen</option>
+                  {% for item in allergens_file.allergen %}
+                  <option value="{{ item }}">{{ item }}</option>
+                  {% endfor %}
+                </select>
+              </div>
             </div>
           </div>
-
-
 
           <div class="modal-footer justify-content-center">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -64,10 +58,12 @@
             <!--button to send selected and display results-->
             <button type="submit" class="btn btn-primary">Search</button>
           </div>
-
         </div>
-      
+      </div>
+    </form>
   </div>
+
+</div>
 </div>
 
 

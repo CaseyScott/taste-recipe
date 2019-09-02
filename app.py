@@ -308,7 +308,7 @@ def delete_recipe(recipe_id):
 @app.route("/ingredients_search", methods=['POST'])
 def ingredients_search():
     
-    regex = re.compile(r'.*{0}.*'.format(request.form.get("ingredient_search")), re.IGNORECASE)
+    regex = re.compile(r'.*{0}.*'.format(request.form.get("ingredients_search")), re.IGNORECASE)
     recipeSearchCategory=mongo.db.recipes.find({"ingredients": {"$regex": regex}})
 
     numberOfRecipes=recipeSearchCategory.count()
@@ -367,13 +367,11 @@ def search_categories():
                                                     {"allergen": {"$nin": allergen}},
                                                     {"ingredients": ingredients}]})
 
-
     #if ingredients and meal type are searched"""
     elif ingredients and meals and not allergen:
         recipeSearchCategory = mongo.db.recipes.find({"$and":[
                                                     {"meals": meals},
                                                     {"ingredients": ingredients}]})
-
 
      #if ingredients and allergen are searched but meal type is left empty
     elif ingredients and meals == "" and allergen:
@@ -395,8 +393,10 @@ def search_categories():
     elif meals == "" and not ingredients:
         recipeSearchCategory = mongo.db.recipe.find({"allergen": {"$nin": allergen}})
         
-        
+    numberOfRecipes=recipeSearchCategory.count()
+    
     return render_template('search_results.html',
+                            numberOfRecipes=numberOfRecipes,
                             recipeSearchCategory=recipeSearchCategory,
                             meal_types_file=meal_types_file,
                             allergens_file=allergens_file)
@@ -406,4 +406,4 @@ def search_categories():
 if __name__ == '__main__':
     app.run(host=os.getenv('IP'), 
             port=int(os.getenv('PORT')), 
-            debug=True)
+            debug=True)  #set debug to false
