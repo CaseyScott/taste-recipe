@@ -4,7 +4,7 @@ import pymongo
 from flask import Flask, render_template, redirect, request, url_for,escape, session, json, flash
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
-from flask.ext.paginate import Pagination
+from flask_paginate import Pagination
 import bcrypt
 
 
@@ -26,7 +26,7 @@ else:
 
 mongo = PyMongo(app)
 
-page, per_page, offset = get_page_items()
+
 
 ### Data for dropdown selectors in add recipe form
 meal_types_file = []
