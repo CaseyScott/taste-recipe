@@ -305,7 +305,7 @@ def delete_recipe(recipe_id):
 """--------------Search box modal --------------------"""
 
 
-@app.route("/ingredients_search", methods=['GET','POST'])
+@app.route("/ingredients_search", methods=['POST'])
 def ingredients_search():
     
     regex = re.compile(r'.*{0}.*'.format(request.form.get("ingredient_search")), re.IGNORECASE)
@@ -323,7 +323,7 @@ def ingredients_search():
 
 
 
-@app.route("/meals_search", methods=['GET','POST'])
+@app.route("/meals_search", methods=['POST'])
 def meals_search():
     
     recipeSearchCategory=mongo.db.recipes.find({"meals": request.form.get("meals_data")})
@@ -338,7 +338,7 @@ def meals_search():
 
 
 
-@app.route("/allergen_search", methods=['GET','POST'])
+@app.route("/allergen_search", methods=['POST'])
 def allergen_search():
     
     recipeSearchCategory=mongo.db.recipes.find({"allergen": {"$nin": request.form.get("allergen_data")}})
@@ -353,7 +353,7 @@ def allergen_search():
     
     
     
-@app.route("/search_categories", methods=['GET','POST'])
+@app.route("/search_categories", methods=['POST'])
 def search_categories():
     ingredients = request.form.get("ingredients_search")
     meals = request.form.get("meals_search")
