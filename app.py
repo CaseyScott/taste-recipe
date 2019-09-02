@@ -4,6 +4,7 @@ import pymongo
 from flask import Flask, render_template, redirect, request, url_for,escape, session, json, flash
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
+from flask.ext.paginate import Pagination
 import bcrypt
 
 
@@ -24,6 +25,8 @@ else:
 
 
 mongo = PyMongo(app)
+
+page, per_page, offset = get_page_items()
 
 ### Data for dropdown selectors in add recipe form
 meal_types_file = []
@@ -184,6 +187,24 @@ def recipes():
     recipes=mongo.db.recipes.find()
     numberOfRecipes = None
     
+    # PAGINATION #
+    #offset=int(request.args['offset'])
+    #limit=int(request.args['limit'])
+    
+    #starting_id=recipe.find().sort('_id', pymongo.ASCENDING)
+    #last_id=starting_id[offset]['_id']
+    
+    #recipes=recipe.find({'_id' : {'$gte' : last_id}}).sort('_id', pymongo.ASCENDING).limit(limit)
+    #output=[]
+    
+    #for i in recipes:
+        #output.append({'recipe' : i['recipe']})
+        
+    #next_url='/recipes?limit=' + str(limit) + '&offset=' + str(offset + limit)
+    #prev_url='/recipes?limit=' + str(limit) + '&offset=' + str(offset - limit)
+    
+    #return jsonify({'result' : output, 'prev_url' : prev_url, 'next_url' : next_url})
+        
     return render_template('pages/recipes.html',
                             numberOfRecipes=numberOfRecipes,
                             recipes=recipes,
@@ -302,7 +323,7 @@ def ingredients_search():
 
 
 
-@app.route("/meals_search", methods=['POST'])
+@app.route("/meals_search", methods=['GET','POST'])
 def meals_search():
     
     recipeSearchCategory=mongo.db.recipes.find({"meals": request.form.get("meals_data")})
@@ -317,7 +338,7 @@ def meals_search():
 
 
 
-@app.route("/allergen_search", methods=['POST'])
+@app.route("/allergen_search", methods=['GET','POST'])
 def allergen_search():
     
     recipeSearchCategory=mongo.db.recipes.find({"allergen": {"$nin": request.form.get("allergen_data")}})
@@ -332,7 +353,7 @@ def allergen_search():
     
     
     
-@app.route("/search_categories", methods=['POST'])
+@app.route("/search_categories", methods=['GET','POST'])
 def search_categories():
     ingredients = request.form.get("ingredients_search")
     meals = request.form.get("meals_search")
