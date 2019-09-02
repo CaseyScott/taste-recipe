@@ -38,7 +38,7 @@ with open("data/allergen_data.json", "r") as f:
     allergens_file = json.load(f) 
     
 """add recipe / edit recipe  input form """
-def recipe_data():
+def recipe_data(request):
     data = {
         "name": request.form.get('name'),
         "description": request.form.get('description'),
@@ -276,7 +276,7 @@ def update_recipe(recipe_id):
     
     mongo.db.recipes.update_many(
         {'_id': ObjectId(recipe_id)},
-        {"$set": recipe_data()})
+        {"$set": recipe_data(request)})
     
     return redirect(url_for('get_user_recipe', recipe_id=recipe_id))
     
