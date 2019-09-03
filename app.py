@@ -330,7 +330,7 @@ def meals_search():
     
     numberOfRecipes=recipeSearchCategory.count()
     
-    return render_template('search_results.html',
+    return render_template('pages/search_results.html',
                             numberOfRecipes=numberOfRecipes,
                             recipeSearchCategory=recipeSearchCategory,
                             meal_types_file=meal_types_file,
@@ -341,11 +341,11 @@ def meals_search():
 @app.route("/allergen_search", methods=['POST'])
 def allergen_search():
     
-    recipeSearchCategory=mongo.db.recipes.find({"allergen": {"$nin": request.form.get("allergen_data")}})
+    recipeSearchCategory=mongo.db.recipes.find({"allergen": {"$ne": request.form.get("allergen_data")}})
     
     numberOfRecipes=recipeSearchCategory.count()
     
-    return render_template('search_results.html',
+    return render_template('pages/search_results.html',
                             numberOfRecipes=numberOfRecipes,
                             recipeSearchCategory=recipeSearchCategory,
                             meal_types_file=meal_types_file,
@@ -355,15 +355,16 @@ def allergen_search():
     
 @app.route("/search_categories", methods=['POST'])
 def search_categories():
+    
     ingredients = request.form.get("ingredients_search")
     meals = request.form.get("meals_search")
     allergen = request.form.get("allergen_search")
-    
+    #print(ingredients,file='stdout')
     
     #if all 3 search boxes are used to search for ingreditents, meal type and allergens $text performs a text search on the content of the input fields"""
     if ingredients and meals and allergen:
         recipeSearchCategory = mongo.db.recipes.find({"$and": [{"meals": meals},
-                                                               {"allergen": {"$nin": allergen}},
+                                                               {"allergen": {"$ne": allergen}},
                                                                {"ingredients": {"$regex": ingredients}}]})
 
     #if ingredients and meal type are searched"""
@@ -372,26 +373,30 @@ def search_categories():
                                                               {"ingredients": {"$regex": ingredients}}]})
 
      #if ingredients and allergen are searched but meal type is left empty
-    elif ingredients and meals == "" and allergen:
-        recipeSearchCategory = mongo.db.recipes.find({"$and": [{"allergen": {"$nin": allergen}},
+    elif ingredients and not meals and allergen:
+        recipeSearchCategory = mongo.db.recipes.find({"$and": [{"allergen": {"$ne": allergen}},
                                                                {"ingredients": {"$regex": ingredients}}]})
 
     elif not ingredients and meals and allergen:
         recipeSearchCategory = mongo.db.recips.find({"$and": [{"meals": meals},
-                                                              {"allergen": {"$nin": allergen}}]})
+                                                              {"allergen": {"$ne": allergen}}]})
 
     elif not ingredients and not allergen:
         recipeSearchCategory = mongo.db.recipe.find({"meals": meals}) 
 
-    elif meals == "" and not allergen:
+    elif not meals  and not allergen:
         recipeSearchCategory = mongo.db.recipe.find({"ingredients": {"$regex": ingredients}})
 
-    elif meals == "" and not ingredients:
-        recipeSearchCategory = mongo.db.recipe.find({"allergen": {"$nin": allergen}})
+    elif not meals and not ingredients:
+        recipeSearchCategory = mongo.db.recipe.find({"allergen": {"$ne": allergen}})
+        
+    #else:
+        #recipeSearchCategory = mongo.db.recipe.find({"ingredients": {"$regex": ingredients}})
         
     
     numberOfRecipes=recipeSearchCategory.count()
-    return render_template('search_results.html',
+    
+    return render_template('pages/search_results.html',
                             numberOfRecipes=numberOfRecipes,
                             recipeSearchCategory=recipeSearchCategory,
                             meal_types_file=meal_types_file,
