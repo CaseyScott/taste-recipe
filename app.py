@@ -359,12 +359,14 @@ def search_categories():
     ingredients = request.form.get("ingredients_search")
     meals = request.form.get("meals_search")
     allergen = request.form.get("allergen_search")
+    
     #print(ingredients,file='stdout')
     
     #if all 3 search boxes are used to search for ingreditents, meal type and allergens $text performs a text search on the content of the input fields"""
     if ingredients and meals and allergen:
-        recipeSearchCategory = mongo.db.recipes.find({"$and": [{"meals": meals},
-                                                               {"allergen": {"$ne": allergen}},
+        recipeSearchCategory = mongo.db.recipes.find({"$and": [{"meals": meals}, # meal == ""
+                                                               {"allergen": {"$ne": allergen}}, # nin Matches none of the values specified in an array.
+                                                                                                # ne Matches all values that are not equal to a specified value.
                                                                {"ingredients": {"$regex": ingredients}}]})
 
     #if ingredients and meal type are searched"""
@@ -391,6 +393,7 @@ def search_categories():
         recipeSearchCategory = mongo.db.recipe.find({"allergen": {"$ne": allergen}})
         
     #else:
+        # test if ingredient search works
         #recipeSearchCategory = mongo.db.recipe.find({"ingredients": {"$regex": ingredients}})
         
     
