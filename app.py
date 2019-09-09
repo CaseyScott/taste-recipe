@@ -315,9 +315,7 @@ def ingredients_search():
 
     return render_template('pages/search_results.html',
                             numberOfRecipes=numberOfRecipes,
-                            recipeSearchCategory=recipeSearchCategory,
-                            meal_types_file=meal_types_file,
-                            allergens_file=allergens_file)
+                            recipeSearchCategory=recipeSearchCategory)
 
 
 
@@ -325,30 +323,26 @@ def ingredients_search():
 @app.route("/meals_search", methods=['POST'])
 def meals_search():
     
-    recipeSearchCategory=mongo.db.recipes.find({"meals": request.form.get("meals_data")})
+    recipeSearchCategory=mongo.db.recipes.find({"meals": request.form.get("meal_type_file")})
     
     numberOfRecipes=recipeSearchCategory.count()
     
     return render_template('pages/search_results.html',
                             numberOfRecipes=numberOfRecipes,
-                            recipeSearchCategory=recipeSearchCategory,
-                            meal_types_file=meal_types_file,
-                            allergens_file=allergens_file)
+                            recipeSearchCategory=recipeSearchCategory)
 
 
 
 @app.route("/allergen_search", methods=['POST'])
 def allergen_search():
     
-    recipeSearchCategory=mongo.db.recipes.find({"allergen": {"$ne": request.form.get("allergen_data")}})
+    recipeSearchCategory=mongo.db.recipes.find({"allergen": {"$ne": request.form.get("allergens_file")}})
     
     numberOfRecipes=recipeSearchCategory.count()
     
     return render_template('pages/search_results.html',
                             numberOfRecipes=numberOfRecipes,
-                            recipeSearchCategory=recipeSearchCategory,
-                            meal_types_file=meal_types_file,
-                            allergens_file=allergens_file)
+                            recipeSearchCategory=recipeSearchCategory)
     
     
     
@@ -363,10 +357,10 @@ def search_categories():
         recipeSearchCategory = mongo.db.recipes.find({"ingredients": {"$regex": ingredients}})
         
     elif meals:
-        recipeSearchCategory = mongo.db.recipe.find({"meals": meals}) 
+        recipeSearchCategory = mongo.db.recipes.find({"meals": meals}) 
 
     elif allergen:
-        recipeSearchCategory = mongo.db.recipe.find({"allergen": {"$ne": allergen}})
+        recipeSearchCategory = mongo.db.recipes.find({"allergen": {"$ne": allergen}})
         
     elif ingredients and meals:
         recipeSearchCategory = mongo.db.recipes.find({"$and":[{"meals": meals},
