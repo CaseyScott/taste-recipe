@@ -354,30 +354,25 @@ def search_categories():
     allergen = request.form.get("allergen_search")
     
     if ingredients:
-        recipeSearchCategory = mongo.db.recipes.find({"ingredients": {"$regex": ingredients}})
+        recipeSearchCategory = mongo.db.recipes.find( { "ingredients": { "$regex": ingredients } } )
         
     elif meals:
-        recipeSearchCategory = mongo.db.recipes.find({"meals": meals}) 
+        recipeSearchCategory = mongo.db.recipes.find( { "meals": meals } ) 
 
     elif allergen:
-        recipeSearchCategory = mongo.db.recipes.find({"allergen": {"$ne": allergen}})
+        recipeSearchCategory = mongo.db.recipes.find( { "allergen": { "$ne": allergen } } )
         
     elif ingredients and meals:
-        recipeSearchCategory = mongo.db.recipes.find({"$and":[{"meals": meals},
-                                                            {"ingredients": {"$regex": ingredients}}]})
+        recipeSearchCategory = mongo.db.recipes.find( { "$and": [ { "meals": meals }, { "ingredients": { "$regex": ingredients } } ] } )
 
     elif ingredients and allergen:
-        recipeSearchCategory = mongo.db.recipes.find({"$and": [{"allergen": {"$ne": allergen}},
-                                                            {"ingredients": {"$regex": ingredients}}]})
+        recipeSearchCategory = mongo.db.recipes.find( { "$and": [ { "allergen": { "$ne": allergen } }, { "ingredients": { "$regex": ingredients } } ] } )
 
     elif meals and allergen:
-        recipeSearchCategory = mongo.db.recips.find({"$and": [{"meals": meals},
-                                                            {"allergen": {"$ne": allergen}}]})
+        recipeSearchCategory = mongo.db.recips.find( { "$and": [ { "meals": meals }, { "allergen": { "$ne": allergen } } ] } )
         
     elif ingredients and meals and allergen:
-        recipeSearchCategory = mongo.db.recipes.find({"$and": [{"meals": meals}, # ne Matches all values that are not equal to a specified value.
-                                                            {"allergen": {"$ne": allergen}}, # nin Matches none of the values specified in an array.
-                                                            {"ingredients": {"$regex": ingredients}}]})
+        recipeSearchCategory = mongo.db.recipes.find( { "$and": [ { "meals": meals }, { "allergen": { "$ne": allergen } }, { "ingredients": { "$regex": ingredients } } ] } )
     
     
     numberOfRecipes=recipeSearchCategory.count()
