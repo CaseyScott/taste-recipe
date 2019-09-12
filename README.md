@@ -211,13 +211,15 @@ password:Binary('JDJiJDEyJFFjRS45VlkyNkt2ZFpGdjRoS1dXSS5HQzd5d1V5NHlYTzJ0cmFRaUo
    - warns users if that username is already taken
    - warns users if password is not the same after entering password in both input fields
    - register button submits that entry into the MongoDB collections
+- Flash messaging give the usere feedback
+   - [flash message images](https://github.com/CaseyScott/taste-recipe/tree/master/static/img/FlashMessaging)
 
 #### Browser Testing 
 All testing on the list of Browers below.
-- Google Chrome
-- Firefox
-- Internet Explorer & Edge
-- Opera
+- Google Chrome (no issues found at time of testing)
+- Firefox (issue with text-align:-webkit-center on single recipe page instructions should all be centered)
+- Internet Explorer & Edge (issue with text-align:-webkit-center on single recipe page instructions should all be centered)
+- Opera (no issues found at time of testing)
 
 #### Responsive-Design testing
 Responsive testing done on Google DevTools – Device Mode and Browserstack.

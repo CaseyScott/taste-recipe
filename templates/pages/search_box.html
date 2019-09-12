@@ -19,7 +19,7 @@
         <div class="modal-body">
           <!-- Search box for ingredients -->
           <div class=search_bar>
-            <input class="search_bar" type="text" placeholder="Search by Ingredients" aria-label="Search"
+            <input class="search_bar" type="text" placeholder="Ingredients" aria-label="Search"
               name="ingredients_search" id="ingredients_search">
           </div>
           <br>
@@ -30,7 +30,7 @@
               <!--dynalically generated data insert-->
               <div class="meals_input" id="meals_input">
                 <select class="selectpicker" name="meals_search" id="meals_search">
-                  <option value="" disabled selected>Pick a Meal type</option>
+                  <option value="" disabled selected>Meal types</option>
                   {% for item in meal_types_file.meals %}
                   <option value="{{ item }}">{{ item }}</option>
                   {% endfor %}
@@ -43,7 +43,7 @@
               <!--dynalically generated data insert-->
               <div class="allergen_input" id="allergen_input">
                 <select class="selectpicker" multiple="true" name="allergen_search" id="allergen_search">
-                  <option value="" disabled selected>Search Allergen</option>
+                  <option value="" disabled selected>Allergen</option>
                   {% for item in allergens_file.allergen %}
                   <option value="{{ item }}">{{ item }}</option>
                   {% endfor %}
