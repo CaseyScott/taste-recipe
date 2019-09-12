@@ -110,8 +110,8 @@ If I had more time to spend on this project I would like to add:
 The database I have used Is MongoDB, Mongo DB is a document-oriented NoSQL database.
 Each database contains collections which in turn contains documents. Each document can be different with a varying number of fields. The Schema doesn't need to be defined beforehand as the fields can be created on the fly.
 
-[Example of Schema for recipe:]
-(```
+Example of Schema for recipe:
+```
 _id:ObjectId("5d54556e67e08a48fa08c77d")
 name:"Bitterballen (Dutch meatballs)"
 description:"Bread crumbed Beef meatballs"
@@ -131,14 +131,14 @@ preparation:"10 minutes"
 cooking:"15 minutes"
 servings:"4"
 author:"Admin"
-```)
+```
 
-[Example of Schema for Users:]
-(```
+Example of Schema for Users:
+```
 _id:ObjectId("5d55c2b6c4972d7a816b9233")
 name:"admin"
 password:Binary('JDJiJDEyJFFjRS45VlkyNkt2ZFpGdjRoS1dXSS5HQzd5d1V5NHlYTzJ0cmFRaUovd0QyRGhkV24ubUVt')
-```)
+```
 
 
 [**To top**](#Table-of-Contents)
@@ -330,7 +330,7 @@ def ingredients_search():
 
 ## **Credits**
 ### Special thanks to
-My Tutor and Mentor, Dick Vlaanderen for helping me Throughout this project.
+My Tutor and Mentor, Dick Vlaanderen and the Code Institute tutors for helping me Throughout this project.
 
 ### Recipes
 - The recipes used are from [The Meal DB](https://https://www.themealdb.com/api.php) 
