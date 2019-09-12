@@ -94,13 +94,16 @@ I aimed for simple and moden interface with plan easy to use forms for registrat
 
 ## Features left to implement
 If I had more time to spend on this project I would like to add:
+- pagination is a must for any web app like this.
 - home page images would link to there recipes.
 - up voting on favourite recipes.
 - user comments on the recipes so people have feedback.
-- delete function opens modal to confirm before hard delete.
-- Recipes added by api
+- delete function opens (are you sure?) modal to confirm before hard delete as currently delete is instint hard delete with out confirmation.
+- Recipes added by api, data scraping from open source (free) datasets. 
 - A back button for Iphone users
-- pagination
+- drop down options to not sit infront of submit button on pop up modal.
+- more mobile friendly for viewing all recipes.
+- most popular recipes by views
 
 ## Wireframes
 [wireframe images](https://github.com/CaseyScott/taste-recipe/tree/master/static/img/wireframes)
@@ -208,7 +211,6 @@ password:Binary('JDJiJDEyJFFjRS45VlkyNkt2ZFpGdjRoS1dXSS5HQzd5d1V5NHlYTzJ0cmFRaUo
 #### Browser Testing 
 All testing on the list of Browers below.
 - Google Chrome
-- Apple Safari
 - Firefox
 - Internet Explorer & Edge
 - Opera
@@ -339,3 +341,7 @@ My Tutor and Mentor, Dick Vlaanderen and the Code Institute tutors for helping m
 ### Media
 - Font Awesome for icons
 - main index picture from [The Meal DB](https://https://www.themealdb.com/api.php)
+
+### Git for version control and pushing to GitHub
+- Each commit should be used to save each new change to keep record of what changes have been made. 
+Throughout this project dew to my split shifts between study early morning, work through the day, study after work and into the evening I have used both git (saving locally) and pushing to github as more of a general save option as getting stuck on a problem meant I had to commit broken or unfinished code and push to github to have it reviewed to get help in a 24hour cycle as my time zoning is 12 hours out of loop with students and tutors. I have a greater understanding of version control than what I have used in this project.
