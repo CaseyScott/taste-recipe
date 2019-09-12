@@ -63,10 +63,13 @@ I aimed for simple and moden interface with plan easy to use forms for registrat
 - As a user I want to sign into my own account to have access to my own recipes that I can edit or delete as I please.
 - As a user I want to choose meals to search by a given ingredient. 
 - As a user I want to search for a meal type like dinner to be shown all the meals categorised as dinner meals.
+
 ### Users
+- I have create four Users Asus, Intel, Nvidia, Corsair all users have password of 'admin' these can be used to test add, edit and delete functionality.
 - users of the application can use all search functionality and leave with no registration or log in
 - users can create an account and log in / log out.
 - users that have created an account and are logged in. can add / edit / delete any of their recipes they have contributed.
+
 
 ## Existing Features
 ### Create account and log in
@@ -74,14 +77,14 @@ I aimed for simple and moden interface with plan easy to use forms for registrat
 
 ### Home page
 - Home page gives information about the applications functionality, has links to my linkedin and github pages. If the user wants to get straight to the point they can open the search modal and search by ingredient, type of meal or deselect an allergen they do not want included this will take them directly to the recipes in the database.
-- Home page has button link to create and account or user can use Nav bar.
+- Home page has button link to create an account or user can use Nav bar.
 - log in and log out in Nav bar.
 
 ### Recipes page
-- recipe page displays all recipes as they have been added. no order. if the user wants to find something specific they can search by type of meal they are looking for e.g Dinner, Breakfast, Dessert or they can search by Ingredient eg. beef or if the user has allergens they do not want included in their search they can choose which allergen they do not want included.
+- Recipe page displays all recipes as they have been added. no order. if the user wants to find something specific they can search by type of meal they are looking for e.g Dinner, Breakfast, Dessert or they can search by Ingredient eg. beef or if the user has allergens they do not want included in their search they can choose which allergen they do not want included.
 
 ### Single Recipe page
-- from the recipes page or results from the search by: selector the user is able to open a single page for that one recipe which gives all the needed details to make the meal. including prep time, cooking time, serving size, ingredients, insructions and the author who contributed the recipe to the database.
+- From the recipes page or results from the 'search by:' selector the user is able to open a single page for that one recipe which gives all the needed details to make the meal. including prep time, cooking time, serving size, ingredients, insructions and the author who contributed the recipe to the database.
 
 ### My recipes
 - Once the user has logged in the Navigation bar is changed to show my recipes and add recipe buttons, the my recipes page shows all the recipes that user has contributed to the database. they also have the ability to edit or delete their recipes. recipes cards have a read more button linking that recipe to a single full page descripion of that recipe.
@@ -104,6 +107,7 @@ If I had more time to spend on this project I would like to add:
 - drop down options to not sit infront of submit button on pop up modal.
 - more mobile friendly for viewing all recipes.
 - most popular recipes by views
+- There is a bug in the edit recipe where once the recipe is edited the Added by: is changed to None.
 
 ## Wireframes
 [wireframe images](https://github.com/CaseyScott/taste-recipe/tree/master/static/img/wireframes)
@@ -196,13 +200,13 @@ password:Binary('JDJiJDEyJFFjRS45VlkyNkt2ZFpGdjRoS1dXSS5HQzd5d1V5NHlYTzJ0cmFRaUo
 
 - Add Recipe page
    - form requires all fields to be infilled.
-   - add entry button submits to the collection in mongoDB
+   - add entry button submits to the collection in mongoDB and gives feedback of 'recipe added'
    - Dropdown selectors function correctly.
 
 - Log in and Log out
-   - log in signs that user into there account enabling that user to see their 'my recipes' section and the option to add recipes.
-   - log out pops the session removing the option to add recipes and see their 'my recipes section'
-   - Sign up here link sends user without and account to create account page.
+   - log in signs that user into there account enabling that user to see their 'my recipes' section and the option to add recipes. user is flash messaged 'sign in successful'
+   - log out pops the session removing the option to add recipes and see their 'my recipes section' user is flash messaged 'logged out successfully'
+   - Sign up here link sends user without and account to create account page. user is flash messages 'account created successfullly'
 - Register / Create and Account
    - warns users if that username is already taken
    - warns users if password is not the same after entering password in both input fields
@@ -336,11 +340,11 @@ My Tutor and Mentor, Dick Vlaanderen and the Code Institute tutors for helping m
 
 ### Recipes
 - The recipes used are from [The Meal DB](https://https://www.themealdb.com/api.php) 
-- other needed information on recipes I used general google search
+- Other needed information on recipes I used general google search
 
 ### Media
 - Font Awesome for icons
-- main index picture from [The Meal DB](https://https://www.themealdb.com/api.php)
+- Main index picture from [The Meal DB](https://https://www.themealdb.com/api.php)
 
 ### Git for version control and pushing to GitHub
 - Each commit should be used to save each new change to keep record of what changes have been made. 
