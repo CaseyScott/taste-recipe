@@ -353,7 +353,21 @@ def search_categories():
     meals = request.form.get("meals_search")
     allergen = request.form.get("allergen_search")
     
-    if ingredients:
+    
+    if ingredients and meals and allergen:
+        recipeSearchCategory = mongo.db.recipes.find({"$and": [{"ingredients": {"$regex": ingredients}}, {"meals": meals}, {"allergen": {"$ne": allergen}}]})
+        
+    elif ingredients and meals:
+        recipeSearchCategory = mongo.db.recipes.find({"$and": [{"ingredients": {"$regex": ingredients}}, {"meals": meals}]})
+
+    elif ingredients and allergen:
+        recipeSearchCategory = mongo.db.recipes.find({"$and": [{"ingredients": {"$regex": ingredients}}, {"allergen": {"$ne": allergen}}]})
+
+    elif meals and allergen:
+        recipeSearchCategory = mongo.db.recips.find({"$and": [{"meals": meals}, {"allergen": {"$ne": allergen}}]})   
+        
+        
+    elif ingredients:
         recipeSearchCategory = mongo.db.recipes.find({"ingredients": {"$regex": ingredients}})
         
     elif meals:
@@ -362,17 +376,9 @@ def search_categories():
     elif allergen:
         recipeSearchCategory = mongo.db.recipes.find({"allergen": {"$ne": allergen}})
         
-    elif ingredients and meals:
-        recipeSearchCategory = mongo.db.recipes.find({"$and": [{"meals": meals}, {"ingredients": {"$regex": ingredients}}]})
-
-    elif ingredients and allergen:
-        recipeSearchCategory = mongo.db.recipes.find({"$and": [{"allergen": {"$ne": allergen}}, {"ingredients": {"$regex": ingredients}}]})
-
-    elif meals and allergen:
-        recipeSearchCategory = mongo.db.recips.find({"$and": [{"meals": meals}, {"allergen": {"$ne": allergen}}]})
+    
         
-    elif ingredients and meals and allergen:
-        recipeSearchCategory = mongo.db.recipes.find({"$and": [{"meals": meals}, {"allergen": {"$ne": allergen}}, {"ingredients": {"$regex": ingredients}}]})
+    
     
     
     numberOfRecipes=recipeSearchCategory.count()
