@@ -13,18 +13,7 @@
             </div>
           </div>
           
-          <!-- flask flash messages -->
-					{% with messages = get_flashed_messages() %}
-					{% if messages %}
-					<ul class=flashes>
-						{% for message in messages %}
-						<li>{{ message }}</li>
-						{% endfor %}
-					</ul>
-					{% endif %}
-					{% endwith %}
-					{% block body %}
-					<!-- flask flash messages -->
+          
 
           {% if error %}
           <p><strong>Error:</strong> {{ error }}

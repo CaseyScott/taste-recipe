@@ -65,7 +65,7 @@ I aimed for simple and moden interface with plan easy to use forms for registrat
 - As a user I want to search for a meal type like dinner to be shown all the meals categorised as dinner meals.
 
 ### Users
-- I have create four Users Asus, Intel, Nvidia, Corsair all users have password of 'admin' these can be used to test add, edit and delete functionality.
+- I have create four Users Asus, Intel, Nvidia, Corsair all users have password of 'admin' these can be used to test add, edit and delete functionality. (Intel/admin1)
 - users of the application can use all search functionality and leave with no registration or log in
 - users can create an account and log in / log out.
 - users that have created an account and are logged in. can add / edit / delete any of their recipes they have contributed.
