@@ -393,4 +393,4 @@ def search_categories():
 if __name__ == '__main__':
     app.run(host=os.getenv('IP'), 
             port=int(os.getenv('PORT')), 
-            debug=True)  #set debug to false
+            debug=False)  #set debug to false
