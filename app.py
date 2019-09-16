@@ -364,8 +364,7 @@ def search_categories():
         recipeSearchCategory = mongo.db.recipes.find({"$and": [{"ingredients": {"$regex": ingredients}}, {"allergen": {"$ne": allergen}}]})
 
     elif meals and allergen:
-        recipeSearchCategory = mongo.db.recips.find({"$and": [{"meals": meals}, {"allergen": {"$ne": allergen}}]})   
-        
+        recipeSearchCategory = mongo.db.recipes.find({"$and": [{"meals": meals}, {"allergen": {"$ne": allergen}}]})   
         
     elif ingredients:
         recipeSearchCategory = mongo.db.recipes.find({"ingredients": {"$regex": ingredients}})
