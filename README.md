@@ -1,4 +1,4 @@
-[Restaurant Chef](https://taste-recipe.herokuapp.com/)
+[Restaurant Chef](https://taste-recipe.herokuapp.com/) 
 
 # **Table of Contents**
 
@@ -32,6 +32,8 @@
 
 
 ## **Restaurant-Chef**
+For display purposes I have created four Users that have each added five recipes. Sign into one of these or create your own for viewing of Create, Read, Update and delete functionality. User names: Asus, Intel, Nvidia, Corsair all users have password of admin.
+If deleting please create a new false 'add recipe' entry as delete function is hard delete.
 
 Milestone Project Three:
 In this project, I have built a data-driven web application using the technologies that I have learned throughout Data Centric Development. I have choosen to follow the example brief, A recipe webapp with C.R.U.D funcitionality. ( create, read, update and delete )
@@ -98,6 +100,7 @@ I aimed for simple and moden interface with plan easy to use forms for registrat
 ## Features left to implement
 If I had more time to spend on this project I would like to add:
 - pagination is a must for any web app like this.
+- Image upload instead of url for add recipe.
 - home page images would link to there recipes.
 - up voting on favourite recipes.
 - user comments on the recipes so people have feedback.

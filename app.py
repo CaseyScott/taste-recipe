@@ -257,7 +257,7 @@ def edit_recipe(recipe_id):
     the_recipe=mongo.db.recipes.find_one(
         {"_id": ObjectId(recipe_id)})
     
-    flash("Your recipe has been updated")
+    flash("Your recipe has been edited")
     return render_template('pages/edit_recipe.html',
                             recipe=the_recipe,
                             meal_types_file=meal_types_file,
